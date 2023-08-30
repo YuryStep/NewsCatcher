@@ -8,10 +8,13 @@
 import UIKit
 
 class FeedViewController: UIViewController {
-
+    
+    // MARK: Dependencies:
+    var feedView: FeedView!
+    
+    
     override func loadView() {
-        view = UIView()
-        view.backgroundColor = .systemGray6
+        view = feedView
         navigationItem.title = "News Title"
     }
     
