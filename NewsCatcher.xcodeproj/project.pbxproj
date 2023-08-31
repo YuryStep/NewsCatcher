@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EF28C50C2AA06D9A00B68649 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C50B2AA06D9A00B68649 /* FeedCell.swift */; };
+		EF28C5102AA0CD4600B68649 /* FeedPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C50F2AA0CD4600B68649 /* FeedPresenter.swift */; };
 		EF85DB972A9F5A2C00CD9295 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF85DB962A9F5A2C00CD9295 /* AppDelegate.swift */; };
 		EF85DB992A9F5A2C00CD9295 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF85DB982A9F5A2C00CD9295 /* SceneDelegate.swift */; };
 		EF85DB9B2A9F5A2C00CD9295 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF85DB9A2A9F5A2C00CD9295 /* FeedViewController.swift */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		EF28C50B2AA06D9A00B68649 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
+		EF28C50F2AA0CD4600B68649 /* FeedPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPresenter.swift; sourceTree = "<group>"; };
 		EF85DB932A9F5A2C00CD9295 /* NewsCatcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsCatcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF85DB962A9F5A2C00CD9295 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EF85DB982A9F5A2C00CD9295 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 				EF85DB962A9F5A2C00CD9295 /* AppDelegate.swift */,
 				EF85DB982A9F5A2C00CD9295 /* SceneDelegate.swift */,
 				EF85DB9A2A9F5A2C00CD9295 /* FeedViewController.swift */,
+				EF28C50F2AA0CD4600B68649 /* FeedPresenter.swift */,
 				EF85DBAA2A9F7A6700CD9295 /* FeedView.swift */,
 				EF28C50B2AA06D9A00B68649 /* FeedCell.swift */,
 				EF85DB9F2A9F5A2E00CD9295 /* Assets.xcassets */,
@@ -144,6 +147,7 @@
 				EF28C50C2AA06D9A00B68649 /* FeedCell.swift in Sources */,
 				EF85DB9B2A9F5A2C00CD9295 /* FeedViewController.swift in Sources */,
 				EF85DB972A9F5A2C00CD9295 /* AppDelegate.swift in Sources */,
+				EF28C5102AA0CD4600B68649 /* FeedPresenter.swift in Sources */,
 				EF85DB992A9F5A2C00CD9295 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

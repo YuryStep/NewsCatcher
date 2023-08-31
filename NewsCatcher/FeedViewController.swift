@@ -11,7 +11,7 @@ class FeedViewController: UIViewController {
     
     // MARK: Dependencies:
     var feedView: FeedView!
-    
+    var presenter: FeedPresenter!
     
     override func loadView() {
         view = feedView

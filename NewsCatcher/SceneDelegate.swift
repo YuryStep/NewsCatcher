@@ -16,8 +16,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
         
         let feedView = FeedView()
+        let feedPresenter = FeedPresenter()
         let rootViewControler = FeedViewController()
         rootViewControler.feedView = feedView
+        rootViewControler.presenter = feedPresenter
         let navigationController = UINavigationController(rootViewController: rootViewControler)
 
         window?.rootViewController = navigationController
