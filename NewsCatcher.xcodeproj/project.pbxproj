@@ -41,6 +41,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EF28C5112AA0E40A00B68649 /* FeedView */ = {
+			isa = PBXGroup;
+			children = (
+				EF85DB9A2A9F5A2C00CD9295 /* FeedViewController.swift */,
+				EF85DBAA2A9F7A6700CD9295 /* FeedView.swift */,
+				EF28C50B2AA06D9A00B68649 /* FeedCell.swift */,
+			);
+			path = FeedView;
+			sourceTree = "<group>";
+		};
 		EF85DB8A2A9F5A2C00CD9295 = {
 			isa = PBXGroup;
 			children = (
@@ -62,10 +72,8 @@
 			children = (
 				EF85DB962A9F5A2C00CD9295 /* AppDelegate.swift */,
 				EF85DB982A9F5A2C00CD9295 /* SceneDelegate.swift */,
-				EF85DB9A2A9F5A2C00CD9295 /* FeedViewController.swift */,
+				EF28C5112AA0E40A00B68649 /* FeedView */,
 				EF28C50F2AA0CD4600B68649 /* FeedPresenter.swift */,
-				EF85DBAA2A9F7A6700CD9295 /* FeedView.swift */,
-				EF28C50B2AA06D9A00B68649 /* FeedCell.swift */,
 				EF85DB9F2A9F5A2E00CD9295 /* Assets.xcassets */,
 				EF85DBA12A9F5A2E00CD9295 /* LaunchScreen.storyboard */,
 				EF85DBA42A9F5A2E00CD9295 /* Info.plist */,

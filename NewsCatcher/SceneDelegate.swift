@@ -16,11 +16,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
         
         let feedView = FeedView()
-        let feedPresenter = FeedPresenter()
-        let rootViewControler = FeedViewController()
-        rootViewControler.feedView = feedView
-        rootViewControler.presenter = feedPresenter
-        let navigationController = UINavigationController(rootViewController: rootViewControler)
+        let feedViewControler = FeedViewController()
+        let feedPresenter = FeedPresenter(view: feedViewControler)
+        feedViewControler.feedView = feedView
+        feedViewControler.presenter = feedPresenter
+        feedPresenter.view = feedViewControler
+        let navigationController = UINavigationController(rootViewController: feedViewControler)
 
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()

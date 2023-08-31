@@ -37,11 +37,8 @@ class FeedView: UIView {
         return button
     }()
     
-    private lazy var feedTableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(FeedCell.self, forCellReuseIdentifier: FeedCell.reuseIdentifier)
         return tableView
     }()
     
@@ -59,7 +56,13 @@ class FeedView: UIView {
     
     // MARK: Public API
     func getSearchFieldText() -> String? { return searchTextField.text }
-    func reloadTableViewData() { feedTableView.reloadData() }
+    func reloadTableViewData() { tableView.reloadData() }
+    
+    func tableViewSetup(dataSource: UITableViewDataSource, delegate: UITableViewDelegate, cell: UITableViewCell.Type, identifier: String) {
+        tableView.dataSource = dataSource
+        tableView.delegate = delegate
+        tableView.register(cell, forCellReuseIdentifier: identifier)
+    }
     
     // MARK: Private Methods
     @objc private func settingsButtonTapped() {
@@ -71,7 +74,7 @@ class FeedView: UIView {
     }
     
     private func setupSubviews() {
-        let subviews = [settingsButton, searchTextField, searchButton, feedTableView]
+        let subviews = [settingsButton, searchTextField, searchButton, tableView]
         subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         subviews.forEach { addSubview($0) }
         
@@ -93,27 +96,11 @@ class FeedView: UIView {
             searchButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             trailingAnchor.constraint(equalToSystemSpacingAfter: searchButton.trailingAnchor, multiplier: Constants.systemSpacingMultiplier),
 
-            feedTableView.topAnchor.constraint(equalToSystemSpacingBelow: searchTextField.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
-            feedTableView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            feedTableView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            feedTableView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            tableView.topAnchor.constraint(equalToSystemSpacingBelow: searchTextField.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
+            tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 
-}
-
-extension FeedView: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.reuseIdentifier, for: indexPath) as? FeedCell
-        else { return UITableViewCell() }
-        cell.configure(with: nil,
-                       title: "Title No \(indexPath.row + 1)",
-                       description: "Very long text with description of the article with number \(indexPath.row), which will probably never ends...")
-        
-        return cell
-    }
 }
