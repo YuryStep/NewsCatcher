@@ -41,7 +41,7 @@ class FeedView: UIView {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-        // Add Registering of cell
+        tableView.register(FeedCell.self, forCellReuseIdentifier: FeedCell.reuseIdentifier)
         return tableView
     }()
     
@@ -108,6 +108,12 @@ extension FeedView: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.reuseIdentifier, for: indexPath) as? FeedCell
+        else { return UITableViewCell() }
+        cell.configure(with: nil,
+                       title: "Title No \(indexPath.row + 1)",
+                       description: "Very long text with description of the article with number \(indexPath.row), which will probably never ends...")
+        
+        return cell
     }
 }
