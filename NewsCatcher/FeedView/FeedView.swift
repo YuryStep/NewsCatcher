@@ -7,6 +7,12 @@
 
 import UIKit
 
+protocol FeedViewDelegate: AnyObject {
+    // User Actions Response
+    func searchButtonTapped()
+    func settingsButtonTapped()
+}
+
 class FeedView: UIView {
     private struct Constants {
         static let systemSpacingMultiplier: CGFloat = 1
@@ -14,6 +20,8 @@ class FeedView: UIView {
         static let searchButtonImageSystemName = "magnifyingglass"
         static let searchTextFieldPlaceholder = "WWDC 2023"
     }
+    
+    weak var delegate: FeedViewDelegate?
 
     // MARK: Subviews
     private lazy var settingsButton: UIButton = {
@@ -66,11 +74,11 @@ class FeedView: UIView {
     
     // MARK: Private Methods
     @objc private func settingsButtonTapped() {
-        
+        delegate?.settingsButtonTapped()
     }
 
     @objc private func searchButtonTapped() {
-        
+        delegate?.searchButtonTapped()
     }
     
     private func setupSubviews() {

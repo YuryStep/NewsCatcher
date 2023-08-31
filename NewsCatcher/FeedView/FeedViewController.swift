@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FeedViewController: UIViewController {
+class FeedViewController: UIViewController, FeedViewDelegate {
     struct Constants {
         static let navigationItemTitle = "News Catcher"
     }
@@ -23,6 +23,15 @@ class FeedViewController: UIViewController {
                                 delegate: self,
                                 cell: FeedCell.self,
                                 identifier: FeedCell.reuseIdentifier)
+    }
+    
+    
+    func searchButtonTapped() {
+        presenter.searchButtonTapped()
+    }
+    
+    func settingsButtonTapped() {
+        presenter.settingsButtonTapped()
     }
     
 }

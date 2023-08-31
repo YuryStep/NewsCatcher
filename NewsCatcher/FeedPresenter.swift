@@ -41,4 +41,13 @@ class FeedPresenter {
             completion(nil)
         }
     
+    // User actions response
+    func searchButtonTapped() {
+        print("searchButtonTapped")
+    }
+    
+    func settingsButtonTapped() {
+        print("settingsButtonTapped")
+    }
+    
 }
