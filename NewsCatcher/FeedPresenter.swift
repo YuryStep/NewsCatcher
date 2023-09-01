@@ -11,50 +11,37 @@ class FeedPresenter {
     
     // MARK: Dependencies
     unowned private var view: FeedViewController
-    private let networkManager: NetworkManager
-    
-    private var articles: [Article]? {
-        didSet {
-            self.view.feedView.reloadTableViewData()
-        }
-    }
+    private let dataManager: DataManager
     
     // MARK: Initializer
-    init(view: FeedViewController, networkManager: NetworkManager) {
+    init(view: FeedViewController, dataManager: DataManager) {
         self.view = view
-        self.networkManager = networkManager
+        self.dataManager = dataManager
+        dataManager.onDataUpdate = { self.updateFeed() }
     }
     
     // MARK: Public API
-    func getInitialViewSetup() {
-        downloadNews()
-    }
-    
     func getNumberOfRowsInSection() -> Int {
-        guard let articles = articles else { return 0 }
-        return articles.count
+        return dataManager.getNumberOfArticles()
     }
     
     func getTitle(forIndexPath indexPath: IndexPath) -> String {
-        guard let articles = articles else { return "no dataç" }
-        return articles[indexPath.row].title
+         return dataManager.getTitleForArticle(atIndex: indexPath.row)
     }
     
     func getDescription(forIndexPath indexPath: IndexPath) -> String {
-        guard let articles = articles else { return "no data" }
-        return articles[indexPath.row].description
+        return dataManager.getDescriptionForArticle(atIndex: indexPath.row)
     }
     
     func getImageData(forIndexPath indexPath: IndexPath, completion: @escaping (Data?)->()) {
-        guard let article = getArticle(forIndexPath: indexPath) else { return }
-        getImageData(forArticle: article) { imageData in
+        dataManager.getImageDataforArticle(atIndex: indexPath.row) { data in
+            guard let data = data else { return }
             DispatchQueue.main.async {
-                completion(imageData)
+                completion(data)
             }
         }
     }
     
-    // User actions response
     func searchButtonTapped() {
         print("searchButtonTapped")
     }
@@ -63,24 +50,11 @@ class FeedPresenter {
         print("settingsButtonTapped")
     }
     
-    // MARK: Private Methods
-    private func downloadNews() {
-        networkManager.downloadNews { GNews in
-            DispatchQueue.main.async {
-                self.articles = GNews.articles
-            }
+    // MARK: Private methods
+    
+    private func updateFeed() {
+        DispatchQueue.main.async {
+            self.view.feedView.reloadTableViewData()
         }
     }
-    
-    private func getArticle(forIndexPath indexPath: IndexPath) -> Article? {
-        return articles?[indexPath.row]
-    }
-    
-    private func getImageData(forArticle article: Article, completion: @escaping (Data)->()) {
-        networkManager.downloadData(from: article.image) { data in
-            guard let data = data else { return }
-            completion(data)
-        }
-    }
-    
 }

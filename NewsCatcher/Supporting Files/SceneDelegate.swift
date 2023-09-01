@@ -18,7 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let feedView = FeedView()
         let feedViewControler = FeedViewController()
         let networkManager = NetworkManager()
-        let feedPresenter = FeedPresenter(view: feedViewControler, networkManager: networkManager)
+        let dataManager = DataManager(networkManager: networkManager)
+        let feedPresenter = FeedPresenter(view: feedViewControler, dataManager: dataManager)
         
         feedView.delegate = feedViewControler
         feedViewControler.feedView = feedView

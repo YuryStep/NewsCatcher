@@ -19,7 +19,6 @@ class FeedViewController: UIViewController, FeedViewDelegate {
     override func loadView() {
         view = feedView
         navigationItem.title = Constants.navigationItemTitle
-        presenter.getInitialViewSetup()
         feedView.tableViewSetup(dataSource: self,delegate: self,cell: FeedCell.self, identifier: FeedCell.reuseIdentifier)
     }
     
