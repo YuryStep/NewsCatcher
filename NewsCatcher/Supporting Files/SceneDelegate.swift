@@ -15,16 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
         
-        let feedView = FeedView()
-        let feedViewControler = FeedViewController()
-        let networkManager = NetworkManager()
-        let dataManager = DataManager(networkManager: networkManager)
-        let feedPresenter = FeedPresenter(view: feedViewControler, dataManager: dataManager)
-        
-        feedView.delegate = feedViewControler
-        feedViewControler.feedView = feedView
-        feedViewControler.presenter = feedPresenter
-        
+        let feedViewControler = FeedAssembly.configureModule()
         let navigationController = UINavigationController(rootViewController: feedViewControler)
 
         window?.rootViewController = navigationController

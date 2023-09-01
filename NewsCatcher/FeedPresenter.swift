@@ -54,7 +54,7 @@ class FeedPresenter {
     
     private func updateFeed() {
         DispatchQueue.main.async {
-            self.view.feedView.reloadTableViewData()
+            self.view.reloadFeedTableView()
         }
     }
 }

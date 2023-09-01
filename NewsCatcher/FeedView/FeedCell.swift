@@ -68,7 +68,6 @@ class FeedCell: UITableViewCell {
         descriptionLabel.text = description
     }
     
-    
     // MARK: Private Methods
     private func setupSubviews() {
         let subviews = [articleImageView, titleLabel, descriptionLabel, loadingIndicator]

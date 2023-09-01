@@ -16,18 +16,24 @@ class FeedViewController: UIViewController, FeedViewDelegate {
     var feedView: FeedView!
     var presenter: FeedPresenter!
     
+    // MARK: Lifecycle methods
     override func loadView() {
         view = feedView
         navigationItem.title = Constants.navigationItemTitle
         feedView.tableViewSetup(dataSource: self,delegate: self,cell: FeedCell.self, identifier: FeedCell.reuseIdentifier)
     }
     
+    // MARK: Open API
     func searchButtonTapped() {
         presenter.searchButtonTapped()
     }
     
     func settingsButtonTapped() {
         presenter.settingsButtonTapped()
+    }
+    
+    func reloadFeedTableView() {
+        feedView.reloadTableViewData()
     }
     
 }
