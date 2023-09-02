@@ -9,12 +9,14 @@ import Foundation
 
 class DataManager {
     private let networkManager: NetworkManager
+    private let cacheManager: CacheManager
     
     private var articles: [Article]?
     var onDataUpdate: (() -> Void)?
 
-    init(networkManager: NetworkManager) {
+    init(networkManager: NetworkManager, cacheManager: CacheManager) {
         self.networkManager = networkManager
+        self.cacheManager = cacheManager
         downloadCurrentNews()
     }
     
@@ -36,6 +38,10 @@ class DataManager {
         getImageData(forArticle: article, completion: completion)
     }
     
+    func clearCache() {
+        cacheManager.clearCache()
+    }
+    
     // MARK: Private Methods
     private func downloadCurrentNews() {
         networkManager.downloadNews { [weak self] gNews in
@@ -45,8 +51,15 @@ class DataManager {
     }
     
     private func getImageData(forArticle article: Article, completion: @escaping (Data?) -> Void) {
-        networkManager.downloadData(from: article.image) { data in
-            completion(data)
+        let imageURL = article.image
+        if let imageData = cacheManager.getData(forKey: imageURL) {
+            completion(imageData)
+        } else {
+            networkManager.downloadData(from: imageURL) { imageData in
+                guard let imageData = imageData else { return }
+                self.cacheManager.save(imageData, forKey: imageURL)
+                completion(imageData)
+            }
         }
     }
     

@@ -13,6 +13,7 @@
 		EF28C5152AA1CFFC00B68649 /* GNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C5142AA1CFFC00B68649 /* GNews.swift */; };
 		EF28C5192AA217B700B68649 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C5182AA217B700B68649 /* DataManager.swift */; };
 		EF28C51B2AA233F900B68649 /* FeedAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C51A2AA233F900B68649 /* FeedAssembly.swift */; };
+		EF28C51E2AA3146800B68649 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C51D2AA3146800B68649 /* CacheManager.swift */; };
 		EF85DB972A9F5A2C00CD9295 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF85DB962A9F5A2C00CD9295 /* AppDelegate.swift */; };
 		EF85DB992A9F5A2C00CD9295 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF85DB982A9F5A2C00CD9295 /* SceneDelegate.swift */; };
 		EF85DB9B2A9F5A2C00CD9295 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF85DB9A2A9F5A2C00CD9295 /* FeedViewController.swift */; };
@@ -28,6 +29,7 @@
 		EF28C5142AA1CFFC00B68649 /* GNews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GNews.swift; sourceTree = "<group>"; };
 		EF28C5182AA217B700B68649 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		EF28C51A2AA233F900B68649 /* FeedAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAssembly.swift; sourceTree = "<group>"; };
+		EF28C51D2AA3146800B68649 /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		EF85DB932A9F5A2C00CD9295 /* NewsCatcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsCatcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF85DB962A9F5A2C00CD9295 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EF85DB982A9F5A2C00CD9295 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +82,16 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		EF28C51C2AA239E700B68649 /* FeedModule */ = {
+			isa = PBXGroup;
+			children = (
+				EF28C51A2AA233F900B68649 /* FeedAssembly.swift */,
+				EF28C5112AA0E40A00B68649 /* FeedView */,
+				EF28C50F2AA0CD4600B68649 /* FeedPresenter.swift */,
+			);
+			path = FeedModule;
+			sourceTree = "<group>";
+		};
 		EF85DB8A2A9F5A2C00CD9295 = {
 			isa = PBXGroup;
 			children = (
@@ -100,9 +112,8 @@
 			isa = PBXGroup;
 			children = (
 				EF28C5182AA217B700B68649 /* DataManager.swift */,
-				EF28C51A2AA233F900B68649 /* FeedAssembly.swift */,
-				EF28C5112AA0E40A00B68649 /* FeedView */,
-				EF28C50F2AA0CD4600B68649 /* FeedPresenter.swift */,
+				EF28C51D2AA3146800B68649 /* CacheManager.swift */,
+				EF28C51C2AA239E700B68649 /* FeedModule */,
 				EF28C5162AA1D04800B68649 /* Networking */,
 				EF28C5172AA2093600B68649 /* Supporting Files */,
 			);
@@ -185,6 +196,7 @@
 				EF28C5132AA1CF2F00B68649 /* NetworkManager.swift in Sources */,
 				EF85DB972A9F5A2C00CD9295 /* AppDelegate.swift in Sources */,
 				EF28C5102AA0CD4600B68649 /* FeedPresenter.swift in Sources */,
+				EF28C51E2AA3146800B68649 /* CacheManager.swift in Sources */,
 				EF28C5152AA1CFFC00B68649 /* GNews.swift in Sources */,
 				EF28C51B2AA233F900B68649 /* FeedAssembly.swift in Sources */,
 				EF28C5192AA217B700B68649 /* DataManager.swift in Sources */,

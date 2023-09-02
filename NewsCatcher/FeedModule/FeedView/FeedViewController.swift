@@ -23,6 +23,10 @@ class FeedViewController: UIViewController, FeedViewDelegate {
         feedView.tableViewSetup(dataSource: self,delegate: self,cell: FeedCell.self, identifier: FeedCell.reuseIdentifier)
     }
     
+    override func didReceiveMemoryWarning() {
+        presenter.handleMemoryWarning()
+    }
+    
     // MARK: Open API
     func searchButtonTapped() {
         presenter.searchButtonTapped()

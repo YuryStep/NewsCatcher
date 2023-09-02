@@ -50,6 +50,10 @@ class FeedPresenter {
         print("settingsButtonTapped")
     }
     
+    func handleMemoryWarning() {
+        dataManager.clearCache()
+    }
+    
     // MARK: Private methods
     
     private func updateFeed() {

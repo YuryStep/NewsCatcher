@@ -12,7 +12,8 @@ class FeedAssembly {
         let feedViewControler = FeedViewController()
         let feedView = FeedView()
         let networkManager = NetworkManager()
-        let dataManager = DataManager(networkManager: networkManager)
+        let cacheManager = CacheManager()
+        let dataManager = DataManager(networkManager: networkManager, cacheManager: cacheManager)
         let feedPresenter = FeedPresenter(view: feedViewControler, dataManager: dataManager)
         
         feedView.delegate = feedViewControler
