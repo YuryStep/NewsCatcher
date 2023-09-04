@@ -32,6 +32,17 @@ class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
     var feedView: FeedView!
     var presenter: FeedOutput!
     
+    // MARK: Initializers
+    init(feedView: FeedView) {
+        super.init(nibName: nil, bundle: nil)
+        self.feedView = feedView
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("This class does not support NSCoder")
+    }
+    
     // MARK: Lifecycle methods
     override func loadView() {
         view = feedView
