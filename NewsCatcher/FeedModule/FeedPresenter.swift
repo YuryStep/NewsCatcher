@@ -7,14 +7,14 @@
 
 import Foundation
 
-class FeedPresenter {
+class FeedPresenter: FeedOutput {
     
     // MARK: Dependencies
-    unowned private var view: FeedViewController
-    private let dataManager: DataManager
+    unowned private var view: FeedInput
+    private let dataManager: AppDataManager
     
     // MARK: Initializer
-    init(view: FeedViewController, dataManager: DataManager) {
+    init(view: FeedInput, dataManager: DataManager) {
         self.view = view
         self.dataManager = dataManager
         dataManager.onDataUpdate = { self.updateFeed() }

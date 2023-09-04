@@ -5,16 +5,32 @@
 //  Created by Юрий Степанчук on 30.08.2023.
 //
 
+protocol FeedInput: AnyObject {
+    func reloadFeedTableView()
+}
+
+protocol FeedOutput: AnyObject {
+    // Output
+    func searchButtonTapped()
+    func settingsButtonTapped()
+    func handleMemoryWarning()
+    // TableView Data Source
+    func getNumberOfRowsInSection() -> Int
+    func getTitle(forIndexPath: IndexPath) -> String
+    func getDescription(forIndexPath: IndexPath) -> String
+    func getImageData(forIndexPath: IndexPath, completion: @escaping (Data?)->())
+}
+
 import UIKit
 
-class FeedViewController: UIViewController, FeedViewDelegate {
+class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
     struct Constants {
         static let navigationItemTitle = "News Catcher"
     }
     
     // MARK: Dependencies
     var feedView: FeedView!
-    var presenter: FeedPresenter!
+    var presenter: FeedOutput!
     
     // MARK: Lifecycle methods
     override func loadView() {
@@ -27,7 +43,7 @@ class FeedViewController: UIViewController, FeedViewDelegate {
         presenter.handleMemoryWarning()
     }
     
-    // MARK: Open API
+    // MARK: Output methods
     func searchButtonTapped() {
         presenter.searchButtonTapped()
     }
@@ -36,6 +52,7 @@ class FeedViewController: UIViewController, FeedViewDelegate {
         presenter.settingsButtonTapped()
     }
     
+    // MARK: Input methods
     func reloadFeedTableView() {
         feedView.reloadTableViewData()
     }

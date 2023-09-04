@@ -7,7 +7,13 @@
 
 import Foundation
 
-class CacheManager {
+protocol AppCacheManager {
+    func getData(forKey: String) -> Data?
+    func save(_: Data, forKey: String)
+    func clearCache()
+}
+
+class CacheManager: AppCacheManager {
     private let cache = NSCache<NSString, NSData>()
     
     func getData(forKey key: String) -> Data? {

@@ -7,9 +7,17 @@
 
 import Foundation
 
-class DataManager {
-    private let networkManager: NetworkManager
-    private let cacheManager: CacheManager
+protocol AppDataManager {
+    func getNumberOfArticles() -> Int
+    func getTitleForArticle(atIndex index: Int) -> String
+    func getDescriptionForArticle(atIndex index: Int) -> String
+    func getImageDataforArticle(atIndex index: Int, completion: @escaping (Data?) -> Void)
+    func clearCache()
+}
+
+class DataManager: AppDataManager {
+    private let networkManager: AppNetworkManager
+    private let cacheManager: AppCacheManager
     
     private var articles: [Article]?
     var onDataUpdate: (() -> Void)?
@@ -44,7 +52,7 @@ class DataManager {
     
     // MARK: Private Methods
     private func downloadCurrentNews() {
-        networkManager.downloadNews { [weak self] gNews in
+        networkManager.downloadNews(about: nil) { [weak self] gNews in
             self?.articles = gNews.articles
             self?.onDataUpdate?()
         }

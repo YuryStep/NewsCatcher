@@ -8,7 +8,7 @@
 import UIKit
 
 protocol FeedViewDelegate: AnyObject {
-    // User Actions Response
+    // Output
     func searchButtonTapped()
     func settingsButtonTapped()
 }

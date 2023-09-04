@@ -7,18 +7,33 @@
 
 import Foundation
 
-class NetworkManager {
+protocol AppNetworkManager {
+    func downloadNews(about: String?, completion: @escaping (GNews)->())
+    func downloadData(from url: String, completion: @escaping (Data?) -> ())
+}
 
-    let testAPI = "https://gnews.io/api/v4/search?q=example&lang=en&country=us&max=10&apikey=05119a9d9eec92db2c653876cf3e015c"
+class NetworkManager: AppNetworkManager {
+    private let testAPI = "https://gnews.io/api/v4/search?q=example&lang=en&country=us&max=10&apikey=05119a9d9eec92db2c653876cf3e015c"
     
     //  MARK: Public API
-    func downloadNews(about keyword: String? = nil, completion: @escaping (GNews)->()) {
+    func downloadNews(about keyword: String?, completion: @escaping (GNews)->()) {
         fetchData(from: testAPI) { [weak self] jsonData in
             guard let self = self else { return }
             self.decodeJSON(from: jsonData) { gNews in
                 completion(gNews)
             }
         }
+    }
+    
+    func downloadData(from url: String, completion: @escaping (Data?) -> ()) {
+        guard let url = URL(string: url) else { return }
+        let request = URLRequest(url: url)
+        let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let data = data {
+                completion(data)
+            }
+        }
+        dataTask.resume()
     }
     
     // MARK: Private Methods
@@ -39,17 +54,6 @@ class NetworkManager {
         } catch {
             print(error)
         }
-    }
-    
-    func downloadData(from url: String, completion: @escaping (Data?) -> () ) {
-        guard let url = URL(string: url) else { return }
-        let request = URLRequest(url: url)
-        let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let data = data {
-                completion(data)
-            }
-        }
-        dataTask.resume()
     }
     
 }
