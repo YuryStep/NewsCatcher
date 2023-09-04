@@ -10,14 +10,14 @@ import Foundation
 class FeedPresenter: FeedOutput {
     
     // MARK: Dependencies
-    unowned private var view: FeedInput
-    private let dataManager: AppDataManager
+    unowned private let view: FeedInput
+    private var dataManager: AppDataManager
     
     // MARK: Initializer
-    init(view: FeedInput, dataManager: DataManager) {
+    init(view: FeedInput, dataManager: AppDataManager) {
         self.view = view
         self.dataManager = dataManager
-        dataManager.onDataUpdate = { self.updateFeed() }
+        self.dataManager.onDataUpdate = { self.updateFeed() }
     }
     
     // MARK: Public API
@@ -54,8 +54,11 @@ class FeedPresenter: FeedOutput {
         dataManager.clearCache()
     }
     
-    // MARK: Private methods
+    func handleTapOnCellAt(indexPath: IndexPath) {
+        view.showArticle(withIndex: indexPath.row, dataManager: dataManager)
+    }
     
+    // MARK: Private methods
     private func updateFeed() {
         DispatchQueue.main.async {
             self.view.reloadFeedTableView()

@@ -11,8 +11,10 @@ protocol AppDataManager {
     func getNumberOfArticles() -> Int
     func getTitleForArticle(atIndex index: Int) -> String
     func getDescriptionForArticle(atIndex index: Int) -> String
+    func getContentForArticle(atIndex index: Int) -> String
     func getImageDataforArticle(atIndex index: Int, completion: @escaping (Data?) -> Void)
     func clearCache()
+    var onDataUpdate: (() -> ())? { get set }
 }
 
 protocol AppArticle {
@@ -29,7 +31,7 @@ class DataManager: AppDataManager {
     private let cacheManager: AppCacheManager
     
     private var articles: [AppArticle]?
-    var onDataUpdate: (() -> Void)?
+    var onDataUpdate: (() -> ())?
 
     init(networkManager: NetworkManager, cacheManager: CacheManager) {
         self.networkManager = networkManager
@@ -48,6 +50,10 @@ class DataManager: AppDataManager {
     
     func getDescriptionForArticle(atIndex index: Int) -> String {
         return articles?[index].description ?? "no data"
+    }
+    
+    func getContentForArticle(atIndex index: Int) -> String {
+        return articles?[index].content ?? "no data"
     }
     
     func getImageDataforArticle(atIndex index: Int, completion: @escaping (Data?) -> Void) {

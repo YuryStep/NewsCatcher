@@ -1,5 +1,5 @@
 //
-//  GNewsContainer.swift
+//  GNews.swift
 //  NewsCatcher
 //
 //  Created by Юрий Степанчук on 01.09.2023.

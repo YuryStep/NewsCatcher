@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FeedViewController.swift
 //  NewsCatcher
 //
 //  Created by Юрий Степанчук on 30.08.2023.
@@ -7,6 +7,7 @@
 
 protocol FeedInput: AnyObject {
     func reloadFeedTableView()
+    func showArticle(withIndex index: Int, dataManager: AppDataManager)
 }
 
 protocol FeedOutput: AnyObject {
@@ -19,6 +20,8 @@ protocol FeedOutput: AnyObject {
     func getTitle(forIndexPath: IndexPath) -> String
     func getDescription(forIndexPath: IndexPath) -> String
     func getImageData(forIndexPath: IndexPath, completion: @escaping (Data?)->())
+    // TableView Delegate
+    func handleTapOnCellAt(indexPath: IndexPath)
 }
 
 import UIKit
@@ -68,6 +71,11 @@ class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
         feedView.reloadTableViewData()
     }
     
+    func showArticle(withIndex index: Int, dataManager: AppDataManager) {
+        let articleViewController = ArticleAssembly.configureModule(withIndex: index, dataManager: dataManager)
+        navigationController?.pushViewController(articleViewController, animated: true)
+    }
+    
 }
 
 extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
@@ -92,4 +100,9 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         }
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        presenter.handleTapOnCellAt(indexPath: indexPath)
+    }
+    
 }
