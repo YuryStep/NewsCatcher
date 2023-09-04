@@ -15,11 +15,20 @@ protocol AppDataManager {
     func clearCache()
 }
 
+protocol AppArticle {
+    var title: String { get }
+    var description: String { get }
+    var content: String { get }
+    var url: String { get }
+    var image: String { get }
+    var publishedAt: String { get }
+}
+
 class DataManager: AppDataManager {
     private let networkManager: AppNetworkManager
     private let cacheManager: AppCacheManager
     
-    private var articles: [Article]?
+    private var articles: [AppArticle]?
     var onDataUpdate: (() -> Void)?
 
     init(networkManager: NetworkManager, cacheManager: CacheManager) {
@@ -52,13 +61,13 @@ class DataManager: AppDataManager {
     
     // MARK: Private Methods
     private func downloadCurrentNews() {
-        networkManager.downloadNews(about: nil) { [weak self] gNews in
-            self?.articles = gNews.articles
+        networkManager.downloadNews(about: nil) { [weak self] articles in
+            self?.articles = articles
             self?.onDataUpdate?()
         }
     }
     
-    private func getImageData(forArticle article: Article, completion: @escaping (Data?) -> Void) {
+    private func getImageData(forArticle article: AppArticle, completion: @escaping (Data?) -> Void) {
         let imageURL = article.image
         if let imageData = cacheManager.getData(forKey: imageURL) {
             completion(imageData)

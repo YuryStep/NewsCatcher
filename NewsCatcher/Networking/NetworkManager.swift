@@ -8,7 +8,7 @@
 import Foundation
 
 protocol AppNetworkManager {
-    func downloadNews(about: String?, completion: @escaping (GNews)->())
+    func downloadNews(about: String?, completion: @escaping ([AppArticle])->())
     func downloadData(from url: String, completion: @escaping (Data?) -> ())
 }
 
@@ -16,11 +16,11 @@ class NetworkManager: AppNetworkManager {
     private let testAPI = "https://gnews.io/api/v4/search?q=example&lang=en&country=us&max=10&apikey=05119a9d9eec92db2c653876cf3e015c"
     
     //  MARK: Public API
-    func downloadNews(about keyword: String?, completion: @escaping (GNews)->()) {
+    func downloadNews(about keyword: String?, completion: @escaping ([AppArticle])->()) {
         fetchData(from: testAPI) { [weak self] jsonData in
             guard let self = self else { return }
             self.decodeJSON(from: jsonData) { gNews in
-                completion(gNews)
+                completion(gNews.articles)
             }
         }
     }
