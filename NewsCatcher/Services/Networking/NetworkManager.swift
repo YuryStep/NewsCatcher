@@ -8,16 +8,21 @@
 import Foundation
 
 protocol AppNetworkManager {
-    func downloadNews(about: String?, completion: @escaping ([AppArticle])->())
+    func downloadNews(about: String?, usingSearchCriteria: ArticleSearchCriteria?, completion: @escaping ([AppArticle])->())
     func downloadData(from url: String, completion: @escaping (Data?) -> ())
 }
 
 class NetworkManager: AppNetworkManager {
-    private let testAPI = "https://gnews.io/api/v4/search?q=example&lang=en&country=us&max=10&apikey=05119a9d9eec92db2c653876cf3e015c"
+    private let apiRequestBuilder: AppRequestBuilder
+    
+    init(apiRequestBuilder: AppRequestBuilder) {
+        self.apiRequestBuilder = apiRequestBuilder
+    }
     
     //  MARK: Public API
-    func downloadNews(about keyword: String?, completion: @escaping ([AppArticle])->()) {
-        fetchData(from: testAPI) { [weak self] jsonData in
+    func downloadNews(about searchPhrase: String?, usingSearchCriteria searchCriteria: ArticleSearchCriteria?, completion: @escaping ([AppArticle])->()) {
+        let apiRequestString = apiRequestBuilder.getURLRequestString(usingSearchPhrase: searchPhrase, searchCriterias: searchCriteria)
+        fetchData(from: apiRequestString) { [weak self] jsonData in
             guard let self = self else { return }
             self.decodeJSON(from: jsonData) { gNews in
                 completion(gNews.articles)

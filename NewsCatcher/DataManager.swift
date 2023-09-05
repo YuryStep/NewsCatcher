@@ -8,6 +8,7 @@
 import Foundation
 
 protocol AppDataManager {
+    func downloadNews(about: String?, searchCriteria: ArticleSearchCriteria?)
     func getNumberOfArticles() -> Int
     func getTitleForArticle(atIndex index: Int) -> String
     func getDescriptionForArticle(atIndex index: Int) -> String
@@ -33,13 +34,20 @@ class DataManager: AppDataManager {
     private var articles: [AppArticle]?
     var onDataUpdate: (() -> ())?
 
-    init(networkManager: NetworkManager, cacheManager: CacheManager) {
+    init(networkManager: AppNetworkManager, cacheManager: AppCacheManager) {
         self.networkManager = networkManager
         self.cacheManager = cacheManager
-        downloadCurrentNews()
+        downloadNews(about: nil, searchCriteria: nil)
     }
     
     // MARK: Public API
+    func downloadNews(about keyward: String?, searchCriteria: ArticleSearchCriteria?) {
+        networkManager.downloadNews(about: keyward, usingSearchCriteria: searchCriteria) { [weak self] articles in
+            self?.articles = articles
+            self?.onDataUpdate?()
+        }
+    }
+    
     func getNumberOfArticles() -> Int {
         return articles?.count ?? 0
     }
@@ -66,13 +74,6 @@ class DataManager: AppDataManager {
     }
     
     // MARK: Private Methods
-    private func downloadCurrentNews() {
-        networkManager.downloadNews(about: nil) { [weak self] articles in
-            self?.articles = articles
-            self?.onDataUpdate?()
-        }
-    }
-    
     private func getImageData(forArticle article: AppArticle, completion: @escaping (Data?) -> Void) {
         let imageURL = article.image
         if let imageData = cacheManager.getData(forKey: imageURL) {

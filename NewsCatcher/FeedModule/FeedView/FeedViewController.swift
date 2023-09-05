@@ -8,6 +8,7 @@
 protocol FeedInput: AnyObject {
     func reloadFeedTableView()
     func showArticle(withIndex index: Int, dataManager: AppDataManager)
+    func getSearchFieldText() -> String?
 }
 
 protocol FeedOutput: AnyObject {
@@ -74,6 +75,10 @@ class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
     func showArticle(withIndex index: Int, dataManager: AppDataManager) {
         let articleViewController = ArticleAssembly.configureModule(withIndex: index, dataManager: dataManager)
         navigationController?.pushViewController(articleViewController, animated: true)
+    }
+    
+    func getSearchFieldText() -> String? {
+        return feedView.getSearchFieldText()
     }
     
 }

@@ -43,7 +43,8 @@ class FeedPresenter: FeedOutput {
     }
     
     func searchButtonTapped() {
-        print("searchButtonTapped")
+        guard let searchPhrase = view.getSearchFieldText(), !searchPhrase.isEmpty else { return }
+        dataManager.downloadNews(about: searchPhrase, searchCriteria: nil)
     }
     
     func settingsButtonTapped() {
