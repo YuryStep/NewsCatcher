@@ -11,10 +11,13 @@ class ArticleView: UIView {
     private struct Constants {
         static let systemSpacingMultiplier: CGFloat = 1
         static let imageViewAspectRatio: CGFloat = 0.6
+        static let placeholderImageName: String = "noImageIcon"
+        static let timeIntervalforImagePlaceholder: Double = 5
     }
     
     var index: Int?
-    
+    private var timer: Timer?
+
     // MARK: Subviews
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -64,12 +67,17 @@ class ArticleView: UIView {
     
     // MARK: Input methods
     func configure(with image: UIImage?, title: String, content: String) {
+        timer?.invalidate()
         if let image = image {
             articleImageView.image = image
             loadingIndicator.stopAnimating()
         } else {
             articleImageView.image = nil
             loadingIndicator.startAnimating()
+            timer = Timer.scheduledTimer(withTimeInterval: Constants.timeIntervalforImagePlaceholder, repeats: false) {_ in
+                self.loadingIndicator.stopAnimating()
+                self.articleImageView.image = UIImage(named: Constants.placeholderImageName)
+            }
         }
         titleLabel.text = title
         contentTextView.text = content
