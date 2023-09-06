@@ -39,10 +39,11 @@ class ArticleView: UIView {
         return label
     }()
     
-    private lazy var contentTextView: UITextView = {
-        let label = UITextView()
+    private lazy var contentTextView: UILabel = {
+        let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
         return label
     }()
     
@@ -96,11 +97,6 @@ class ArticleView: UIView {
         
         let marginGuide = layoutMarginsGuide
         
-        loadingIndicator.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        articleImageView.setContentHuggingPriority(.defaultLow, for: .vertical)
-        titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        contentTextView.setContentHuggingPriority(.defaultLow, for: .vertical)
-        
         NSLayoutConstraint.activate([
             // scrollView constraints
             scrollView.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
@@ -108,26 +104,29 @@ class ArticleView: UIView {
             scrollView.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor),
             scrollView.widthAnchor.constraint(equalTo: articleImageView.widthAnchor),
+            
             // loadingIndicator constraints
-            loadingIndicator.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
-            loadingIndicator.topAnchor.constraint(equalToSystemSpacingBelow: marginGuide.topAnchor, multiplier: Constants.imageViewAspectRatio),
-            loadingIndicator.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
-            loadingIndicator.heightAnchor.constraint(equalTo: marginGuide.widthAnchor, multiplier: Constants.imageViewAspectRatio),
+            loadingIndicator.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            loadingIndicator.topAnchor.constraint(equalToSystemSpacingBelow: scrollView.topAnchor, multiplier: Constants.imageViewAspectRatio),
+            loadingIndicator.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            loadingIndicator.heightAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: Constants.imageViewAspectRatio),
+            
             // articleImageView constraints
-            articleImageView.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
-            articleImageView.topAnchor.constraint(equalToSystemSpacingBelow: marginGuide.topAnchor, multiplier: Constants.imageViewAspectRatio),
-            articleImageView.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
+            articleImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            articleImageView.topAnchor.constraint(equalToSystemSpacingBelow: scrollView.topAnchor, multiplier: Constants.imageViewAspectRatio),
+            articleImageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             articleImageView.heightAnchor.constraint(equalTo: articleImageView.widthAnchor, multiplier: Constants.imageViewAspectRatio),
+            
             // titleLabel constraints
-            titleLabel.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: articleImageView.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
-            titleLabel.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            
             // contentTextView constraints
-            contentTextView.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
+            contentTextView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentTextView.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
-            contentTextView.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
-            contentTextView.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor)
+            contentTextView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentTextView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
     }
-    
 }
