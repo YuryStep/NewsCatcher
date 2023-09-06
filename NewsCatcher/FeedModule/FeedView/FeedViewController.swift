@@ -15,6 +15,7 @@ protocol FeedOutput: AnyObject {
     // Output
     func searchButtonTapped()
     func settingsButtonTapped()
+    func viewWillAppear()
     func handleMemoryWarning()
     // TableView Data Source
     func getNumberOfRowsInSection() -> Int
@@ -52,6 +53,11 @@ class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
         view = feedView
         navigationItem.title = Constants.navigationItemTitle
         feedView.tableViewSetup(dataSource: self,delegate: self,cell: FeedCell.self, identifier: FeedCell.reuseIdentifier)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter.viewWillAppear()
     }
     
     override func didReceiveMemoryWarning() {

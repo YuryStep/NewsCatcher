@@ -17,7 +17,6 @@ class ArticlePresenter: ArticleOutput {
     init(view: ArticleViewController, dataManager: AppDataManager) {
         self.view = view
         self.dataManager = dataManager
-        self.dataManager.onDataUpdate = { self.updateView() }
     }
     
     // MARK: Public API
@@ -35,6 +34,12 @@ class ArticlePresenter: ArticleOutput {
             DispatchQueue.main.async {
                 completion(data)
             }
+        }
+    }
+    
+    func viewWillAppear() {
+        self.dataManager.onDataUpdate = { [weak self] in
+            self?.updateView()
         }
     }
     

@@ -17,7 +17,6 @@ class FeedPresenter: FeedOutput {
     init(view: FeedInput, dataManager: AppDataManager) {
         self.view = view
         self.dataManager = dataManager
-        self.dataManager.onDataUpdate = { self.updateFeed() }
     }
     
     // MARK: Public API
@@ -49,6 +48,12 @@ class FeedPresenter: FeedOutput {
     
     func settingsButtonTapped() {
         print("settingsButtonTapped")
+    }
+    
+    func viewWillAppear() {
+        self.dataManager.onDataUpdate = { [weak self] in
+            self?.updateFeed()
+        }
     }
     
     func handleMemoryWarning() {

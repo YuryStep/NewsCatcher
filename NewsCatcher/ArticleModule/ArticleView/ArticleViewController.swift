@@ -12,6 +12,7 @@ protocol ArticleInput: AnyObject {
 }
 
 protocol ArticleOutput: AnyObject {
+    func viewWillAppear()
     func handleMemoryWarning()
     func getTitle(forArticleIndex: Int) -> String
     func getContent(forArticleIndex: Int) -> String
@@ -47,6 +48,10 @@ class ArticleViewController: UIViewController, ArticleViewDelegate, ArticleInput
         setupView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        presenter.viewWillAppear()
+    }
+    
     override func didReceiveMemoryWarning() {
         presenter.handleMemoryWarning()
     }
@@ -65,15 +70,13 @@ class ArticleViewController: UIViewController, ArticleViewDelegate, ArticleInput
         guard let index = articleView.index else { return }
         let title = presenter.getTitle(forArticleIndex: index)
         let content = presenter.getContent(forArticleIndex: index)
-
+        
         articleView.configure(with: nil, title: title, content: content)
-
+        
         presenter.getImageData(forArticleIndex: index) { imageData in
             if let imageData = imageData, let image = UIImage(data: imageData) {
                 self.articleView.configure(with: image, title: title, content: content)
             }
         }
     }
-    
-    
 }
