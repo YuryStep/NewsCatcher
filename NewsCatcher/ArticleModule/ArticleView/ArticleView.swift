@@ -7,14 +7,21 @@
 
 import UIKit
 
+protocol ArticleViewDelegate {
+    func goToWebSourceButtonTapped()
+}
+
 class ArticleView: UIView {
     private struct Constants {
         static let systemSpacingMultiplier: CGFloat = 1
         static let imageViewAspectRatio: CGFloat = 0.6
-        static let placeholderImageName: String = "noImageIcon"
+        static let goToSourceButtonCornerRadius: CGFloat = 10
         static let timeIntervalforImagePlaceholder: Double = 5
+        static let placeholderImageName: String = "noImageIcon"
+        static let goToSourceButtonText: String = "Read in Source"
     }
     
+    var delegate: ArticleViewDelegate?
     var index: Int?
     private var timer: Timer?
 
@@ -52,6 +59,23 @@ class ArticleView: UIView {
         return indicator
     }()
     
+    private lazy var goToSourceButton2: UIButton = {
+        let button = UIButton()
+        button.setTitle(Constants.goToSourceButtonText, for: .normal)
+        button.backgroundColor = .systemBlue
+        button.layer.cornerRadius = Constants.goToSourceButtonCornerRadius
+        button.addTarget(self, action: #selector(goToSourceButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var goToSourceButton: UIButton = {
+        let button = UIButton(configuration: .filled())
+        button.setTitle(Constants.goToSourceButtonText, for: .normal)
+        button.layer.cornerRadius = Constants.goToSourceButtonCornerRadius
+        button.addTarget(self, action: #selector(goToSourceButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     // MARK: Initializers:
     @available(*, unavailable)
     required init?(coder: NSCoder) {
@@ -87,17 +111,22 @@ class ArticleView: UIView {
         setNeedsDisplay()
     }
     
+    // MARK: Output methods
+    @objc func goToSourceButtonTapped() {
+        delegate?.goToWebSourceButtonTapped()
+    }
+    
     // MARK: Private Methods
     private func setupSubviews() {
         addSubview(scrollView)
-        let scrollViewSubviews = [articleImageView, titleLabel, contentTextView, loadingIndicator]
+        let scrollViewSubviews = [articleImageView, titleLabel, contentTextView, loadingIndicator, goToSourceButton]
         scrollViewSubviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         scrollViewSubviews.forEach { scrollView.addSubview($0) }
         
         let marginGuide = layoutMarginsGuide
         
         loadingIndicator.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        articleImageView.setContentHuggingPriority(.defaultLow, for: .vertical)
+        articleImageView.setContentHuggingPriority(.defaultHigh, for: .vertical)
         titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
         contentTextView.setContentHuggingPriority(.defaultLow, for: .vertical)
         
@@ -126,7 +155,11 @@ class ArticleView: UIView {
             contentTextView.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
             contentTextView.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
             contentTextView.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
-            contentTextView.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor)
+            // goToSourceButton constraints
+            goToSourceButton.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
+            goToSourceButton.topAnchor.constraint(equalToSystemSpacingBelow: contentTextView.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
+            goToSourceButton.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
+            goToSourceButton.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor)
         ])
     }
     

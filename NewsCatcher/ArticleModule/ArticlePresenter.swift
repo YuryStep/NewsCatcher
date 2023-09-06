@@ -42,6 +42,10 @@ class ArticlePresenter: ArticleOutput {
         dataManager.clearCache()
     }
     
+    func goToWebSourceButtonTapped() {
+        print("goToWebSourceButtonTapped") // Placeholder
+    }
+    
     // MARK: Private methods
     private func updateView() {
         DispatchQueue.main.async {

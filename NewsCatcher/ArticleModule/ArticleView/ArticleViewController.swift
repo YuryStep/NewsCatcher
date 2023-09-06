@@ -16,9 +16,10 @@ protocol ArticleOutput: AnyObject {
     func getTitle(forArticleIndex: Int) -> String
     func getContent(forArticleIndex: Int) -> String
     func getImageData(forArticleIndex: Int, completion: @escaping (Data?)->())
+    func goToWebSourceButtonTapped()
 }
 
-class ArticleViewController: UIViewController, ArticleInput {
+class ArticleViewController: UIViewController, ArticleViewDelegate, ArticleInput {
     struct Constants {
         static let navigationItemTitle = "News Catcher New Title"
     }
@@ -31,6 +32,7 @@ class ArticleViewController: UIViewController, ArticleInput {
     init(articleView: ArticleView) {
         super.init(nibName: nil, bundle: nil)
         self.articleView = articleView
+        self.articleView.delegate = self
     }
     
     @available(*, unavailable)
@@ -54,7 +56,11 @@ class ArticleViewController: UIViewController, ArticleInput {
         articleView.setNeedsDisplay()
     }
     
-//     MARK: Private Methods
+    func goToWebSourceButtonTapped() {
+        presenter.goToWebSourceButtonTapped()
+    }
+    
+    //     MARK: Private Methods
     private func setupView() {
         guard let index = articleView.index else { return }
         let title = presenter.getTitle(forArticleIndex: index)
