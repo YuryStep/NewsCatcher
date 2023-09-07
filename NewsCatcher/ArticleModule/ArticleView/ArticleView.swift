@@ -18,13 +18,13 @@ class ArticleView: UIView {
         static let goToSourceButtonCornerRadius: CGFloat = 10
         static let timeIntervalforImagePlaceholder: Double = 5
         static let placeholderImageName: String = "noImageIcon"
-        static let goToSourceButtonText: String = "Read in Source"
+        static let readInSourceButtonText: String = "Read in Source"
     }
     
     var delegate: ArticleViewDelegate?
     var index: Int?
     private var timer: Timer?
-
+    
     // MARK: Subviews
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -46,7 +46,7 @@ class ArticleView: UIView {
         return label
     }()
     
-    private lazy var contentTextView: UILabel = {
+    private lazy var contentTextLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
@@ -60,9 +60,9 @@ class ArticleView: UIView {
         return indicator
     }()
     
-    private lazy var goToSourceButton: UIButton = {
+    private lazy var readInSourceButton: UIButton = {
         let button = UIButton(configuration: .filled())
-        button.setTitle(Constants.goToSourceButtonText, for: .normal)
+        button.setTitle(Constants.readInSourceButtonText, for: .normal)
         button.layer.cornerRadius = Constants.goToSourceButtonCornerRadius
         button.addTarget(self, action: #selector(goToSourceButtonTapped), for: .touchUpInside)
         return button
@@ -96,7 +96,7 @@ class ArticleView: UIView {
             }
         }
         titleLabel.text = title
-        contentTextView.text = content
+        contentTextLabel.text = content
     }
     
     func update() {
@@ -108,60 +108,50 @@ class ArticleView: UIView {
         delegate?.goToWebSourceButtonTapped()
     }
     
-    // MARK: Private Methods
     private func setupSubviews() {
         addSubview(scrollView)
-        let scrollViewSubviews = [articleImageView, titleLabel, contentTextView, loadingIndicator, goToSourceButton]
+        let scrollViewSubviews = [articleImageView, titleLabel, contentTextLabel, loadingIndicator, readInSourceButton]
         scrollViewSubviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         scrollViewSubviews.forEach { scrollView.addSubview($0) }
         
         let marginGuide = layoutMarginsGuide
+        let scrollViewFrameGuide = scrollView.frameLayoutGuide
+        let scrollViewContentGuide = scrollView.contentLayoutGuide
         
-        loadingIndicator.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        articleImageView.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        contentTextView.setContentHuggingPriority(.defaultLow, for: .vertical)
+        contentTextLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
+        readInSourceButton.setContentHuggingPriority(.defaultHigh, for: .vertical)
         
         NSLayoutConstraint.activate([
             // scrollView constraints
-            scrollView.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
-            scrollView.topAnchor.constraint(equalTo: marginGuide.topAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor),
-            scrollView.widthAnchor.constraint(equalTo: articleImageView.widthAnchor),
-            
+            scrollViewFrameGuide.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
+            scrollViewFrameGuide.topAnchor.constraint(equalTo: marginGuide.topAnchor),
+            scrollViewFrameGuide.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
+            scrollViewFrameGuide.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor),
+            scrollViewFrameGuide.widthAnchor.constraint(equalTo: scrollViewContentGuide.widthAnchor),
             // loadingIndicator constraints
-            loadingIndicator.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            loadingIndicator.topAnchor.constraint(equalToSystemSpacingBelow: scrollView.topAnchor, multiplier: Constants.imageViewAspectRatio),
-            loadingIndicator.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            loadingIndicator.heightAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: Constants.imageViewAspectRatio),
-            
+            loadingIndicator.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
+            loadingIndicator.topAnchor.constraint(equalToSystemSpacingBelow: scrollViewContentGuide.topAnchor, multiplier: Constants.imageViewAspectRatio),
+            loadingIndicator.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
+            loadingIndicator.heightAnchor.constraint(equalTo: scrollViewContentGuide.widthAnchor, multiplier: Constants.imageViewAspectRatio),
             // articleImageView constraints
-            articleImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            articleImageView.topAnchor.constraint(equalToSystemSpacingBelow: scrollView.topAnchor, multiplier: Constants.imageViewAspectRatio),
-            articleImageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            articleImageView.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
+            articleImageView.topAnchor.constraint(equalToSystemSpacingBelow: scrollViewContentGuide.topAnchor, multiplier: Constants.imageViewAspectRatio),
+            articleImageView.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
             articleImageView.heightAnchor.constraint(equalTo: articleImageView.widthAnchor, multiplier: Constants.imageViewAspectRatio),
-            
             // titleLabel constraints
-            titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: articleImageView.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
-            titleLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            
-            // contentTextView constraints
-            contentTextView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentTextView.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
-            contentTextView.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
-            // goToSourceButton constraints
-            goToSourceButton.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
-            goToSourceButton.topAnchor.constraint(equalToSystemSpacingBelow: contentTextView.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
-            goToSourceButton.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
-            goToSourceButton.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor)
+            titleLabel.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
+            // descriptionLabel constraints
+            contentTextLabel.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
+            contentTextLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
+            contentTextLabel.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
+            // readInSourceButton constraints
+            readInSourceButton.topAnchor.constraint(equalToSystemSpacingBelow: contentTextLabel.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
+            readInSourceButton.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
+            readInSourceButton.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
+            readInSourceButton.bottomAnchor.constraint(equalTo: scrollViewContentGuide.bottomAnchor)
         ])
     }
+    
 }
-            contentTextView.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
-            // goToSourceButton constraints
-            goToSourceButton.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
-            goToSourceButton.topAnchor.constraint(equalToSystemSpacingBelow: contentTextView.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
-            goToSourceButton.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
-            goToSourceButton.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor)
