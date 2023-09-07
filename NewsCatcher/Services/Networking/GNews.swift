@@ -21,6 +21,10 @@ struct GNews: Codable {
         let image: String
         let publishedAt: String
         let source: Source
+        var sourceName: String {
+            source.name
+        }
+
     }
     
     struct Source: Codable {

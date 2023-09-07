@@ -15,6 +15,8 @@ protocol AppDataManager {
     func getContentForArticle(atIndex index: Int) -> String
     func getImageDataforArticle(atIndex index: Int, completion: @escaping (Data?) -> Void)
     func getSourceURLforArticle(atIndex index: Int) -> String
+    func getSourceNameForArticle(atIndex: Int) -> String
+    func getPublishingDataForArticle(atIndex: Int) -> String
     func clearCache()
     var onDataUpdate: (() -> ())? { get set }
 }
@@ -26,6 +28,7 @@ protocol AppArticle {
     var url: String { get }
     var image: String { get }
     var publishedAt: String { get }
+    var sourceName: String { get }
 }
 
 class DataManager: AppDataManager {
@@ -72,6 +75,14 @@ class DataManager: AppDataManager {
     
     func getSourceURLforArticle(atIndex index: Int) -> String {
         return articles?[index].url ?? "https://www.apple.com/" // FIX apple.com
+    }
+    
+    func getSourceNameForArticle(atIndex index: Int) -> String {
+        return articles?[index].sourceName ?? "Источник не определен"
+    }
+    
+    func getPublishingDataForArticle(atIndex index: Int) -> String {
+        return articles?[index].publishedAt ?? "Дата не определена"
     }
     
     func clearCache() {

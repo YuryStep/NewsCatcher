@@ -41,6 +41,15 @@ class FeedPresenter: FeedOutput {
         }
     }
     
+    func getSourceNameForArticle(forIndexPath indexPath: IndexPath) -> String {
+        return dataManager.getSourceNameForArticle(atIndex: indexPath.row)
+    }
+    
+    func getPublishingDataForArticle(forIndexPath indexPath: IndexPath) -> String {
+        return dataManager.getPublishingDataForArticle(atIndex: indexPath.row)
+    }
+    
+    
     func searchButtonTapped() {
         guard let searchPhrase = view.getSearchFieldText(), !searchPhrase.isEmpty else { return }
         dataManager.downloadNews(about: searchPhrase, searchCriteria: nil)

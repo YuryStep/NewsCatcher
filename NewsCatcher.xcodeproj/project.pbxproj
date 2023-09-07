@@ -169,10 +169,10 @@
 			children = (
 				EF28C5182AA217B700B68649 /* DataManager.swift */,
 				EF2897CE2AA74B4B00B9A335 /* ArticleSearchCriteria.swift */,
+				EF28C51C2AA239E700B68649 /* FeedModule */,
+				EF28C5282AA3442900B68649 /* ArticleModule */,
 				EF2897D82AA9DA8F00B9A335 /* WebArticleViewController.swift */,
 				EF2897D32AA7717B00B9A335 /* Services */,
-				EF28C5282AA3442900B68649 /* ArticleModule */,
-				EF28C51C2AA239E700B68649 /* FeedModule */,
 				EF2897D22AA770FC00B9A335 /* Extensions */,
 				EF28C5172AA2093600B68649 /* Supporting Files */,
 			);

@@ -22,6 +22,8 @@ protocol FeedOutput: AnyObject {
     func getTitle(forIndexPath: IndexPath) -> String
     func getDescription(forIndexPath: IndexPath) -> String
     func getImageData(forIndexPath: IndexPath, completion: @escaping (Data?)->())
+    func getSourceNameForArticle(forIndexPath indexPath: IndexPath) -> String
+    func getPublishingDataForArticle(forIndexPath indexPath: IndexPath) -> String
     // TableView Delegate
     func handleTapOnCellAt(indexPath: IndexPath)
 }
