@@ -20,11 +20,11 @@ class ArticlePresenter: ArticleOutput {
     }
     
     // MARK: Public API
-    func getTitle(forArticleIndex index: Int) -> String {
+    func getTitleforArticle(atIndex index: Int) -> String {
          return dataManager.getTitleForArticle(atIndex: index)
     }
     
-    func getContent(forArticleIndex index: Int) -> String {
+    func getContentForArticle(atIndex index: Int) -> String {
         return dataManager.getContentForArticle(atIndex: index)
     }
     
@@ -35,6 +35,14 @@ class ArticlePresenter: ArticleOutput {
                 completion(data)
             }
         }
+    }
+    
+    func getSourceNameForArticle(atIndex index: Int) -> String {
+        return dataManager.getSourceNameForArticle(atIndex: index)
+    }
+    
+    func getPublishingDataForArticle(atIndex index: Int) -> String {
+        return dataManager.getPublishingDataForArticle(atIndex: index)
     }
     
     func viewWillAppear() {

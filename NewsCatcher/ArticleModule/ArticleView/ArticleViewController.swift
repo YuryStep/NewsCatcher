@@ -15,9 +15,11 @@ protocol ArticleInput: AnyObject {
 protocol ArticleOutput: AnyObject {
     func viewWillAppear()
     func handleMemoryWarning()
-    func getTitle(forArticleIndex: Int) -> String
-    func getContent(forArticleIndex: Int) -> String
+    func getTitleforArticle(atIndex: Int) -> String
+    func getContentForArticle(atIndex: Int) -> String
     func getImageData(forArticleIndex: Int, completion: @escaping (Data?)->())
+    func getSourceNameForArticle(atIndex index: Int) -> String
+    func getPublishingDataForArticle(atIndex index: Int) -> String
     func readInSourceButtonTapped()
 }
 
@@ -79,14 +81,16 @@ class ArticleViewController: UIViewController, ArticleViewDelegate, ArticleInput
     //     MARK: Private Methods
     private func setupView() {
         guard let index = articleView.index else { return }
-        let title = presenter.getTitle(forArticleIndex: index)
-        let content = presenter.getContent(forArticleIndex: index)
+        let title = presenter.getTitleforArticle(atIndex: index)
+        let content = presenter.getContentForArticle(atIndex: index)
+        let sourceName = presenter.getSourceNameForArticle(atIndex: index)
+        let date = presenter.getPublishingDataForArticle(atIndex: index)
         
-        articleView.configure(with: nil, title: title, content: content)
+        articleView.configure(with: nil, title: title, sourceName: sourceName, date: date, content: content)
         
         presenter.getImageData(forArticleIndex: index) { imageData in
             if let imageData = imageData, let image = UIImage(data: imageData) {
-                self.articleView.configure(with: image, title: title, content: content)
+                self.articleView.configure(with: image, title: title, sourceName: sourceName, date: date, content: content)
             }
         }
     }
