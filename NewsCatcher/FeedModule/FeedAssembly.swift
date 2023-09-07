@@ -14,7 +14,7 @@ class FeedAssembly {
         let apiBuilder = APIRequestBuilder()
         let networkManager = NetworkManager(apiRequestBuilder: apiBuilder)
         let cacheManager = CacheManager()
-        let dataManager = DataManager(networkManager: networkManager, cacheManager: cacheManager)
+        let dataManager = DataManager<GNews.Article>(networkManager: networkManager, cacheManager: cacheManager)
         let feedPresenter = FeedPresenter(view: feedViewControler, dataManager: dataManager)
         
         feedView.delegate = feedViewControler

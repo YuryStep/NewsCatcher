@@ -21,7 +21,7 @@ protocol AppDataManager {
     var onDataUpdate: (() -> ())? { get set }
 }
 
-protocol AppArticle {
+protocol AppArticle: Codable {
     var title: String { get }
     var description: String { get }
     var content: String { get }
@@ -31,23 +31,29 @@ protocol AppArticle {
     var sourceName: String { get }
 }
 
-class DataManager: AppDataManager {
+class DataManager<Article: AppArticle>: AppDataManager {
+    
     private let networkManager: AppNetworkManager
     private let cacheManager: AppCacheManager
     
-    private var articles: [AppArticle]?
+    private var articles: [Article]?
     var onDataUpdate: (() -> ())?
 
     init(networkManager: AppNetworkManager, cacheManager: AppCacheManager) {
         self.networkManager = networkManager
         self.cacheManager = cacheManager
-        downloadNews(about: nil, searchCriteria: nil)
+        loadArticles()
+        if articles == nil {
+            downloadNews(about: nil, searchCriteria: nil)
+        }
     }
     
     // MARK: Public API
     func downloadNews(about keyward: String?, searchCriteria: ArticleSearchCriteria?) {
-        networkManager.downloadNews(about: keyward, usingSearchCriteria: searchCriteria) { [weak self] articles in
+        networkManager.downloadNews(about: keyward, usingSearchCriteria: searchCriteria) { [weak self] appArticles in
+            let articles = appArticles.compactMap { $0 as? Article }
             self?.articles = articles
+            self?.saveArticles()
             self?.onDataUpdate?()
         }
     }
@@ -90,7 +96,7 @@ class DataManager: AppDataManager {
     }
     
     // MARK: Private Methods
-    private func getImageData(forArticle article: AppArticle, completion: @escaping (Data?) -> Void) {
+    private func getImageData(forArticle article: Article, completion: @escaping (Data?) -> Void) {
         let imageURL = article.image
         if let imageData = cacheManager.getData(forKey: imageURL) {
             completion(imageData)
@@ -100,6 +106,23 @@ class DataManager: AppDataManager {
                 self.cacheManager.save(imageData, forKey: imageURL)
                 completion(imageData)
             }
+        }
+    }
+    
+    // Save articles to UserDefaults
+    private func saveArticles() {
+        if let articles = self.articles {
+            let encodedArticles = try? JSONEncoder().encode(articles)
+            UserDefaults.standard.set(encodedArticles, forKey: "SavedArticles")
+        }
+    }
+
+    // Load articles from UserDefaults
+    private func loadArticles() {
+        if let encodedArticles = UserDefaults.standard.data(forKey: "SavedArticles") {
+            let decodedArticles = try? JSONDecoder().decode([Article].self, from: encodedArticles)
+            self.articles = decodedArticles
+            self.onDataUpdate?()
         }
     }
     

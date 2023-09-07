@@ -13,7 +13,7 @@ struct GNews: Codable {
     let totalArticles: Int
     let articles: [Article]
     
-    struct Article: Codable, AppArticle {
+    struct Article: AppArticle {
         let title: String
         let description: String
         let content: String
