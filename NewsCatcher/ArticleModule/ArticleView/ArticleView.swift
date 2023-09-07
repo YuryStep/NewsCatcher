@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ArticleViewDelegate {
-    func goToWebSourceButtonTapped()
+    func readInSourceButtonTapped()
 }
 
 class ArticleView: UIView {
@@ -105,7 +105,7 @@ class ArticleView: UIView {
     
     // MARK: Output methods
     @objc func goToSourceButtonTapped() {
-        delegate?.goToWebSourceButtonTapped()
+        delegate?.readInSourceButtonTapped()
     }
     
     private func setupSubviews() {

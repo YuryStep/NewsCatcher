@@ -47,8 +47,9 @@ class ArticlePresenter: ArticleOutput {
         dataManager.clearCache()
     }
     
-    func goToWebSourceButtonTapped() {
+    func readInSourceButtonTapped() {
         print("goToWebSourceButtonTapped") // Placeholder
+        view.showWebArticle(sourceURL: URL(string: "https://www.apple.com/")! )
     }
     
     // MARK: Private methods

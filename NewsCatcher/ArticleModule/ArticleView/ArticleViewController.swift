@@ -9,6 +9,7 @@ import UIKit
 
 protocol ArticleInput: AnyObject {
     func updateView()
+    func showWebArticle(sourceURL: URL)
 }
 
 protocol ArticleOutput: AnyObject {
@@ -17,7 +18,7 @@ protocol ArticleOutput: AnyObject {
     func getTitle(forArticleIndex: Int) -> String
     func getContent(forArticleIndex: Int) -> String
     func getImageData(forArticleIndex: Int, completion: @escaping (Data?)->())
-    func goToWebSourceButtonTapped()
+    func readInSourceButtonTapped()
 }
 
 class ArticleViewController: UIViewController, ArticleViewDelegate, ArticleInput {
@@ -61,8 +62,13 @@ class ArticleViewController: UIViewController, ArticleViewDelegate, ArticleInput
         articleView.setNeedsDisplay()
     }
     
-    func goToWebSourceButtonTapped() {
-        presenter.goToWebSourceButtonTapped()
+    func readInSourceButtonTapped() {
+        presenter.readInSourceButtonTapped()
+    }
+    
+    func showWebArticle(sourceURL url: URL) {
+        let webArticleViewController = WebArticleViewController(sourceURL: url)
+        navigationController?.pushViewController(webArticleViewController, animated: true)
     }
     
     //     MARK: Private Methods
