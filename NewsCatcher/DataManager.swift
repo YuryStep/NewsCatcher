@@ -14,6 +14,7 @@ protocol AppDataManager {
     func getDescriptionForArticle(atIndex index: Int) -> String
     func getContentForArticle(atIndex index: Int) -> String
     func getImageDataforArticle(atIndex index: Int, completion: @escaping (Data?) -> Void)
+    func getSourceURLforArticle(atIndex index: Int) -> String
     func clearCache()
     var onDataUpdate: (() -> ())? { get set }
 }
@@ -67,6 +68,10 @@ class DataManager: AppDataManager {
     func getImageDataforArticle(atIndex index: Int, completion: @escaping (Data?) -> Void) {
         guard let article = articles?[index] else { return }
         getImageData(forArticle: article, completion: completion)
+    }
+    
+    func getSourceURLforArticle(atIndex index: Int) -> String {
+        return articles?[index].url ?? "https://www.apple.com/" // FIX apple.com
     }
     
     func clearCache() {

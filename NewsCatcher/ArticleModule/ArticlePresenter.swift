@@ -48,7 +48,11 @@ class ArticlePresenter: ArticleOutput {
     }
     
     func readInSourceButtonTapped() {
-        view.showWebArticle(sourceURL: URL(string: "https://www.apple.com/")! )
+        let index = view.getArticleIndex()
+        let urlString = dataManager.getSourceURLforArticle(atIndex: index)
+        if let url = URL(string: urlString) {
+            view.showWebArticle(sourceURL: url)
+        }
     }
     
     // MARK: Private methods

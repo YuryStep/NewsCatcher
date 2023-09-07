@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol ArticleViewDelegate {
+protocol ArticleViewDelegate: AnyObject {
     func readInSourceButtonTapped()
 }
 
@@ -21,7 +21,7 @@ class ArticleView: UIView {
         static let readInSourceButtonText: String = "Read in Source"
     }
     
-    var delegate: ArticleViewDelegate?
+    weak var delegate: ArticleViewDelegate?
     var index: Int?
     private var timer: Timer?
     

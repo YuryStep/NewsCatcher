@@ -9,7 +9,7 @@ import UIKit
 
 protocol ArticleInput: AnyObject {
     func updateView()
-    func showWebArticle(sourceURL: URL)
+    func getArticleIndex() -> Int
 }
 
 protocol ArticleOutput: AnyObject {
@@ -23,7 +23,7 @@ protocol ArticleOutput: AnyObject {
 
 class ArticleViewController: UIViewController, ArticleViewDelegate, ArticleInput {
     struct Constants {
-        static let navigationItemTitle = "News Catcher New Title"
+        static let navigationItemTitle = "News Catcher"
     }
     
     // MARK: Dependencies
@@ -69,6 +69,11 @@ class ArticleViewController: UIViewController, ArticleViewDelegate, ArticleInput
     func showWebArticle(sourceURL url: URL) {
         let webArticleViewController = WebArticleViewController(sourceURL: url)
         navigationController?.pushViewController(webArticleViewController, animated: true)
+    }
+    
+    // MARK: Output methods
+    func getArticleIndex() -> Int {
+        articleView.index! // FIX ForceUnwrapping
     }
     
     //     MARK: Private Methods
