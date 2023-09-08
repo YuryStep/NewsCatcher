@@ -13,19 +13,37 @@ class FeedCell: UITableViewCell {
         static let imageViewAspectRatio: CGFloat = 0.6
         static let placeholderImageName: String = "noImageIcon"
         static let timeIntervalforImagePlaceholder: Double = 5
+        static let sourceCaptionText = "Source: "
+        static let dateCaptionText = "Published at: "
     }
     
     static let reuseIdentifier = "FeedCellIdentifier"
     private var timer: Timer?
     
     // MARK: Subviews
-    lazy var articleImageView: UIImageView = {
+    private lazy var articleImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    lazy var titleLabel: UILabel = {
+    private lazy var sourceNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .footnote)
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    private lazy var dateLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .footnote)
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title1)
         label.adjustsFontForContentSizeCategory = true
@@ -33,7 +51,7 @@ class FeedCell: UITableViewCell {
         return label
     }()
     
-    lazy var descriptionLabel: UILabel = {
+    private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
@@ -41,7 +59,7 @@ class FeedCell: UITableViewCell {
         return label
     }()
     
-    lazy var loadingIndicator: UIActivityIndicatorView = {
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.hidesWhenStopped = true
         return indicator
@@ -59,7 +77,7 @@ class FeedCell: UITableViewCell {
     }
     
     // MARK: Public API
-    func configure(with image: UIImage?, title: String, description: String) {
+    func configure(with image: UIImage?, title: String, sourceName: String, date: String, description: String) {
         timer?.invalidate()
         if let image = image {
             articleImageView.image = image
@@ -74,11 +92,13 @@ class FeedCell: UITableViewCell {
         }
         titleLabel.text = title
         descriptionLabel.text = description
+        sourceNameLabel.text = Constants.sourceCaptionText + sourceName
+        dateLabel.text = Constants.dateCaptionText + date
     }
     
     // MARK: Private Methods
     private func setupSubviews() {
-        let subviews = [articleImageView, titleLabel, descriptionLabel, loadingIndicator]
+        let subviews = [loadingIndicator, articleImageView, sourceNameLabel, dateLabel, titleLabel, descriptionLabel]
         subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         subviews.forEach { contentView.addSubview($0) }
         
@@ -91,12 +111,20 @@ class FeedCell: UITableViewCell {
             loadingIndicator.heightAnchor.constraint(equalTo: marginGuide.widthAnchor, multiplier: Constants.imageViewAspectRatio),
             // articleImageView constraints
             articleImageView.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
-            articleImageView.topAnchor.constraint(equalToSystemSpacingBelow: marginGuide.topAnchor, multiplier: Constants.imageViewAspectRatio),
+            articleImageView.topAnchor.constraint(equalTo: marginGuide.topAnchor),
             articleImageView.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
             articleImageView.heightAnchor.constraint(equalTo: articleImageView.widthAnchor, multiplier: Constants.imageViewAspectRatio),
+            // sourceNameLabel constraints
+            sourceNameLabel.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
+            sourceNameLabel.topAnchor.constraint(equalToSystemSpacingBelow: articleImageView.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
+            sourceNameLabel.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
+            // dateLabel constraints
+            dateLabel.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
+            dateLabel.topAnchor.constraint(equalToSystemSpacingBelow: sourceNameLabel.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
+            dateLabel.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
             // titleLabel constraints
             titleLabel.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
-            titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: articleImageView.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
+            titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: dateLabel.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
             titleLabel.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
             // descriptionLabel constraints
             descriptionLabel.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),

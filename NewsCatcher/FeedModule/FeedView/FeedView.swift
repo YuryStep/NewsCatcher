@@ -47,6 +47,7 @@ class FeedView: UIView {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
+        tableView.cellLayoutMarginsFollowReadableWidth = true
         return tableView
     }()
     
