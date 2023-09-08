@@ -18,7 +18,7 @@ class APIRequestBuilder: AppRequestBuilder {
         static let searchEndpoint = "https://gnews.io/api/v4/search?q="
         static let apiKey = "05119a9d9eec92db2c653876cf3e015c"
         // Default query parameters
-        static let defaultArticleLanguage = "en"
+        static let defaultArticleLanguage = "any"
         static let defaultArticlePublicationCountry = "any"
         static let defaultSearchPlaces = "title,description"
         static let defaultSortBy = "publishedAt"

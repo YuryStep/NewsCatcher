@@ -15,6 +15,7 @@ protocol AppNetworkManager {
 class NetworkManager: AppNetworkManager {
     private let apiRequestBuilder: AppRequestBuilder
     
+    // MARK: Initializer
     init(apiRequestBuilder: AppRequestBuilder) {
         self.apiRequestBuilder = apiRequestBuilder
     }

@@ -9,18 +9,19 @@ import UIKit
 
 protocol ArticleInput: AnyObject {
     func updateView()
-    func getArticleIndex() -> Int
+    func getArticleIndex() -> Int?
+    func setupArticleView(withTitle title: String, content: String, sourceName: String, publishingDate date: String)
+    func goToWebArticle(sourceURL: URL)
 }
 
 protocol ArticleOutput: AnyObject {
+    // lifeCycle
+    func viewDidLoad()
     func viewWillAppear()
     func handleMemoryWarning()
-    func getTitleforArticle(atIndex: Int) -> String
-    func getContentForArticle(atIndex: Int) -> String
-    func getImageData(forArticleIndex: Int, completion: @escaping (Data?)->())
-    func getSourceNameForArticle(atIndex index: Int) -> String
-    func getPublishingDataForArticle(atIndex index: Int) -> String
+    // Output
     func readInSourceButtonTapped()
+    func getImageData(forArticleIndex: Int, completion: @escaping (Data?)->())
 }
 
 class ArticleViewController: UIViewController, ArticleViewDelegate, ArticleInput {
@@ -48,7 +49,11 @@ class ArticleViewController: UIViewController, ArticleViewDelegate, ArticleInput
     override func loadView() {
         view = articleView
         navigationItem.title = Constants.navigationItemTitle
-        setupView()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        presenter.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,34 +69,27 @@ class ArticleViewController: UIViewController, ArticleViewDelegate, ArticleInput
         articleView.setNeedsDisplay()
     }
     
-    func readInSourceButtonTapped() {
-        presenter.readInSourceButtonTapped()
+    func getArticleIndex() -> Int? {
+        articleView.index
     }
     
-    func showWebArticle(sourceURL url: URL) {
-        let webArticleViewController = WebArticleViewController(sourceURL: url)
-        navigationController?.pushViewController(webArticleViewController, animated: true)
-    }
-    
-    // MARK: Output methods
-    func getArticleIndex() -> Int {
-        articleView.index! // FIX ForceUnwrapping
-    }
-    
-    //     MARK: Private Methods
-    private func setupView() {
+    func setupArticleView(withTitle title: String, content: String, sourceName: String, publishingDate date: String) {
         guard let index = articleView.index else { return }
-        let title = presenter.getTitleforArticle(atIndex: index)
-        let content = presenter.getContentForArticle(atIndex: index)
-        let sourceName = presenter.getSourceNameForArticle(atIndex: index)
-        let date = presenter.getPublishingDataForArticle(atIndex: index)
-        
         articleView.configure(with: nil, title: title, sourceName: sourceName, date: date, content: content)
-        
         presenter.getImageData(forArticleIndex: index) { imageData in
             if let imageData = imageData, let image = UIImage(data: imageData) {
                 self.articleView.configure(with: image, title: title, sourceName: sourceName, date: date, content: content)
             }
         }
+    }
+    
+    func goToWebArticle(sourceURL url: URL) {
+        let webArticleViewController = WebArticleViewController(sourceURL: url)
+        navigationController?.pushViewController(webArticleViewController, animated: true)
+    }
+    
+    // MARK: Output methods
+    func readInSourceButtonTapped() {
+        presenter.readInSourceButtonTapped()
     }
 }

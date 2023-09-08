@@ -33,17 +33,19 @@ protocol AppArticle: Codable {
 
 class DataManager<Article: AppArticle>: AppDataManager {
     
+    // MARK: Dependencies
     private let networkManager: AppNetworkManager
     private let cacheManager: AppCacheManager
     
-    private var articles: [Article]?
+    private var articles = [Article]()
     var onDataUpdate: (() -> ())?
-
+    
+    // MARK: Initializer
     init(networkManager: AppNetworkManager, cacheManager: AppCacheManager) {
         self.networkManager = networkManager
         self.cacheManager = cacheManager
-        loadArticles()
-        if articles == nil {
+        loadArticlesfromUserDefaults()
+        if articles.isEmpty {
             downloadNews(about: nil, searchCriteria: nil)
         }
     }
@@ -53,48 +55,48 @@ class DataManager<Article: AppArticle>: AppDataManager {
         networkManager.downloadNews(about: keyward, usingSearchCriteria: searchCriteria) { [weak self] appArticles in
             let articles = appArticles.compactMap { $0 as? Article }
             self?.articles = articles
-            self?.saveArticles()
+            self?.saveArticlestoUserDefaults()
             self?.onDataUpdate?()
         }
     }
     
     func getNumberOfArticles() -> Int {
-        return articles?.count ?? 0
+        return articles.count
     }
     
     func getTitleForArticle(atIndex index: Int) -> String {
-        return articles?[index].title ?? "no data"
+        return articles[index].title
     }
     
     func getDescriptionForArticle(atIndex index: Int) -> String {
-        return articles?[index].description ?? "no data"
+        return articles[index].description
     }
     
     func getContentForArticle(atIndex index: Int) -> String {
-        return articles?[index].content ?? "no data"
+        return articles[index].content
     }
     
     func getImageDataforArticle(atIndex index: Int, completion: @escaping (Data?) -> Void) {
-        guard let article = articles?[index] else { return }
-        getImageData(forArticle: article, completion: completion)
+        return getImageData(forArticle: articles[index], completion: completion)
     }
     
     func getSourceURLforArticle(atIndex index: Int) -> String {
-        return articles?[index].url ?? "https://www.apple.com/" // FIX apple.com
+        return articles[index].url
     }
     
     func getSourceNameForArticle(atIndex index: Int) -> String {
-        return articles?[index].sourceName ?? "Источник не определен"
+        return articles[index].sourceName
     }
     
     func getPublishingDateForArticle(atIndex index: Int) -> String {
-        guard let dateString = articles?[index].publishedAt,
-              let date = ISO8601DateFormatter().date(from: dateString) else {
-            return ""
+        let dateString = articles[index].publishedAt
+        if let date = ISO8601DateFormatter().date(from: dateString) {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            return dateFormatter.string(from: date)
+        } else {
+            return dateString
         }
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        return dateFormatter.string(from: date)
     }
     
     func clearCache() {
@@ -115,19 +117,15 @@ class DataManager<Article: AppArticle>: AppDataManager {
         }
     }
     
-    // Save articles to UserDefaults
-    private func saveArticles() {
-        if let articles = self.articles {
+    private func saveArticlestoUserDefaults() {
             let encodedArticles = try? JSONEncoder().encode(articles)
             UserDefaults.standard.set(encodedArticles, forKey: "SavedArticles")
-        }
     }
 
-    // Load articles from UserDefaults
-    private func loadArticles() {
+    private func loadArticlesfromUserDefaults() {
         if let encodedArticles = UserDefaults.standard.data(forKey: "SavedArticles") {
             let decodedArticles = try? JSONDecoder().decode([Article].self, from: encodedArticles)
-            self.articles = decodedArticles
+            self.articles = decodedArticles!
             self.onDataUpdate?()
         }
     }

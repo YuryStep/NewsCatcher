@@ -8,24 +8,37 @@
 import Foundation
 
 class ArticlePresenter: ArticleOutput {
-    
+
     // MARK: Dependencies
-    unowned private var view: ArticleViewController
+    unowned private var view: ArticleInput
     private var dataManager: AppDataManager
     
     // MARK: Initializer
-    init(view: ArticleViewController, dataManager: AppDataManager) {
+    init(view: ArticleInput, dataManager: AppDataManager) {
         self.view = view
         self.dataManager = dataManager
     }
     
     // MARK: Public API
-    func getTitleforArticle(atIndex index: Int) -> String {
-         return dataManager.getTitleForArticle(atIndex: index)
+    func viewDidLoad() {
+        guard let index = view.getArticleIndex() else { return }
+        let title = dataManager.getTitleForArticle(atIndex: index)
+        let content = dataManager.getContentForArticle(atIndex: index)
+        let sourceName = dataManager.getSourceNameForArticle(atIndex: index)
+        let date = dataManager.getPublishingDateForArticle(atIndex: index)
+        view.setupArticleView(withTitle: title, content: content, sourceName: sourceName, publishingDate: date)
+    }
+
+    func viewWillAppear() { 
+        self.dataManager.onDataUpdate = { [weak self] in
+            DispatchQueue.main.async {
+                self?.view.updateView()
+            }
+        }
     }
     
-    func getContentForArticle(atIndex index: Int) -> String {
-        return dataManager.getContentForArticle(atIndex: index)
+    func handleMemoryWarning() {
+        dataManager.clearCache()
     }
     
     func getImageData(forArticleIndex index: Int, completion: @escaping (Data?)->()) {
@@ -37,36 +50,12 @@ class ArticlePresenter: ArticleOutput {
         }
     }
     
-    func getSourceNameForArticle(atIndex index: Int) -> String {
-        return dataManager.getSourceNameForArticle(atIndex: index)
-    }
-    
-    func getPublishingDataForArticle(atIndex index: Int) -> String {
-        return dataManager.getPublishingDateForArticle(atIndex: index)
-    }
-    
-    func viewWillAppear() {
-        self.dataManager.onDataUpdate = { [weak self] in
-            self?.updateView()
-        }
-    }
-    
-    func handleMemoryWarning() {
-        dataManager.clearCache()
-    }
-    
     func readInSourceButtonTapped() {
-        let index = view.getArticleIndex()
+        guard let index = view.getArticleIndex() else { return }
         let urlString = dataManager.getSourceURLforArticle(atIndex: index)
         if let url = URL(string: urlString) {
-            view.showWebArticle(sourceURL: url)
+            view.goToWebArticle(sourceURL: url)
         }
     }
     
-    // MARK: Private methods
-    private func updateView() {
-        DispatchQueue.main.async {
-            self.view.updateView()
-        }
-    }
 }

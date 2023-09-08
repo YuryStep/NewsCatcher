@@ -86,7 +86,7 @@ class ArticleView: UIView {
         return button
     }()
     
-    // MARK: Initializers:
+    // MARK: Initializers
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("This class does not support NSCoder")
