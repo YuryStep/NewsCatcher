@@ -64,8 +64,15 @@ class FeedView: UIView {
     }
     
     // MARK: Public API
-    func getSearchFieldText() -> String? { return searchTextField.text }
-    func reloadTableViewData() { tableView.reloadData() }
+    func getSearchFieldText() -> String? {
+        return searchTextField.text
+    }
+    
+    func reloadTableViewData() {
+        tableView.reloadData()
+        let indexPath = IndexPath(row: 0, section: 0)
+        tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+    }
     
     func tableViewSetup(dataSource: UITableViewDataSource, delegate: UITableViewDelegate, cell: UITableViewCell.Type, identifier: String) {
         tableView.dataSource = dataSource
