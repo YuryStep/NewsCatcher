@@ -27,37 +27,10 @@ class FeedCell: UITableViewCell {
         return imageView
     }()
     
-    private lazy var sourceNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .footnote)
-        label.adjustsFontForContentSizeCategory = true
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    private lazy var dateLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .footnote)
-        label.adjustsFontForContentSizeCategory = true
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title1)
-        label.adjustsFontForContentSizeCategory = true
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    private lazy var descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
-        label.adjustsFontForContentSizeCategory = true
-        label.numberOfLines = 0
-        return label
-    }()
+    private lazy var sourceNameLabel = UILabel(textStyle: .footnote)
+    private lazy var dateLabel = UILabel(textStyle: .footnote)
+    private lazy var titleLabel = UILabel(textStyle: .title1)
+    private lazy var descriptionLabel = UILabel(textStyle: .body)
     
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
@@ -77,15 +50,12 @@ class FeedCell: UITableViewCell {
     }
     
     // MARK: Public API
-    func configure(with image: UIImage?, title: String, sourceName: String, date: String, description: String) {
+    func configure(withTitle title: String, sourceName: String, date: String, description: String) {
         timer?.invalidate()
-        if let image = image {
-            articleImageView.image = image
-            loadingIndicator.stopAnimating()
-        } else {
-            articleImageView.image = nil
-            loadingIndicator.startAnimating()
-            timer = Timer.scheduledTimer(withTimeInterval: Constants.timeIntervalforImagePlaceholder, repeats: false) {_ in
+        articleImageView.image = nil
+        loadingIndicator.startAnimating()
+        timer = Timer.scheduledTimer(withTimeInterval: Constants.timeIntervalforImagePlaceholder, repeats: false) {_ in
+            if self.articleImageView.image == nil {
                 self.loadingIndicator.stopAnimating()
                 self.articleImageView.image = UIImage(named: Constants.placeholderImageName)
             }
@@ -94,6 +64,11 @@ class FeedCell: UITableViewCell {
         descriptionLabel.text = description
         sourceNameLabel.text = Constants.sourceCaptionText + sourceName
         dateLabel.text = Constants.dateCaptionText + date
+    }
+    
+    func setImage(_ image: UIImage) {
+        articleImageView.image = image
+        loadingIndicator.stopAnimating()
     }
     
     // MARK: Private Methods

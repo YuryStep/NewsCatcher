@@ -105,11 +105,11 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         let sourceName = presenter.getSourceNameForArticle(forIndexPath: indexPath)
         let date = presenter.getPublishingDataForArticle(forIndexPath: indexPath)
         let description = presenter.getDescription(forIndexPath: indexPath)
-        cell.configure(with: nil, title: title, sourceName: sourceName, date: date, description: description)
+        cell.configure(withTitle: title, sourceName: sourceName, date: date, description: description)
         
         presenter.getImageData(forIndexPath: indexPath) { imageData in
             if let imageData = imageData, let image = UIImage(data: imageData) {
-                cell.configure(with: image, title: title, sourceName: sourceName, date: date, description: description)
+                cell.setImage(image)
             }
         }
         return cell

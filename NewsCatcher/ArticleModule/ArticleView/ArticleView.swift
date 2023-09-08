@@ -40,37 +40,10 @@ class ArticleView: UIView {
         return imageView
     }()
     
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .headline)
-        label.adjustsFontForContentSizeCategory = true
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    private lazy var sourceNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .footnote)
-        label.adjustsFontForContentSizeCategory = true
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    private lazy var dateLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .footnote)
-        label.adjustsFontForContentSizeCategory = true
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    private lazy var contentLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
-        label.adjustsFontForContentSizeCategory = true
-        label.numberOfLines = 0
-        return label
-    }()
+    private lazy var sourceNameLabel = UILabel(textStyle: .footnote)
+    private lazy var dateLabel = UILabel(textStyle: .footnote)
+    private lazy var titleLabel = UILabel(textStyle: .title1)
+    private lazy var contentLabel = UILabel(textStyle: .body)
     
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
