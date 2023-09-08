@@ -25,7 +25,20 @@ class WebArticleViewController: UIViewController, WKNavigationDelegate {
     
     override func loadView() {
         webView.navigationDelegate = self
-        view = webView
+        view = UIView()
+        view.backgroundColor = .white
+        setupView()
+    }
+    
+    private func setupView() {
+        view.addSubview(webView)
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            webView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
     override func viewDidLoad() {
