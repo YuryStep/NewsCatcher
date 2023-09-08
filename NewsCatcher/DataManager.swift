@@ -16,7 +16,7 @@ protocol AppDataManager {
     func getImageDataforArticle(atIndex index: Int, completion: @escaping (Data?) -> Void)
     func getSourceURLforArticle(atIndex index: Int) -> String
     func getSourceNameForArticle(atIndex: Int) -> String
-    func getPublishingDataForArticle(atIndex: Int) -> String
+    func getPublishingDateForArticle(atIndex: Int) -> String
     func clearCache()
     var onDataUpdate: (() -> ())? { get set }
 }
@@ -87,8 +87,14 @@ class DataManager<Article: AppArticle>: AppDataManager {
         return articles?[index].sourceName ?? "Источник не определен"
     }
     
-    func getPublishingDataForArticle(atIndex index: Int) -> String {
-        return articles?[index].publishedAt ?? "Дата не определена"
+    func getPublishingDateForArticle(atIndex index: Int) -> String {
+        guard let dateString = articles?[index].publishedAt,
+              let date = ISO8601DateFormatter().date(from: dateString) else {
+            return ""
+        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter.string(from: date)
     }
     
     func clearCache() {

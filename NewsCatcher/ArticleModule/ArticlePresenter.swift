@@ -42,7 +42,7 @@ class ArticlePresenter: ArticleOutput {
     }
     
     func getPublishingDataForArticle(atIndex index: Int) -> String {
-        return dataManager.getPublishingDataForArticle(atIndex: index)
+        return dataManager.getPublishingDateForArticle(atIndex: index)
     }
     
     func viewWillAppear() {

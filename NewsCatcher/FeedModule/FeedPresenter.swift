@@ -46,7 +46,7 @@ class FeedPresenter: FeedOutput {
     }
     
     func getPublishingDataForArticle(forIndexPath indexPath: IndexPath) -> String {
-        return dataManager.getPublishingDataForArticle(atIndex: indexPath.row)
+        return dataManager.getPublishingDateForArticle(atIndex: indexPath.row)
     }
     
     
