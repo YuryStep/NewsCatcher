@@ -21,6 +21,13 @@ protocol AppDataManager {
     var onDataUpdate: (() -> ())? { get set }
 }
 
+protocol ArticleSearchCriteria {
+    var articleLanguage: String { get }
+    var articlePublicationCountry: String { get }
+    var searchPlaces: String { get }
+    var sortedBy: String { get }
+}
+
 protocol AppArticle: Codable {
     var title: String { get }
     var description: String { get }

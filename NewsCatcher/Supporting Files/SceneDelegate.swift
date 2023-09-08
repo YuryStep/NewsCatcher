@@ -15,8 +15,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
         
-        let feedViewControler = FeedAssembly.configureModule()
-        let navigationController = UINavigationController(rootViewController: feedViewControler)
+        let rootViewController = NewsCatcherAssembly.configureModule()
+        let navigationController = UINavigationController(rootViewController: rootViewController)
 
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
