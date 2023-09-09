@@ -73,6 +73,13 @@ class FeedPresenter: FeedOutput {
         view.showArticle(withIndex: indexPath.row, dataManager: dataManager)
     }
     
+    func refreshTableViewData() {
+        dataManager.downloadNews(about: nil, searchCriteria: nil)
+        /* searchCriteria (and probably keyword) must be sended in
+         fiture implementation to save current request proprties.
+         */
+    }
+    
     // MARK: Private methods
     private func updateFeed() {
         DispatchQueue.main.async {

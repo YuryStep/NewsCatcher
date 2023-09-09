@@ -8,9 +8,9 @@
 import UIKit
 
 protocol FeedViewDelegate: AnyObject {
-    // Output
     func searchButtonTapped()
     func settingsButtonTapped()
+    func refreshTableViewData()
 }
 
 class FeedView: UIView {
@@ -48,6 +48,9 @@ class FeedView: UIView {
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.cellLayoutMarginsFollowReadableWidth = true
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshTableViewData(_:)), for: .valueChanged)
+        tableView.refreshControl = refreshControl
         return tableView
     }()
     
@@ -87,6 +90,11 @@ class FeedView: UIView {
 
     @objc private func searchButtonTapped() {
         delegate?.searchButtonTapped()
+    }
+    
+    @objc private func refreshTableViewData(_ sender: UIRefreshControl) {
+        delegate?.refreshTableViewData()
+        sender.endRefreshing()
     }
     
     private func setupSubviews() {

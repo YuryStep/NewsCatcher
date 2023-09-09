@@ -17,6 +17,7 @@ protocol FeedOutput: AnyObject {
     func settingsButtonTapped()
     func viewWillAppear()
     func handleMemoryWarning()
+    func refreshTableViewData()
     // TableView Data Source
     func getNumberOfRowsInSection() -> Int
     func getTitle(forIndexPath: IndexPath) -> String
@@ -73,6 +74,10 @@ class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
     
     func settingsButtonTapped() {
         presenter.settingsButtonTapped()
+    }
+    
+    func refreshTableViewData() {
+        presenter.refreshTableViewData()
     }
     
     // MARK: Input methods
