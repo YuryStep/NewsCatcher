@@ -9,6 +9,7 @@ protocol FeedInput: AnyObject {
     func reloadFeedTableView()
     func showArticle(withIndex index: Int, dataManager: AppDataManager)
     func getSearchFieldText() -> String?
+    func hideKeyboard() 
 }
 
 protocol FeedOutput: AnyObject {
@@ -37,7 +38,7 @@ class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
     }
     
     // MARK: Dependencies
-    var feedView: FeedView!
+    private var feedView: FeedView!
     var presenter: FeedOutput!
     
     // MARK: Initializers
@@ -91,7 +92,11 @@ class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
     }
     
     func getSearchFieldText() -> String? {
-        return feedView.getSearchFieldText()
+        return feedView.searchTextField.text
+    }
+    
+    func hideKeyboard() {
+        feedView.searchTextField.endEditing(true)
     }
     
 }

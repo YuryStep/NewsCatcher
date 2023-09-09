@@ -53,6 +53,7 @@ class FeedPresenter: FeedOutput {
     func searchButtonTapped() {
         guard let searchPhrase = view.getSearchFieldText(), !searchPhrase.isEmpty else { return }
         dataManager.downloadNews(about: searchPhrase, searchCriteria: nil)
+        view.hideKeyboard()
     }
     
     func settingsButtonTapped() {

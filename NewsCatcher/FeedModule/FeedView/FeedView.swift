@@ -31,7 +31,7 @@ class FeedView: UIView {
         return button
     }()
     
-    private lazy var searchTextField: UITextField = {
+    lazy var searchTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Constants.searchTextFieldPlaceholder
         textField.borderStyle = .roundedRect
@@ -67,10 +67,6 @@ class FeedView: UIView {
     }
     
     // MARK: Public API
-    func getSearchFieldText() -> String? {
-        return searchTextField.text
-    }
-    
     func reloadTableViewData() {
         tableView.reloadData()
         let indexPath = IndexPath(row: 0, section: 0)
