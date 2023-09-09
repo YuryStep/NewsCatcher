@@ -34,6 +34,7 @@ class FeedView: UIView {
     lazy var searchTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Constants.searchTextFieldPlaceholder
+        textField.clearButtonMode = .always
         textField.borderStyle = .roundedRect
         return textField
     }()

@@ -57,6 +57,7 @@ class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
         view = feedView
         navigationItem.title = Constants.navigationItemTitle
         feedView.tableViewSetup(dataSource: self,delegate: self,cell: FeedCell.self, identifier: FeedCell.reuseIdentifier)
+        feedView.searchTextField.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -129,4 +130,11 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         presenter.handleTapOnCellAt(indexPath: indexPath)
     }
     
+}
+
+extension FeedViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchButtonTapped()
+        return true
+    }
 }
