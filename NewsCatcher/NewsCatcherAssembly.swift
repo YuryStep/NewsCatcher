@@ -7,7 +7,7 @@
 
 import UIKit
 
-class  {
+class NewsCatcherAssembly {
     class func configureModule() -> UINavigationController {
         let dataManager = DataManagerAssembly.configureModule()
         let firstViewController = FeedAssembly.configureModule(usingDataManager: dataManager)
