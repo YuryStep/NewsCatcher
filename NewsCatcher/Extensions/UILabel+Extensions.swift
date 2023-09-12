@@ -10,9 +10,9 @@ import UIKit
 extension UILabel {
     convenience init(textStyle: UIFont.TextStyle, numberOfLines: Int = 0) {
         self.init()
-        self.font = .preferredFont(forTextStyle: textStyle)
-        self.adjustsFontForContentSizeCategory = true
-        self.translatesAutoresizingMaskIntoConstraints = false
+        font = .preferredFont(forTextStyle: textStyle)
+        adjustsFontForContentSizeCategory = true
+        translatesAutoresizingMaskIntoConstraints = false
         self.numberOfLines = numberOfLines
     }
 }

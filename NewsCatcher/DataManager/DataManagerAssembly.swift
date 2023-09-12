@@ -5,12 +5,12 @@
 //  Created by Юрий Степанчук on 08.09.2023.
 //
 
-class DataManagerAssembly {
-    class func configureModule() -> AppDataManager {
+enum DataManagerAssembly {
+    static func makeModule() -> AppDataManager {
         let apiBuilder = APIRequestBuilder()
-        let networkManager = NetworkManager(apiRequestBuilder: apiBuilder)
-        let cacheManager = CacheManager()
-        let dataManager = DataManager<GNews.Article>(networkManager: networkManager, cacheManager: cacheManager)
+        let networkService = NetworkService(apiRequestBuilder: apiBuilder)
+        let cacheService = CacheService()
+        let dataManager = DataManager<GNews.Article>(networkService: networkService, cacheService: cacheService)
         return dataManager
     }
 }

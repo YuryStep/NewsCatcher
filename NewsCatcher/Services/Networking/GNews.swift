@@ -5,14 +5,12 @@
 //  Created by Юрий Степанчук on 01.09.2023.
 //
 
-import Foundation
-
 // MARK: JSONContainer
 
 struct GNews: Codable {
     let totalArticles: Int
     let articles: [Article]
-    
+
     struct Article: AppArticle {
         let title: String
         let description: String
@@ -24,9 +22,8 @@ struct GNews: Codable {
         var sourceName: String {
             source.name
         }
-
     }
-    
+
     struct Source: Codable {
         let name: String
         let url: String

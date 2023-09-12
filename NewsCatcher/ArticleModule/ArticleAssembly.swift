@@ -7,13 +7,12 @@
 
 import UIKit
 
-class ArticleAssembly {
-    class func configureModule(withIndex index: Int, dataManager: AppDataManager) -> UIViewController {
+enum ArticleAssembly {
+    static func makeModule(_ index: Int, dataManager: AppDataManager) -> UIViewController {
         let articleView = ArticleView(frame: .zero, index: index)
-        let articleViewControler = ArticleViewController(articleView: articleView)
-        let articlePresenter = ArticlePresenter(view: articleViewControler, dataManager: dataManager)
-
-        articleViewControler.presenter = articlePresenter
-        return articleViewControler
+        let articleViewController = ArticleViewController(articleView: articleView)
+        let articlePresenter = ArticlePresenter(view: articleViewController, dataManager: dataManager)
+        articleViewController.presenter = articlePresenter
+        return articleViewController
     }
 }

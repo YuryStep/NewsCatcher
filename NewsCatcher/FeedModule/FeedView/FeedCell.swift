@@ -7,54 +7,56 @@
 
 import UIKit
 
-class FeedCell: UITableViewCell {
-    private struct Constants {
+final class FeedCell: UITableViewCell {
+    private enum Constants {
         static let systemSpacingMultiplier: CGFloat = 1
         static let imageViewAspectRatio: CGFloat = 0.6
         static let placeholderImageName: String = "noImageIcon"
-        static let timeIntervalforImagePlaceholder: Double = 5
+        static let timeIntervalForImagePlaceholder: Double = 5
         static let sourceCaptionText = "Source: "
         static let dateCaptionText = "Published at: "
     }
-    
+
     static let reuseIdentifier = "FeedCellIdentifier"
     private var timer: Timer?
-    
+
     // MARK: Subviews
+
     private lazy var articleImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-    
+
     private lazy var sourceNameLabel = UILabel(textStyle: .footnote)
     private lazy var dateLabel = UILabel(textStyle: .footnote)
     private lazy var titleLabel = UILabel(textStyle: .title1)
     private lazy var descriptionLabel = UILabel(textStyle: .body)
-    
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.hidesWhenStopped = true
         return indicator
     }()
-    
+
     // MARK: Initializers:
+
     @available(*, unavailable)
-    required init?(coder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("This class does not support NSCoder")
     }
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier _: String?) {
         super.init(style: style, reuseIdentifier: FeedCell.reuseIdentifier)
         setupSubviews()
     }
-    
+
     // MARK: Public API
+
     func configure(withTitle title: String, sourceName: String, date: String, description: String) {
         timer?.invalidate()
         articleImageView.image = nil
         loadingIndicator.startAnimating()
-        timer = Timer.scheduledTimer(withTimeInterval: Constants.timeIntervalforImagePlaceholder, repeats: false) {_ in
+        timer = Timer.scheduledTimer(withTimeInterval: Constants.timeIntervalForImagePlaceholder, repeats: false) { _ in
             if self.articleImageView.image == nil {
                 self.loadingIndicator.stopAnimating()
                 self.articleImageView.image = UIImage(named: Constants.placeholderImageName)
@@ -65,18 +67,18 @@ class FeedCell: UITableViewCell {
         sourceNameLabel.text = Constants.sourceCaptionText + sourceName
         dateLabel.text = Constants.dateCaptionText + date
     }
-    
+
     func setImage(_ image: UIImage) {
         articleImageView.image = image
         loadingIndicator.stopAnimating()
     }
-    
+
     // MARK: Private Methods
+
     private func setupSubviews() {
         let subviews = [loadingIndicator, articleImageView, sourceNameLabel, dateLabel, titleLabel, descriptionLabel]
         subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         subviews.forEach { contentView.addSubview($0) }
-        
         let marginGuide = contentView.layoutMarginsGuide
         NSLayoutConstraint.activate([
             // loadingIndicator constraints
@@ -108,5 +110,4 @@ class FeedCell: UITableViewCell {
             descriptionLabel.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor)
         ])
     }
-    
 }
