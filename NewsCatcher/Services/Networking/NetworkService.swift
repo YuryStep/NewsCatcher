@@ -28,7 +28,9 @@ final class NetworkService: AppNetworkService {
         fetchData(from: urlRequestString) { [weak self] jsonData in
             guard let self = self else { return }
             self.decodeJSON(from: jsonData) { gNews in
-                completion(gNews.articles)
+                DispatchQueue.main.async {
+                    completion(gNews.articles)
+                }
             }
         }
     }
@@ -38,7 +40,9 @@ final class NetworkService: AppNetworkService {
         let request = URLRequest(url: url)
         let dataTask = URLSession.shared.dataTask(with: request) { data, _, _ in
             if let data = data {
-                completion(data)
+                DispatchQueue.main.async {
+                    completion(data)
+                }
             }
         }
         dataTask.resume()

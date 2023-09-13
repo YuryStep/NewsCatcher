@@ -24,9 +24,7 @@ final class FeedPresenter: FeedOutput {
 
     func viewWillAppear() {
         dataManager.onDataUpdate = { [weak self] in
-            DispatchQueue.main.async {
                 self?.view.reloadFeedTableView()
-            }
         }
     }
 
@@ -50,7 +48,7 @@ final class FeedPresenter: FeedOutput {
 
     func refreshTableViewData() {
         dataManager.downloadNews(about: nil, searchCriteria: nil)
-        // searchCriteria (and probably keyword) must be sended in
+        // searchCriteria (and probably keyword) must be sent in
         // future implementation to save current request properties.
     }
 
@@ -69,9 +67,7 @@ final class FeedPresenter: FeedOutput {
     func getImageData(at indexPath: IndexPath, completion: @escaping (Data?) -> Void) {
         dataManager.getImageDataForArticle(at: indexPath.row) { data in
             guard let data = data else { return }
-            DispatchQueue.main.async {
                 completion(data)
-            }
         }
     }
 

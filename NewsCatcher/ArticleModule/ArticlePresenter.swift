@@ -33,9 +33,7 @@ final class ArticlePresenter: ArticleOutput {
 
     func viewWillAppear() {
         dataManager.onDataUpdate = { [weak self] in
-            DispatchQueue.main.async {
-                self?.view.updateView()
-            }
+            self?.view.updateView()
         }
     }
 
@@ -46,9 +44,7 @@ final class ArticlePresenter: ArticleOutput {
     func getImageData(atIndex index: Int, completion: @escaping (Data?) -> Void) {
         dataManager.getImageDataForArticle(at: index) { data in
             guard let data = data else { return }
-            DispatchQueue.main.async {
-                completion(data)
-            }
+            completion(data)
         }
     }
 
