@@ -10,7 +10,7 @@ import Foundation
 final class ArticlePresenter: ArticleOutput {
     // MARK: Dependencies
 
-    private unowned var view: ArticleInput
+    private weak var view: ArticleInput?
     private var dataManager: AppDataManager
 
     // MARK: Initializer
@@ -23,17 +23,17 @@ final class ArticlePresenter: ArticleOutput {
     // MARK: ArticleOutput
 
     func viewDidLoad() {
-        guard let index = view.getArticleIndex() else { return }
+        guard let index = view?.getArticleIndex() else { return }
         let title = dataManager.getTitleForArticle(at: index)
         let content = dataManager.getContentForArticle(at: index)
         let sourceName = dataManager.getSourceNameForArticle(at: index)
         let date = dataManager.getPublishingDateForArticle(at: index)
-        view.setupArticleView(withTitle: title, content: content, sourceName: sourceName, publishingDate: date)
+        view?.setupArticleView(withTitle: title, content: content, sourceName: sourceName, publishingDate: date)
     }
 
     func viewWillAppear() {
         dataManager.onDataUpdate = { [weak self] in
-            self?.view.updateView()
+            self?.view?.updateView()
         }
     }
 
@@ -49,10 +49,10 @@ final class ArticlePresenter: ArticleOutput {
     }
 
     func readInSourceButtonTapped() {
-        guard let index = view.getArticleIndex() else { return }
+        guard let index = view?.getArticleIndex() else { return }
         let urlString = dataManager.getSourceURLForArticle(at: index)
         if let url = URL(string: urlString) {
-            view.goToWebArticle(sourceURL: url)
+            view?.goToWebArticle(sourceURL: url)
         }
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 final class FeedPresenter: FeedOutput {
     // MARK: Dependencies
 
-    private unowned let view: FeedInput
+    private weak var view: FeedInput?
     private var dataManager: AppDataManager
 
     // MARK: Initializer
@@ -24,7 +24,7 @@ final class FeedPresenter: FeedOutput {
 
     func viewWillAppear() {
         dataManager.onDataUpdate = { [weak self] in
-                self?.view.reloadFeedTableView()
+            self?.view?.reloadFeedTableView()
         }
     }
 
@@ -33,12 +33,12 @@ final class FeedPresenter: FeedOutput {
     }
 
     func searchButtonTapped() {
-        guard let searchPhrase = view.getSearchFieldText() else { return }
+        guard let searchPhrase = view?.getSearchFieldText() else { return }
         if searchPhrase.isEmpty {
-            view.hideKeyboard()
+            view?.hideKeyboard()
         } else {
             dataManager.downloadNews(about: searchPhrase, searchCriteria: nil)
-            view.hideKeyboard()
+            view?.hideKeyboard()
         }
     }
 
@@ -67,7 +67,7 @@ final class FeedPresenter: FeedOutput {
     func getImageData(at indexPath: IndexPath, completion: @escaping (Data?) -> Void) {
         dataManager.getImageDataForArticle(at: indexPath.row) { data in
             guard let data = data else { return }
-                completion(data)
+            completion(data)
         }
     }
 
@@ -80,6 +80,6 @@ final class FeedPresenter: FeedOutput {
     }
 
     func handleTapOnCell(at indexPath: IndexPath) {
-        view.showArticle(at: indexPath.row, dataManager: dataManager)
+        view?.showArticle(at: indexPath.row, dataManager: dataManager)
     }
 }
