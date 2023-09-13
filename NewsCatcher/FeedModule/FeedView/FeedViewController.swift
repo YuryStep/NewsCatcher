@@ -59,7 +59,9 @@ final class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
     override func loadView() {
         view = feedView
         navigationItem.title = Constants.navigationItemTitle
-        feedView.tableViewSetup(dataSource: self, delegate: self, cell: FeedCell.self, identifier: FeedCell.reuseIdentifier)
+        feedView.tableView.dataSource = self
+        feedView.tableView.delegate = self
+        feedView.tableView.register(FeedCell.self, forCellReuseIdentifier: FeedCell.reuseIdentifier)
         feedView.searchTextField.delegate = self
     }
 
@@ -90,7 +92,8 @@ final class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
     // MARK: Input methods
 
     func reloadFeedTableView() {
-        feedView.reloadTableViewData()
+        feedView.tableView.reloadData()
+        feedView.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
 
     func showArticle(at index: Int, dataManager: AppDataManager) {

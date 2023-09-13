@@ -25,7 +25,7 @@ final class FeedView: UIView {
 
     // MARK: Subviews
 
-    private lazy var settingsButton: UIButton = {
+    lazy var settingsButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: Constants.settingsButtonImageSystemName), for: .normal)
         button.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
@@ -40,14 +40,14 @@ final class FeedView: UIView {
         return textField
     }()
 
-    private lazy var searchButton: UIButton = {
+    lazy var searchButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: Constants.searchButtonImageSystemName), for: .normal)
         button.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
         return button
     }()
 
-    private lazy var tableView: UITableView = {
+    lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.cellLayoutMarginsFollowReadableWidth = true
         let refreshControl = UIRefreshControl()
@@ -69,26 +69,7 @@ final class FeedView: UIView {
         fatalError("This class does not support NSCoder")
     }
 
-    // MARK: Public API
-
-    func reloadTableViewData() {
-        tableView.reloadData()
-        let indexPath = IndexPath(row: 0, section: 0)
-        tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-    }
-
-    func tableViewSetup(
-        dataSource: UITableViewDataSource,
-        delegate: UITableViewDelegate,
-        cell: UITableViewCell.Type,
-        identifier: String
-    ) {
-        tableView.dataSource = dataSource
-        tableView.delegate = delegate
-        tableView.register(cell, forCellReuseIdentifier: identifier)
-    }
-
-    // MARK: Private Methods
+    // MARK: Delegate Methods
 
     @objc private func settingsButtonTapped() {
         delegate?.settingsButtonTapped()
@@ -103,13 +84,17 @@ final class FeedView: UIView {
         sender.endRefreshing()
     }
 
+    // MARK: Initial setup methods
+
     private func setupSubviews() {
         let subviews = [settingsButton, searchTextField, searchButton, tableView]
         subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         subviews.forEach { addSubview($0) }
+
         settingsButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         searchTextField.setContentHuggingPriority(.defaultLow, for: .horizontal)
         searchButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+
         NSLayoutConstraint.activate([
             settingsButton.heightAnchor.constraint(equalTo: searchTextField.heightAnchor),
             searchButton.heightAnchor.constraint(equalTo: searchTextField.heightAnchor),
