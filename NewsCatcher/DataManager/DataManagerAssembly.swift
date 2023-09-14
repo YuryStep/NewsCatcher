@@ -7,10 +7,10 @@
 
 enum DataManagerAssembly {
     static func makeModule() -> AppDataManager {
-        let apiBuilder = APIRequestBuilder()
-        let networkService = NetworkService(apiRequestBuilder: apiBuilder)
-        let cacheService = CacheService()
-        let dataManager = DataManager<GNews.Article>(networkService: networkService, cacheService: cacheService)
-        return dataManager
+        DataManager<GNews.Article>(
+            networkService: NetworkService(apiRequestBuilder: APIRequestBuilder()),
+            cacheService: CacheService()
+        )
     }
+
 }
