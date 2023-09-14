@@ -16,7 +16,7 @@ final class ArticleView: UIView {
         static let systemSpacingMultiplier: CGFloat = 1
         static let imageViewAspectRatio: CGFloat = 0.6
         static let goToSourceButtonCornerRadius: CGFloat = 10
-        static let timeIntervalForImagePlaceholder: Double = 5
+        static let timeIntervalForImagePlaceholder = 5.0
         static let placeholderImageName = "noImageIcon"
         static let readInSourceButtonText = "Read in Source"
         static let sourceCaptionText = "Source: "

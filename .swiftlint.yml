@@ -1,5 +1,5 @@
 
 disabled_rules:
-#- unused_closure_parameter
-line_length: 170
+- todo
 
+line_length: 170

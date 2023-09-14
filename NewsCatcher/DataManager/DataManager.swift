@@ -51,7 +51,7 @@ final class DataManager<Article: AppArticle>: AppDataManager {
     init(networkService: AppNetworkService, cacheService: AppCacheService) {
         self.networkService = networkService
         self.cacheService = cacheService
-        loadArticlesFromUserDefaults()
+        loadArticlesFromCache()
         if articles.isEmpty {
             downloadNews(about: nil, searchCriteria: nil)
         }
@@ -63,7 +63,7 @@ final class DataManager<Article: AppArticle>: AppDataManager {
         networkService.downloadArticles(about: keyword, searchCriteria: searchCriteria) { [weak self] appArticles in
             let articles = appArticles.compactMap { $0 as? Article }
             self?.articles = articles
-            self?.saveArticlesToUserDefaults()
+            self?.saveArticlesToCache()
             self?.onDataUpdate?()
         }
     }
@@ -126,12 +126,12 @@ final class DataManager<Article: AppArticle>: AppDataManager {
         }
     }
 
-    private func saveArticlesToUserDefaults() {
+    private func saveArticlesToCache() {
         let encodedArticles = try? JSONEncoder().encode(articles)
         UserDefaults.standard.set(encodedArticles, forKey: "SavedArticles")
     }
 
-    private func loadArticlesFromUserDefaults() {
+    private func loadArticlesFromCache() {
         if let encodedArticles = UserDefaults.standard.data(forKey: "SavedArticles") {
             let decodedArticles = try? JSONDecoder().decode([Article].self, from: encodedArticles)
             articles = decodedArticles!

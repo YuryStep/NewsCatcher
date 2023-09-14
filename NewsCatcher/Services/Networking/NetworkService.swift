@@ -27,7 +27,7 @@ final class NetworkService: AppNetworkService {
         let urlRequestString = apiRequestBuilder.getURLRequestString(for: keyPhrase, searchCriteria: searchCriteria)
         fetchData(from: urlRequestString) { [weak self] jsonData in
             guard let self = self else { return }
-            self.decodeJSON(from: jsonData) { gNews in
+            self.parseNews(from: jsonData) { gNews in
                 DispatchQueue.main.async {
                     completion(gNews.articles)
                 }
@@ -59,7 +59,7 @@ final class NetworkService: AppNetworkService {
         task.resume()
     }
 
-    private func decodeJSON(from data: Data, completion: @escaping (GNews) -> Void) {
+    private func parseNews(from data: Data, completion: @escaping (GNews) -> Void) {
         let decoder = JSONDecoder()
         do {
             let news = try decoder.decode(GNews.self, from: data)

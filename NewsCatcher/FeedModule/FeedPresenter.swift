@@ -48,8 +48,7 @@ final class FeedPresenter: FeedOutput {
 
     func refreshTableViewData() {
         dataManager.downloadNews(about: nil, searchCriteria: nil)
-        // searchCriteria (and probably keyword) must be sent in
-        // future implementation to save current request properties.
+        // TODO: searchCriteria and keyword must be sent in future implementation to save current request properties.
     }
 
     func getNumberOfRowsInSection() -> Int {

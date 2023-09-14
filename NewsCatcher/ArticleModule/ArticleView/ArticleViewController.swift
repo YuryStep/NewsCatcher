@@ -23,7 +23,7 @@ protocol ArticleOutput: AnyObject {
 }
 
 final class ArticleViewController: UIViewController {
-    enum Constants {
+    private enum Constants {
         static let navigationItemTitle = "News Catcher"
     }
 
