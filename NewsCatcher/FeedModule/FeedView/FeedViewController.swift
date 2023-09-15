@@ -27,7 +27,7 @@ protocol FeedOutput: AnyObject {
     func getSourceName(at indexPath: IndexPath) -> String
     func getPublishingDate(at indexPath: IndexPath) -> String
     // TableView Delegate
-    func didTapOnCell(at indexPath: IndexPath)
+    func didTapOnCell(at index: Int)
 }
 
 import UIKit
@@ -139,7 +139,7 @@ extension FeedViewController: UITableViewDataSource {
 
 extension FeedViewController: UITableViewDelegate {
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter.didTapOnCell(at: indexPath)
+        presenter.didTapOnCell(at: indexPath.row)
     }
 }
 

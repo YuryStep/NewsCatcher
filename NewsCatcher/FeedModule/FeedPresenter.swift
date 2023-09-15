@@ -78,7 +78,7 @@ final class FeedPresenter: FeedOutput {
         return dataManager.getPublishingDateForArticle(at: indexPath.row)
     }
 
-    func didTapOnCell(at indexPath: IndexPath) {
-        view?.showArticle(at: indexPath.row, dataManager: dataManager)
+    func didTapOnCell(at index: Int) {
+        view?.showArticle(at: index, dataManager: dataManager)
     }
 }
