@@ -28,7 +28,7 @@ final class FeedPresenter: FeedOutput {
         }
     }
 
-    func handleMemoryWarning() {
+    func didReceiveMemoryWarning() {
         dataManager.clearCache()
     }
 
@@ -78,7 +78,7 @@ final class FeedPresenter: FeedOutput {
         return dataManager.getPublishingDateForArticle(at: indexPath.row)
     }
 
-    func handleTapOnCell(at indexPath: IndexPath) {
+    func didTapOnCell(at indexPath: IndexPath) {
         view?.showArticle(at: indexPath.row, dataManager: dataManager)
     }
 }

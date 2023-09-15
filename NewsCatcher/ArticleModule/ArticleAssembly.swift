@@ -8,7 +8,7 @@
 import UIKit
 
 enum ArticleAssembly {
-    static func makeModule(_ index: Int, dataManager: AppDataManager) -> UIViewController {
+    static func makeModule(index: Int, dataManager: AppDataManager) -> UIViewController {
         let articleView = ArticleView(frame: .zero, index: index)
         let articleViewController = ArticleViewController(articleView: articleView)
         let articlePresenter = ArticlePresenter(view: articleViewController, dataManager: dataManager)

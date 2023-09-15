@@ -16,7 +16,7 @@ protocol AppDataRepository {
     func clearCache()
 }
 
-class NewsRepository: AppDataRepository {
+final class NewsRepository: AppDataRepository {
     private enum Constants {
         static let articlesCacheKey = "Saved NCArticles"
         static let publishingDateFormat = "yyyy-MM-dd"
@@ -51,7 +51,7 @@ class NewsRepository: AppDataRepository {
         networkService.downloadArticles(about: keyword, searchCriteria: searchCriteria) { [weak self] appArticles in
             let ncArticles = self?.getNCArticles(from: appArticles) ?? [NCArticle]()
             self?.articles = ncArticles
-            self?.cacheService.save(ncArticles, forKey: Constants.articlesCacheKey)
+            self?.cacheService.save(articles: ncArticles, forKey: Constants.articlesCacheKey)
             completion()
         }
     }

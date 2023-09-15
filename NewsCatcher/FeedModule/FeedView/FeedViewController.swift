@@ -15,7 +15,7 @@ protocol FeedInput: AnyObject {
 protocol FeedOutput: AnyObject {
     // Output
     func viewWillAppear()
-    func handleMemoryWarning()
+    func didReceiveMemoryWarning()
     func searchButtonTapped()
     func settingsButtonTapped()
     func refreshTableViewData()
@@ -27,7 +27,7 @@ protocol FeedOutput: AnyObject {
     func getSourceName(at indexPath: IndexPath) -> String
     func getPublishingDate(at indexPath: IndexPath) -> String
     // TableView Delegate
-    func handleTapOnCell(at indexPath: IndexPath)
+    func didTapOnCell(at indexPath: IndexPath)
 }
 
 import UIKit
@@ -72,7 +72,7 @@ final class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        presenter.handleMemoryWarning()
+        presenter.didReceiveMemoryWarning()
     }
 
     // MARK: Output methods
@@ -97,7 +97,7 @@ final class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
     }
 
     func showArticle(at index: Int, dataManager: AppDataManager) {
-        let articleViewController = ArticleAssembly.makeModule(index, dataManager: dataManager)
+        let articleViewController = ArticleAssembly.makeModule(index: index, dataManager: dataManager)
         navigationController?.pushViewController(articleViewController, animated: true)
     }
 
@@ -139,7 +139,7 @@ extension FeedViewController: UITableViewDataSource {
 
 extension FeedViewController: UITableViewDelegate {
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter.handleTapOnCell(at: indexPath)
+        presenter.didTapOnCell(at: indexPath)
     }
 }
 

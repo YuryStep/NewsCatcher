@@ -12,7 +12,7 @@ protocol AppCacheService {
     func save(_: Data, forKey: String)
 
     func getArticles(forKey: String) -> [NCArticle]
-    func save(_: [NCArticle], forKey: String)
+    func save(articles: [NCArticle], forKey: String)
 
     func clearCache()
 }
@@ -47,7 +47,7 @@ final class CacheService: AppCacheService {
         return articles
     }
 
-    func save(_ articles: [NCArticle], forKey key: String) {
+    func save(articles: [NCArticle], forKey key: String) {
         let encodedArticles = try? JSONEncoder().encode(articles)
         UserDefaults.standard.set(encodedArticles, forKey: key)
     }
