@@ -1,5 +1,5 @@
 //
-//  ArticleRepository.swift
+//  NewsRepository.swift
 //  NewsCatcher
 //
 //  Created by Юрий Степанчук on 14.09.2023.

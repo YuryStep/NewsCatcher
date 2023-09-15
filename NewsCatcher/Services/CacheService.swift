@@ -48,8 +48,12 @@ final class CacheService: AppCacheService {
     }
 
     func save(articles: [NCArticle], forKey key: String) {
-        let encodedArticles = try? JSONEncoder().encode(articles)
-        UserDefaults.standard.set(encodedArticles, forKey: key)
+        do {
+            let encodedArticles = try JSONEncoder().encode(articles)
+            UserDefaults.standard.set(encodedArticles, forKey: key)
+        } catch {
+            debugPrint("Error when encoding articles in JSON: \(error)")
+        }
     }
 
     // MARK: Clear Cache
