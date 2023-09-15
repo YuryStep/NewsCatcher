@@ -37,6 +37,7 @@ final class ArticleView: UIView {
 
     private lazy var articleImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -45,14 +46,17 @@ final class ArticleView: UIView {
     private lazy var dateLabel = UILabel(textStyle: .footnote)
     private lazy var titleLabel = UILabel(textStyle: .title1)
     private lazy var contentLabel = UILabel(textStyle: .body)
+
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.hidesWhenStopped = true
         return indicator
     }()
 
     private lazy var readInSourceButton: UIButton = {
         let button = UIButton(configuration: .filled())
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(Constants.readInSourceButtonText, for: .normal)
         button.layer.cornerRadius = Constants.goToSourceButtonCornerRadius
         button.addTarget(self, action: #selector(goToSourceButtonTapped), for: .touchUpInside)
@@ -107,7 +111,6 @@ final class ArticleView: UIView {
     private func setupSubviews() {
         addSubview(scrollView)
         let scrollViewSubviews = [loadingIndicator, articleImageView, sourceNameLabel, dateLabel, titleLabel, contentLabel, readInSourceButton]
-        scrollViewSubviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         scrollViewSubviews.forEach { scrollView.addSubview($0) }
         let marginGuide = layoutMarginsGuide
         let scrollViewFrameGuide = scrollView.frameLayoutGuide

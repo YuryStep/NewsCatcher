@@ -24,6 +24,7 @@ final class FeedCell: UITableViewCell {
 
     private lazy var articleImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -34,6 +35,7 @@ final class FeedCell: UITableViewCell {
     private lazy var descriptionLabel = UILabel(textStyle: .body)
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.hidesWhenStopped = true
         return indicator
     }()
@@ -77,7 +79,6 @@ final class FeedCell: UITableViewCell {
 
     private func setupSubviews() {
         let subviews = [loadingIndicator, articleImageView, sourceNameLabel, dateLabel, titleLabel, descriptionLabel]
-        subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         subviews.forEach { contentView.addSubview($0) }
         let marginGuide = contentView.layoutMarginsGuide
         NSLayoutConstraint.activate([

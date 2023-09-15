@@ -27,6 +27,7 @@ final class FeedView: UIView {
 
     lazy var settingsButton: UIButton = {
         let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: Constants.settingsButtonImageSystemName), for: .normal)
         button.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
         return button
@@ -34,6 +35,7 @@ final class FeedView: UIView {
 
     lazy var searchTextField: UITextField = {
         let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = Constants.searchTextFieldPlaceholder
         textField.clearButtonMode = .always
         textField.borderStyle = .roundedRect
@@ -42,6 +44,7 @@ final class FeedView: UIView {
 
     lazy var searchButton: UIButton = {
         let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: Constants.searchButtonImageSystemName), for: .normal)
         button.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
         return button
@@ -49,6 +52,7 @@ final class FeedView: UIView {
 
     lazy var tableView: UITableView = {
         let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.cellLayoutMarginsFollowReadableWidth = true
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshTableViewData(_:)), for: .valueChanged)
@@ -88,7 +92,6 @@ final class FeedView: UIView {
 
     private func setupSubviews() {
         let subviews = [settingsButton, searchTextField, searchButton, tableView]
-        subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         subviews.forEach { addSubview($0) }
 
         settingsButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)

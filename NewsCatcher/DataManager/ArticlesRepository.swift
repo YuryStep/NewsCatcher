@@ -71,7 +71,6 @@ class ArticlesRepository {
     private func getNCArticles(from rowArticles: [AppArticle]) -> [NCArticle] {
         var feedNews = [NCArticle]()
         rowArticles.forEach { rowArticle in
-            print(rowArticle.title)
             let ncArticle = NCArticle(
                 title: rowArticle.title,
                 description: rowArticle.description,
