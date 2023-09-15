@@ -31,12 +31,21 @@ protocol ArticleSearchCriteria {
 final class DataManager: AppDataManager {
     // MARK: Dependencies
 
+    static let shared = DataManager(
+        repository: NewsRepository(
+            networkService: NetworkService(apiRequestBuilder: APIRequestBuilder()),
+            cacheService: CacheService()
+        )
+    )
+
+    // MARK: Dependencies
+
     private let repository: AppDataRepository
     var onDataUpdate: (() -> Void)?
 
     // MARK: Initializer
 
-    init(repository: AppDataRepository) {
+    private init(repository: AppDataRepository) {
         self.repository = repository
         repository.getInitialFeed { [weak self] in
             self?.onDataUpdate?()

@@ -96,8 +96,8 @@ final class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
         feedView.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
 
-    func showArticle(at index: Int, dataManager: AppDataManager) {
-        let articleViewController = ArticleAssembly.makeModule(index: index, dataManager: dataManager)
+    func showArticle(at index: Int, dataManager _: AppDataManager) {
+        let articleViewController = ArticleAssembly.makeModule(index: index)
         navigationController?.pushViewController(articleViewController, animated: true)
     }
 

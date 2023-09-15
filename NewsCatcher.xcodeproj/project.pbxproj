@@ -24,7 +24,6 @@
 		EF28C5242AA343AD00B68649 /* ArticlePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C5232AA343AD00B68649 /* ArticlePresenter.swift */; };
 		EF28C5262AA343DF00B68649 /* ArticleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C5252AA343DF00B68649 /* ArticleAssembly.swift */; };
 		EF2E82862AAB77FD0065F4C5 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2E82852AAB77FD0065F4C5 /* UILabel+Extensions.swift */; };
-		EF2E828A2AABA2E20065F4C5 /* DataManagerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2E82892AABA2E20065F4C5 /* DataManagerAssembly.swift */; };
 		EF2E828D2AABA3280065F4C5 /* NewsCatcherAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2E828C2AABA3280065F4C5 /* NewsCatcherAssembly.swift */; };
 		EF4E320C2AB35A5A005C0E04 /* NewsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4E320B2AB35A5A005C0E04 /* NewsRepository.swift */; };
 		EF4E320F2AB444C3005C0E04 /* NCArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4E320E2AB444C3005C0E04 /* NCArticle.swift */; };
@@ -55,7 +54,6 @@
 		EF28C5232AA343AD00B68649 /* ArticlePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlePresenter.swift; sourceTree = "<group>"; };
 		EF28C5252AA343DF00B68649 /* ArticleAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleAssembly.swift; sourceTree = "<group>"; };
 		EF2E82852AAB77FD0065F4C5 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
-		EF2E82892AABA2E20065F4C5 /* DataManagerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerAssembly.swift; sourceTree = "<group>"; };
 		EF2E828C2AABA3280065F4C5 /* NewsCatcherAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCatcherAssembly.swift; sourceTree = "<group>"; };
 		EF4E320B2AB35A5A005C0E04 /* NewsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsRepository.swift; sourceTree = "<group>"; };
 		EF4E320E2AB444C3005C0E04 /* NCArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NCArticle.swift; sourceTree = "<group>"; };
@@ -165,7 +163,6 @@
 			isa = PBXGroup;
 			children = (
 				EF4E320E2AB444C3005C0E04 /* NCArticle.swift */,
-				EF2E82892AABA2E20065F4C5 /* DataManagerAssembly.swift */,
 				EF28C5182AA217B700B68649 /* DataManager.swift */,
 				EF4E320B2AB35A5A005C0E04 /* NewsRepository.swift */,
 			);
@@ -319,7 +316,6 @@
 				EF85DB972A9F5A2C00CD9295 /* AppDelegate.swift in Sources */,
 				EF28C5102AA0CD4600B68649 /* FeedPresenter.swift in Sources */,
 				EF28C51E2AA3146800B68649 /* CacheService.swift in Sources */,
-				EF2E828A2AABA2E20065F4C5 /* DataManagerAssembly.swift in Sources */,
 				EF2897D92AA9DA8F00B9A335 /* WebArticleViewController.swift in Sources */,
 				EF28C5152AA1CFFC00B68649 /* GNews.swift in Sources */,
 				EF28C51B2AA233F900B68649 /* FeedAssembly.swift in Sources */,

@@ -9,8 +9,7 @@ import UIKit
 
 enum NewsCatcherAssembly {
     static func makeModule() -> UINavigationController {
-        let dataManager = DataManagerAssembly.makeModule()
-        let firstViewController = FeedAssembly.makeModule(with: dataManager)
+        let firstViewController = FeedAssembly.makeModule(with: DataManager.shared)
         let navigationController = UINavigationController(rootViewController: firstViewController)
         return navigationController
     }
