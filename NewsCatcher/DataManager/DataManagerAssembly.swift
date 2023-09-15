@@ -7,7 +7,7 @@
 
 enum DataManagerAssembly {
     static func makeModule() -> AppDataManager {
-        DataManager(repository: ArticlesRepository(
+        DataManager(repository: NewsRepository(
             networkService: NetworkService(apiRequestBuilder: APIRequestBuilder()),
             cacheService: CacheService()
         )

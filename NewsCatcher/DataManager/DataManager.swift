@@ -31,12 +31,12 @@ protocol ArticleSearchCriteria {
 final class DataManager: AppDataManager {
     // MARK: Dependencies
 
-    private let repository: ArticlesRepository
+    private let repository: AppDataRepository
     var onDataUpdate: (() -> Void)?
 
     // MARK: Initializer
 
-    init(repository: ArticlesRepository) {
+    init(repository: AppDataRepository) {
         self.repository = repository
         repository.getInitialFeed { [weak self] in
             self?.onDataUpdate?()

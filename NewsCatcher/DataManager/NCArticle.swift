@@ -17,6 +17,8 @@ protocol AppArticle: Codable {
     var sourceName: String { get }
 }
 
+// MARK: Model Entity
+
 struct NCArticle: AppArticle {
     var title: String
     var description: String

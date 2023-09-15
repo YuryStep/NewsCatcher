@@ -1,5 +1,5 @@
 //
-//  ArticlesRepository.swift
+//  ArticleRepository.swift
 //  NewsCatcher
 //
 //  Created by Юрий Степанчук on 14.09.2023.
@@ -7,7 +7,16 @@
 
 import Foundation
 
-class ArticlesRepository {
+protocol AppDataRepository {
+    var articles: [NCArticle] { get }
+    func getInitialFeed(completion: @escaping () -> Void)
+    func downloadNews(about: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping () -> Void)
+    func getImageDataForArticle(at index: Int, completion: @escaping (Data?) -> Void)
+    func getPublishingDateForArticle(at index: Int) -> String
+    func clearCache()
+}
+
+class NewsRepository: AppDataRepository {
     private enum Constants {
         static let articlesCacheKey = "Saved NCArticles"
         static let publishingDateFormat = "yyyy-MM-dd"
@@ -29,7 +38,7 @@ class ArticlesRepository {
         self.cacheService = cacheService
     }
 
-    // MARK: ArticlesRepository API
+    // MARK: DataRepository
 
     func getInitialFeed(completion: @escaping () -> Void) {
         articles = cacheService.getArticles(forKey: Constants.articlesCacheKey)
@@ -48,7 +57,16 @@ class ArticlesRepository {
     }
 
     func getImageDataForArticle(at index: Int, completion: @escaping (Data?) -> Void) {
-        return getImageData(for: articles[index], completion: completion)
+        let imageURL = articles[index].imageURL
+        if let imageData = cacheService.getData(forKey: imageURL) {
+            completion(imageData)
+        } else {
+            networkService.downloadData(from: imageURL) { imageData in
+                guard let imageData = imageData else { return }
+                self.cacheService.save(imageData, forKey: imageURL)
+                completion(imageData)
+            }
+        }
     }
 
     func getPublishingDateForArticle(at index: Int) -> String {
@@ -83,18 +101,5 @@ class ArticlesRepository {
             feedNews.append(ncArticle)
         }
         return feedNews
-    }
-
-    private func getImageData(for article: AppArticle, completion: @escaping (Data?) -> Void) {
-        let imageURL = article.imageURL
-        if let imageData = cacheService.getData(forKey: imageURL) {
-            completion(imageData)
-        } else {
-            networkService.downloadData(from: imageURL) { imageData in
-                guard let imageData = imageData else { return }
-                self.cacheService.save(imageData, forKey: imageURL)
-                completion(imageData)
-            }
-        }
     }
 }
