@@ -28,114 +28,62 @@ protocol ArticleSearchCriteria {
     var sortedBy: String { get }
 }
 
-protocol AppArticle: Codable {
-    var title: String { get }
-    var description: String { get }
-    var content: String { get }
-    var url: String { get }
-    var image: String { get }
-    var publishedAt: String { get }
-    var sourceName: String { get }
-}
-
-final class DataManager<Article: AppArticle>: AppDataManager {
+final class DataManager: AppDataManager {
     // MARK: Dependencies
 
-    private let networkService: AppNetworkService
-    private let cacheService: AppCacheService
-    private var articles = [Article]()
+    private let repository: ArticlesRepository
     var onDataUpdate: (() -> Void)?
 
     // MARK: Initializer
 
-    init(networkService: AppNetworkService, cacheService: AppCacheService) {
-        self.networkService = networkService
-        self.cacheService = cacheService
-        loadArticlesFromCache()
-        if articles.isEmpty {
-            downloadNews(about: nil, searchCriteria: nil)
+    init(repository: ArticlesRepository) {
+        self.repository = repository
+        repository.getInitialFeed { [weak self] in
+            self?.onDataUpdate?()
         }
     }
 
-    // MARK: AppDataManager
+    // MARK: AppDataManager API
 
     func downloadNews(about keyword: String?, searchCriteria: ArticleSearchCriteria?) {
-        networkService.downloadArticles(about: keyword, searchCriteria: searchCriteria) { [weak self] appArticles in
-            let articles = appArticles.compactMap { $0 as? Article }
-            self?.articles = articles
-            self?.saveArticlesToCache()
+        repository.downloadNews(about: keyword, searchCriteria: searchCriteria) { [weak self] in
             self?.onDataUpdate?()
         }
     }
 
     func getNumberOfArticles() -> Int {
-        return articles.count
+        repository.articles.count
     }
 
     func getTitleForArticle(at index: Int) -> String {
-        return articles[index].title
+        repository.articles[index].title
     }
 
     func getDescriptionForArticle(at index: Int) -> String {
-        return articles[index].description
+        repository.articles[index].description
     }
 
     func getContentForArticle(at index: Int) -> String {
-        return articles[index].content
+        repository.articles[index].content
     }
 
     func getImageDataForArticle(at index: Int, completion: @escaping (Data?) -> Void) {
-        return getImageData(forArticle: articles[index], completion: completion)
+        repository.getImageDataForArticle(at: index, completion: completion)
     }
 
     func getSourceURLForArticle(at index: Int) -> String {
-        return articles[index].url
+        repository.articles[index].url
     }
 
     func getSourceNameForArticle(at index: Int) -> String {
-        return articles[index].sourceName
+        repository.articles[index].sourceName
     }
 
     func getPublishingDateForArticle(at index: Int) -> String {
-        let dateString = articles[index].publishedAt
-        if let date = ISO8601DateFormatter().date(from: dateString) {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            return dateFormatter.string(from: date)
-        } else {
-            return dateString
-        }
+        repository.getPublishingDateForArticle(at: index)
     }
 
     func clearCache() {
-        cacheService.clearCache()
-    }
-
-    // MARK: Private Methods
-
-    private func getImageData(forArticle article: Article, completion: @escaping (Data?) -> Void) {
-        let imageURL = article.image
-        if let imageData = cacheService.getData(forKey: imageURL) {
-            completion(imageData)
-        } else {
-            networkService.downloadData(from: imageURL) { imageData in
-                guard let imageData = imageData else { return }
-                self.cacheService.save(imageData, forKey: imageURL)
-                completion(imageData)
-            }
-        }
-    }
-
-    private func saveArticlesToCache() {
-        let encodedArticles = try? JSONEncoder().encode(articles)
-        UserDefaults.standard.set(encodedArticles, forKey: "SavedArticles")
-    }
-
-    private func loadArticlesFromCache() {
-        if let encodedArticles = UserDefaults.standard.data(forKey: "SavedArticles") {
-            let decodedArticles = try? JSONDecoder().decode([Article].self, from: encodedArticles)
-            articles = decodedArticles!
-            onDataUpdate?()
-        }
+        repository.clearCache()
     }
 }

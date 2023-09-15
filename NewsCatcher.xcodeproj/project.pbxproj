@@ -26,6 +26,8 @@
 		EF2E82862AAB77FD0065F4C5 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2E82852AAB77FD0065F4C5 /* UILabel+Extensions.swift */; };
 		EF2E828A2AABA2E20065F4C5 /* DataManagerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2E82892AABA2E20065F4C5 /* DataManagerAssembly.swift */; };
 		EF2E828D2AABA3280065F4C5 /* NewsCatcherAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2E828C2AABA3280065F4C5 /* NewsCatcherAssembly.swift */; };
+		EF4E320C2AB35A5A005C0E04 /* ArticlesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4E320B2AB35A5A005C0E04 /* ArticlesRepository.swift */; };
+		EF4E320F2AB444C3005C0E04 /* NCArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4E320E2AB444C3005C0E04 /* NCArticle.swift */; };
 		EF85DB972A9F5A2C00CD9295 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF85DB962A9F5A2C00CD9295 /* AppDelegate.swift */; };
 		EF85DB992A9F5A2C00CD9295 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF85DB982A9F5A2C00CD9295 /* SceneDelegate.swift */; };
 		EF85DB9B2A9F5A2C00CD9295 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF85DB9A2A9F5A2C00CD9295 /* FeedViewController.swift */; };
@@ -55,6 +57,8 @@
 		EF2E82852AAB77FD0065F4C5 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		EF2E82892AABA2E20065F4C5 /* DataManagerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerAssembly.swift; sourceTree = "<group>"; };
 		EF2E828C2AABA3280065F4C5 /* NewsCatcherAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCatcherAssembly.swift; sourceTree = "<group>"; };
+		EF4E320B2AB35A5A005C0E04 /* ArticlesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesRepository.swift; sourceTree = "<group>"; };
+		EF4E320E2AB444C3005C0E04 /* NCArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NCArticle.swift; sourceTree = "<group>"; };
 		EF85DB932A9F5A2C00CD9295 /* NewsCatcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsCatcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF85DB962A9F5A2C00CD9295 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EF85DB982A9F5A2C00CD9295 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -161,9 +165,19 @@
 			isa = PBXGroup;
 			children = (
 				EF2E82892AABA2E20065F4C5 /* DataManagerAssembly.swift */,
+				EF4E320E2AB444C3005C0E04 /* NCArticle.swift */,
 				EF28C5182AA217B700B68649 /* DataManager.swift */,
+				EF4E320B2AB35A5A005C0E04 /* ArticlesRepository.swift */,
 			);
 			path = DataManager;
+			sourceTree = "<group>";
+		};
+		EF4E320D2AB440DB005C0E04 /* WebArticleModule */ = {
+			isa = PBXGroup;
+			children = (
+				EF2897D82AA9DA8F00B9A335 /* WebArticleViewController.swift */,
+			);
+			path = WebArticleModule;
 			sourceTree = "<group>";
 		};
 		EF85DB8A2A9F5A2C00CD9295 = {
@@ -192,7 +206,7 @@
 				EF2897D32AA7717B00B9A335 /* Services */,
 				EF28C51C2AA239E700B68649 /* FeedModule */,
 				EF28C5282AA3442900B68649 /* ArticleModule */,
-				EF2897D82AA9DA8F00B9A335 /* WebArticleViewController.swift */,
+				EF4E320D2AB440DB005C0E04 /* WebArticleModule */,
 				EF2897D22AA770FC00B9A335 /* Extensions */,
 				EF28C5172AA2093600B68649 /* Supporting Files */,
 			);
@@ -309,7 +323,9 @@
 				EF2897D92AA9DA8F00B9A335 /* WebArticleViewController.swift in Sources */,
 				EF28C5152AA1CFFC00B68649 /* GNews.swift in Sources */,
 				EF28C51B2AA233F900B68649 /* FeedAssembly.swift in Sources */,
+				EF4E320F2AB444C3005C0E04 /* NCArticle.swift in Sources */,
 				EF28C5192AA217B700B68649 /* DataManager.swift in Sources */,
+				EF4E320C2AB35A5A005C0E04 /* ArticlesRepository.swift in Sources */,
 				EF28C5242AA343AD00B68649 /* ArticlePresenter.swift in Sources */,
 				EF2897CD2AA7210000B9A335 /* APIRequestBuilder.swift in Sources */,
 				EF28C5262AA343DF00B68649 /* ArticleAssembly.swift in Sources */,

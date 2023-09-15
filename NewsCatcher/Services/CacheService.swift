@@ -10,11 +10,18 @@ import Foundation
 protocol AppCacheService {
     func getData(forKey: String) -> Data?
     func save(_: Data, forKey: String)
+
+    func getArticles(forKey: String) -> [NCArticle]
+    func save(_: [NCArticle], forKey: String)
+
     func clearCache()
 }
 
 final class CacheService: AppCacheService {
     private let cache = NSCache<NSString, NSData>()
+
+    // MARK: Data Saving
+
     func getData(forKey key: String) -> Data? {
         let nsKey = key as NSString
         if let cachedData = cache.object(forKey: nsKey) {
@@ -28,6 +35,24 @@ final class CacheService: AppCacheService {
         let nsKey = key as NSString
         cache.setObject(nsData, forKey: nsKey)
     }
+
+    // MARK: Articles Saving
+
+    func getArticles(forKey key: String) -> [NCArticle] {
+        var articles = [NCArticle]()
+        if let encodedArticles = UserDefaults.standard.data(forKey: key) {
+            let decodedArticles = try? JSONDecoder().decode([NCArticle].self, from: encodedArticles)
+            articles = decodedArticles ?? [NCArticle]()
+        }
+        return articles
+    }
+
+    func save(_ articles: [NCArticle], forKey key: String) {
+        let encodedArticles = try? JSONEncoder().encode(articles)
+        UserDefaults.standard.set(encodedArticles, forKey: key)
+    }
+
+    // MARK: Clear Cache
 
     func clearCache() {
         cache.removeAllObjects()
