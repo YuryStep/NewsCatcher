@@ -13,20 +13,17 @@ protocol FeedInput: AnyObject {
 }
 
 protocol FeedOutput: AnyObject {
-    // Output
     func viewWillAppear()
     func didReceiveMemoryWarning()
     func searchButtonTapped()
     func settingsButtonTapped()
     func refreshTableViewData()
-    // TableView Data Source
     func getNumberOfRowsInSection() -> Int
     func getTitle(at indexPath: IndexPath) -> String
     func getDescription(at indexPath: IndexPath) -> String
     func getImageData(at indexPath: IndexPath, completion: @escaping (Data?) -> Void)
     func getSourceName(at indexPath: IndexPath) -> String
     func getPublishingDate(at indexPath: IndexPath) -> String
-    // TableView Delegate
     func didTapOnCell(at index: Int)
 }
 

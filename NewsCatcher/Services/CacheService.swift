@@ -18,42 +18,44 @@ protocol AppCacheService {
 }
 
 final class CacheService: AppCacheService {
-    private let cache = NSCache<NSString, NSData>()
+    private let userDefaults: UserDefaults
+    private let articlesDecoder: JSONDecoder
+    private let articlesEncoder: JSONEncoder
+    private let cache: NSCache<NSString, NSData>
 
-    // MARK: Data Saving
+    init() {
+        userDefaults = UserDefaults.standard
+        articlesDecoder = JSONDecoder()
+        articlesEncoder = JSONEncoder()
+        cache = NSCache<NSString, NSData>()
+    }
 
     func getData(forKey key: String) -> Data? {
-        let nsKey = key as NSString
-        if let cachedData = cache.object(forKey: nsKey) {
+        let key = key as NSString
+        if let cachedData = cache.object(forKey: key) {
             return cachedData as Data
         }
         return nil
     }
 
     func save(_ data: Data, forKey key: String) {
-        let nsData = data as NSData
-        let nsKey = key as NSString
-        cache.setObject(nsData, forKey: nsKey)
+        let data = data as NSData
+        let key = key as NSString
+        cache.setObject(data, forKey: key)
     }
 
-    // MARK: Articles Saving
-
     func getArticles(forKey key: String) -> [Article]? {
-        guard let encodedArticles = UserDefaults.standard.data(forKey: key),
-              let decodedArticles = try? JSONDecoder().decode([Article].self, from: encodedArticles)
-        else {
-            return nil
-        }
+        guard let encodedArticles = userDefaults.data(forKey: key),
+              let decodedArticles = try? articlesDecoder.decode([Article].self, from: encodedArticles)
+        else { return nil }
         return decodedArticles
     }
 
     func save(articles: [Article], forKey key: String) {
-        if let encodedArticles = try? JSONEncoder().encode(articles) {
-            UserDefaults.standard.set(encodedArticles, forKey: key)
+        if let encodedArticles = try? articlesEncoder.encode(articles) {
+            userDefaults.set(encodedArticles, forKey: key)
         }
     }
-
-    // MARK: Clear Cache
 
     func clearCache() {
         cache.removeAllObjects()
