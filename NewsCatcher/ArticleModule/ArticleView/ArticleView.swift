@@ -44,7 +44,7 @@ final class ArticleView: UIView {
 
     private lazy var sourceNameLabel = UILabel(textStyle: .footnote)
     private lazy var dateLabel = UILabel(textStyle: .footnote)
-    private lazy var titleLabel = UILabel(textStyle: .title1)
+    private lazy var titleLabel = UILabel(textStyle: .headline)
     private lazy var contentLabel = UILabel(textStyle: .body)
 
     private lazy var loadingIndicator: UIActivityIndicatorView = {
