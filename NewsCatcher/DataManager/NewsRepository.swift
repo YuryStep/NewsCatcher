@@ -8,10 +8,15 @@
 import Foundation
 
 protocol AppDataRepository {
-    var articles: [NCArticle] { get }
     func getInitialFeed(completion: @escaping () -> Void)
     func downloadNews(about: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping () -> Void)
+    func getNumberOfArticles() -> Int
+    func getTitleForArticle(at index: Int) -> String
+    func getDescriptionForArticle(at index: Int) -> String
+    func getContentForArticle(at index: Int) -> String
     func getImageDataForArticle(at index: Int, completion: @escaping (Data?) -> Void)
+    func getSourceURLForArticle(at index: Int) -> String
+    func getSourceNameForArticle(at index: Int) -> String
     func getPublishingDateForArticle(at index: Int) -> String
     func clearCache()
 }
@@ -29,7 +34,7 @@ final class NewsRepository: AppDataRepository {
 
     // MARK: Data
 
-    var articles = [NCArticle]()
+    private var articles = [NCArticle]()
 
     // MARK: Initializer
 
@@ -56,6 +61,22 @@ final class NewsRepository: AppDataRepository {
         }
     }
 
+    func getNumberOfArticles() -> Int {
+        articles.count
+    }
+
+    func getTitleForArticle(at index: Int) -> String {
+        articles[index].title
+    }
+
+    func getDescriptionForArticle(at index: Int) -> String {
+        articles[index].description
+    }
+
+    func getContentForArticle(at index: Int) -> String {
+        articles[index].content
+    }
+
     func getImageDataForArticle(at index: Int, completion: @escaping (Data?) -> Void) {
         let imageURL = articles[index].imageURL
         if let imageData = cacheService.getData(forKey: imageURL) {
@@ -67,6 +88,14 @@ final class NewsRepository: AppDataRepository {
                 completion(imageData)
             }
         }
+    }
+
+    func getSourceURLForArticle(at index: Int) -> String {
+        articles[index].url
+    }
+
+    func getSourceNameForArticle(at index: Int) -> String {
+        articles[index].sourceName
     }
 
     func getPublishingDateForArticle(at index: Int) -> String {

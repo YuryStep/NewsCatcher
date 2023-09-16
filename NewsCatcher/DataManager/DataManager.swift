@@ -61,19 +61,19 @@ final class DataManager: AppDataManager {
     }
 
     func getNumberOfArticles() -> Int {
-        repository.articles.count
+        repository.getNumberOfArticles()
     }
 
     func getTitleForArticle(at index: Int) -> String {
-        repository.articles[index].title
+        repository.getTitleForArticle(at: index)
     }
 
     func getDescriptionForArticle(at index: Int) -> String {
-        repository.articles[index].description
+        repository.getDescriptionForArticle(at: index)
     }
 
     func getContentForArticle(at index: Int) -> String {
-        repository.articles[index].content
+        repository.getContentForArticle(at: index)
     }
 
     func getImageDataForArticle(at index: Int, completion: @escaping (Data?) -> Void) {
@@ -81,11 +81,11 @@ final class DataManager: AppDataManager {
     }
 
     func getSourceURLForArticle(at index: Int) -> String {
-        repository.articles[index].url
+        repository.getSourceURLForArticle(at: index)
     }
 
     func getSourceNameForArticle(at index: Int) -> String {
-        repository.articles[index].sourceName
+        repository.getSourceNameForArticle(at: index)
     }
 
     func getPublishingDateForArticle(at index: Int) -> String {
