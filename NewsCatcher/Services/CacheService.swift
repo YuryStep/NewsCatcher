@@ -48,11 +48,8 @@ final class CacheService: AppCacheService {
     }
 
     func save(articles: [Article], forKey key: String) {
-        do {
-            let encodedArticles = try JSONEncoder().encode(articles)
+        if let encodedArticles = try? JSONEncoder().encode(articles) {
             UserDefaults.standard.set(encodedArticles, forKey: key)
-        } catch {
-            debugPrint("Error when encoding articles in JSON: \(error)")
         }
     }
 
