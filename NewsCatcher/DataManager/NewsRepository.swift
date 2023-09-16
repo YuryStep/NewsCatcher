@@ -46,9 +46,12 @@ final class NewsRepository: AppDataRepository {
     // MARK: DataRepository
 
     func getInitialFeed(completion: @escaping () -> Void) {
-        articles = cacheService.getArticles(forKey: Constants.articlesCacheKey)
-        if articles.isEmpty {
-            downloadNews(about: nil, searchCriteria: nil) { completion() }
+        if let cachedArticles = cacheService.getArticles(forKey: Constants.articlesCacheKey) {
+            articles = cachedArticles
+        } else {
+            downloadNews(about: nil, searchCriteria: nil) {
+                completion()
+            }
         }
     }
 
