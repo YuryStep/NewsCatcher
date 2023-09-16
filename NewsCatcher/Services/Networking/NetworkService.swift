@@ -8,7 +8,7 @@
 import Foundation
 
 protocol AppNetworkService {
-    func downloadArticles(about: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping ([AppArticle]) -> Void)
+    func downloadArticles(about: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping ([Article]) -> Void)
     func downloadData(from url: String, completion: @escaping (Data?) -> Void)
 }
 
@@ -23,13 +23,13 @@ final class NetworkService: AppNetworkService {
 
     // MARK: AppNetworkManager
 
-    func downloadArticles(about keyPhrase: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping ([AppArticle]) -> Void) {
+    func downloadArticles(about keyPhrase: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping ([Article]) -> Void) {
         let urlRequestString = apiRequestBuilder.getURLRequestString(for: keyPhrase, searchCriteria: searchCriteria)
         fetchData(from: urlRequestString) { [weak self] jsonData in
             guard let self else { return }
-            self.parseNews(from: jsonData) { gNews in
+            self.parseNews(from: jsonData) { news in
                 DispatchQueue.main.async {
-                    completion(gNews.articles)
+                    completion(news.articles)
                 }
             }
         }
@@ -59,10 +59,10 @@ final class NetworkService: AppNetworkService {
         task.resume()
     }
 
-    private func parseNews(from data: Data, completion: @escaping (GNews) -> Void) {
+    private func parseNews(from data: Data, completion: @escaping (News) -> Void) {
         let decoder = JSONDecoder()
         do {
-            let news = try decoder.decode(GNews.self, from: data)
+            let news = try decoder.decode(News.self, from: data)
             completion(news)
         } catch {
             debugPrint(error)

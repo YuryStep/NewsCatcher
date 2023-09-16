@@ -34,7 +34,7 @@ final class NewsRepository: AppDataRepository {
 
     // MARK: Data
 
-    private var articles = [NCArticle]()
+    private var articles = [Article]()
 
     // MARK: Initializer
 
@@ -53,10 +53,9 @@ final class NewsRepository: AppDataRepository {
     }
 
     func downloadNews(about keyword: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping () -> Void) {
-        networkService.downloadArticles(about: keyword, searchCriteria: searchCriteria) { [weak self] appArticles in
-            let ncArticles = self?.getNCArticles(from: appArticles) ?? [NCArticle]()
-            self?.articles = ncArticles
-            self?.cacheService.save(articles: ncArticles, forKey: Constants.articlesCacheKey)
+        networkService.downloadArticles(about: keyword, searchCriteria: searchCriteria) { [weak self] articles in
+            self?.articles = articles
+            self?.cacheService.save(articles: articles, forKey: Constants.articlesCacheKey)
             completion()
         }
     }
@@ -78,7 +77,7 @@ final class NewsRepository: AppDataRepository {
     }
 
     func getImageDataForArticle(at index: Int, completion: @escaping (Data?) -> Void) {
-        let imageURL = articles[index].imageURL
+        let imageURL = articles[index].imageStringURL
         if let imageData = cacheService.getData(forKey: imageURL) {
             completion(imageData)
         } else {
@@ -91,11 +90,11 @@ final class NewsRepository: AppDataRepository {
     }
 
     func getSourceURLForArticle(at index: Int) -> String {
-        articles[index].url
+        articles[index].source.url
     }
 
     func getSourceNameForArticle(at index: Int) -> String {
-        articles[index].sourceName
+        articles[index].source.name
     }
 
     func getPublishingDateForArticle(at index: Int) -> String {
@@ -111,24 +110,5 @@ final class NewsRepository: AppDataRepository {
 
     func clearCache() {
         cacheService.clearCache()
-    }
-
-    // MARK: Private Methods
-
-    private func getNCArticles(from rowArticles: [AppArticle]) -> [NCArticle] {
-        var feedNews = [NCArticle]()
-        rowArticles.forEach { rowArticle in
-            let ncArticle = NCArticle(
-                title: rowArticle.title,
-                description: rowArticle.description,
-                content: rowArticle.content,
-                url: rowArticle.url,
-                imageURL: rowArticle.imageURL,
-                publishedAt: rowArticle.publishedAt,
-                sourceName: rowArticle.sourceName
-            )
-            feedNews.append(ncArticle)
-        }
-        return feedNews
     }
 }

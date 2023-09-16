@@ -15,7 +15,7 @@
 		EF28C50C2AA06D9A00B68649 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C50B2AA06D9A00B68649 /* FeedCell.swift */; };
 		EF28C5102AA0CD4600B68649 /* FeedPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C50F2AA0CD4600B68649 /* FeedPresenter.swift */; };
 		EF28C5132AA1CF2F00B68649 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C5122AA1CF2F00B68649 /* NetworkService.swift */; };
-		EF28C5152AA1CFFC00B68649 /* GNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C5142AA1CFFC00B68649 /* GNews.swift */; };
+		EF28C5152AA1CFFC00B68649 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C5142AA1CFFC00B68649 /* News.swift */; };
 		EF28C5192AA217B700B68649 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C5182AA217B700B68649 /* DataManager.swift */; };
 		EF28C51B2AA233F900B68649 /* FeedAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C51A2AA233F900B68649 /* FeedAssembly.swift */; };
 		EF28C51E2AA3146800B68649 /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C51D2AA3146800B68649 /* CacheService.swift */; };
@@ -26,7 +26,6 @@
 		EF2E82862AAB77FD0065F4C5 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2E82852AAB77FD0065F4C5 /* UILabel+Extensions.swift */; };
 		EF2E828D2AABA3280065F4C5 /* NewsCatcherAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2E828C2AABA3280065F4C5 /* NewsCatcherAssembly.swift */; };
 		EF4E320C2AB35A5A005C0E04 /* NewsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4E320B2AB35A5A005C0E04 /* NewsRepository.swift */; };
-		EF4E320F2AB444C3005C0E04 /* NCArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4E320E2AB444C3005C0E04 /* NCArticle.swift */; };
 		EF85DB972A9F5A2C00CD9295 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF85DB962A9F5A2C00CD9295 /* AppDelegate.swift */; };
 		EF85DB992A9F5A2C00CD9295 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF85DB982A9F5A2C00CD9295 /* SceneDelegate.swift */; };
 		EF85DB9B2A9F5A2C00CD9295 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF85DB9A2A9F5A2C00CD9295 /* FeedViewController.swift */; };
@@ -45,7 +44,7 @@
 		EF28C50B2AA06D9A00B68649 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		EF28C50F2AA0CD4600B68649 /* FeedPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPresenter.swift; sourceTree = "<group>"; };
 		EF28C5122AA1CF2F00B68649 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		EF28C5142AA1CFFC00B68649 /* GNews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GNews.swift; sourceTree = "<group>"; };
+		EF28C5142AA1CFFC00B68649 /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		EF28C5182AA217B700B68649 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		EF28C51A2AA233F900B68649 /* FeedAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAssembly.swift; sourceTree = "<group>"; };
 		EF28C51D2AA3146800B68649 /* CacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheService.swift; sourceTree = "<group>"; };
@@ -56,7 +55,6 @@
 		EF2E82852AAB77FD0065F4C5 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		EF2E828C2AABA3280065F4C5 /* NewsCatcherAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCatcherAssembly.swift; sourceTree = "<group>"; };
 		EF4E320B2AB35A5A005C0E04 /* NewsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsRepository.swift; sourceTree = "<group>"; };
-		EF4E320E2AB444C3005C0E04 /* NCArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NCArticle.swift; sourceTree = "<group>"; };
 		EF85DB932A9F5A2C00CD9295 /* NewsCatcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsCatcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF85DB962A9F5A2C00CD9295 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EF85DB982A9F5A2C00CD9295 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -113,7 +111,7 @@
 			children = (
 				EF28C5122AA1CF2F00B68649 /* NetworkService.swift */,
 				EF2897CC2AA7210000B9A335 /* APIRequestBuilder.swift */,
-				EF28C5142AA1CFFC00B68649 /* GNews.swift */,
+				EF28C5142AA1CFFC00B68649 /* News.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -162,7 +160,6 @@
 		EF2E828B2AABA30C0065F4C5 /* DataManager */ = {
 			isa = PBXGroup;
 			children = (
-				EF4E320E2AB444C3005C0E04 /* NCArticle.swift */,
 				EF28C5182AA217B700B68649 /* DataManager.swift */,
 				EF4E320B2AB35A5A005C0E04 /* NewsRepository.swift */,
 			);
@@ -317,9 +314,8 @@
 				EF28C5102AA0CD4600B68649 /* FeedPresenter.swift in Sources */,
 				EF28C51E2AA3146800B68649 /* CacheService.swift in Sources */,
 				EF2897D92AA9DA8F00B9A335 /* WebArticleViewController.swift in Sources */,
-				EF28C5152AA1CFFC00B68649 /* GNews.swift in Sources */,
+				EF28C5152AA1CFFC00B68649 /* News.swift in Sources */,
 				EF28C51B2AA233F900B68649 /* FeedAssembly.swift in Sources */,
-				EF4E320F2AB444C3005C0E04 /* NCArticle.swift in Sources */,
 				EF28C5192AA217B700B68649 /* DataManager.swift in Sources */,
 				EF4E320C2AB35A5A005C0E04 /* NewsRepository.swift in Sources */,
 				EF28C5242AA343AD00B68649 /* ArticlePresenter.swift in Sources */,
