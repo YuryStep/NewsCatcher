@@ -140,6 +140,7 @@ extension FeedViewController: UITableViewDataSource {
 extension FeedViewController: UITableViewDelegate {
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         presenter.didTapOnCell(at: indexPath.row)
+        feedView.tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
