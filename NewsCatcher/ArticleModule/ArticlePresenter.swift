@@ -33,7 +33,8 @@ final class ArticlePresenter: ArticleOutput {
 
     func viewWillAppear() {
         dataManager.onDataUpdate = { [weak self] in
-            self?.view?.updateView()
+            guard let self else { return }
+            view?.updateView()
         }
     }
 

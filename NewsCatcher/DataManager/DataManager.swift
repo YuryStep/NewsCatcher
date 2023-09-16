@@ -48,7 +48,8 @@ final class DataManager: AppDataManager {
     private init(repository: AppDataRepository) {
         self.repository = repository
         repository.getInitialFeed { [weak self] in
-            self?.onDataUpdate?()
+            guard let self else { return }
+            onDataUpdate?()
         }
     }
 
@@ -56,7 +57,8 @@ final class DataManager: AppDataManager {
 
     func downloadNews(about keyword: String?, searchCriteria: ArticleSearchCriteria?) {
         repository.downloadNews(about: keyword, searchCriteria: searchCriteria) { [weak self] in
-            self?.onDataUpdate?()
+            guard let self else { return }
+            onDataUpdate?()
         }
     }
 

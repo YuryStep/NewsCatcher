@@ -54,8 +54,9 @@ final class NewsRepository: AppDataRepository {
 
     func downloadNews(about keyword: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping () -> Void) {
         networkService.downloadArticles(about: keyword, searchCriteria: searchCriteria) { [weak self] articles in
-            self?.articles = articles
-            self?.cacheService.save(articles: articles, forKey: Constants.articlesCacheKey)
+            guard let self else { return }
+            self.articles = articles
+            cacheService.save(articles: articles, forKey: Constants.articlesCacheKey)
             completion()
         }
     }
