@@ -11,68 +11,74 @@ protocol ArticleViewDelegate: AnyObject {
     func readInSourceButtonTapped()
 }
 
-class ArticleView: UIView {
-    private struct Constants {
+final class ArticleView: UIView {
+    private enum Constants {
         static let systemSpacingMultiplier: CGFloat = 1
         static let imageViewAspectRatio: CGFloat = 0.6
         static let goToSourceButtonCornerRadius: CGFloat = 10
-        static let timeIntervalforImagePlaceholder: Double = 5
-        static let placeholderImageName: String = "noImageIcon"
-        static let readInSourceButtonText: String = "Read in Source"
+        static let timeIntervalForImagePlaceholder = 5.0
+        static let placeholderImageName = "noImageIcon"
+        static let readInSourceButtonText = "Read in Source"
         static let sourceCaptionText = "Source: "
         static let dateCaptionText = "Published at: "
     }
-    
+
     weak var delegate: ArticleViewDelegate?
     var index: Int?
     private var timer: Timer?
-    
+
     // MARK: Subviews
+
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
-    
+
     private lazy var articleImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-    
+
     private lazy var sourceNameLabel = UILabel(textStyle: .footnote)
     private lazy var dateLabel = UILabel(textStyle: .footnote)
-    private lazy var titleLabel = UILabel(textStyle: .title1)
+    private lazy var titleLabel = UILabel(textStyle: .headline)
     private lazy var contentLabel = UILabel(textStyle: .body)
-    
+
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.hidesWhenStopped = true
         return indicator
     }()
-    
+
     private lazy var readInSourceButton: UIButton = {
         let button = UIButton(configuration: .filled())
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(Constants.readInSourceButtonText, for: .normal)
         button.layer.cornerRadius = Constants.goToSourceButtonCornerRadius
         button.addTarget(self, action: #selector(goToSourceButtonTapped), for: .touchUpInside)
         return button
     }()
-    
+
     // MARK: Initializers
+
     @available(*, unavailable)
-    required init?(coder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("This class does not support NSCoder")
     }
-    
+
     init(frame: CGRect, index: Int) {
         super.init(frame: frame)
         self.index = index
         backgroundColor = .white
         setupSubviews()
     }
-    
+
     // MARK: Input methods
+
     func configure(with image: UIImage?, title: String, sourceName: String, date: String, content: String) {
         timer?.invalidate()
         if let image = image {
@@ -81,7 +87,7 @@ class ArticleView: UIView {
         } else {
             articleImageView.image = nil
             loadingIndicator.startAnimating()
-            timer = Timer.scheduledTimer(withTimeInterval: Constants.timeIntervalforImagePlaceholder, repeats: false) {_ in
+            timer = Timer.scheduledTimer(withTimeInterval: Constants.timeIntervalForImagePlaceholder, repeats: false) { _ in
                 self.loadingIndicator.stopAnimating()
                 self.articleImageView.image = UIImage(named: Constants.placeholderImageName)
             }
@@ -91,29 +97,26 @@ class ArticleView: UIView {
         sourceNameLabel.text = Constants.sourceCaptionText + sourceName
         dateLabel.text = Constants.dateCaptionText + date
     }
-    
+
     func update() {
         setNeedsDisplay()
     }
-    
+
     // MARK: Output methods
+
     @objc func goToSourceButtonTapped() {
         delegate?.readInSourceButtonTapped()
     }
-    
+
     private func setupSubviews() {
         addSubview(scrollView)
         let scrollViewSubviews = [loadingIndicator, articleImageView, sourceNameLabel, dateLabel, titleLabel, contentLabel, readInSourceButton]
-        scrollViewSubviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         scrollViewSubviews.forEach { scrollView.addSubview($0) }
-        
         let marginGuide = layoutMarginsGuide
         let scrollViewFrameGuide = scrollView.frameLayoutGuide
         let scrollViewContentGuide = scrollView.contentLayoutGuide
-        
         contentLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
         readInSourceButton.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        
         NSLayoutConstraint.activate([
             // scrollView constraints
             scrollViewFrameGuide.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
@@ -154,5 +157,4 @@ class ArticleView: UIView {
             readInSourceButton.bottomAnchor.constraint(equalTo: scrollViewContentGuide.bottomAnchor)
         ])
     }
-    
 }

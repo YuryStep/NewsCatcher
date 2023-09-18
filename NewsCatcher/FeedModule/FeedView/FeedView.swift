@@ -13,74 +13,68 @@ protocol FeedViewDelegate: AnyObject {
     func refreshTableViewData()
 }
 
-class FeedView: UIView {
-    private struct Constants {
-        static let systemSpacingMultiplier: CGFloat = 1
+final class FeedView: UIView {
+    private enum Constants {
+        static let spacingMultiplier: CGFloat = 1
         static let settingsButtonImageSystemName = "gearshape"
         static let searchButtonImageSystemName = "magnifyingglass"
         static let searchTextFieldPlaceholder = "WWDC 2023"
     }
-    
+
     weak var delegate: FeedViewDelegate?
 
     // MARK: Subviews
-    private lazy var settingsButton: UIButton = {
+
+    lazy var settingsButton: UIButton = {
         let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: Constants.settingsButtonImageSystemName), for: .normal)
         button.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
         return button
     }()
-    
+
     lazy var searchTextField: UITextField = {
         let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = Constants.searchTextFieldPlaceholder
         textField.clearButtonMode = .always
         textField.borderStyle = .roundedRect
         return textField
     }()
-    
-    private lazy var searchButton: UIButton = {
+
+    lazy var searchButton: UIButton = {
         let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: Constants.searchButtonImageSystemName), for: .normal)
         button.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
         return button
     }()
-    
-    private lazy var tableView: UITableView = {
+
+    lazy var tableView: UITableView = {
         let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.cellLayoutMarginsFollowReadableWidth = true
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshTableViewData(_:)), for: .valueChanged)
         tableView.refreshControl = refreshControl
         return tableView
     }()
-    
+
     // MARK: Initializers
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .systemGray5
         setupSubviews()
     }
-    
+
     @available(*, unavailable)
-    required init?(coder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("This class does not support NSCoder")
     }
-    
-    // MARK: Public API
-    func reloadTableViewData() {
-        tableView.reloadData()
-        let indexPath = IndexPath(row: 0, section: 0)
-        tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-    }
-    
-    func tableViewSetup(dataSource: UITableViewDataSource, delegate: UITableViewDelegate, cell: UITableViewCell.Type, identifier: String) {
-        tableView.dataSource = dataSource
-        tableView.delegate = delegate
-        tableView.register(cell, forCellReuseIdentifier: identifier)
-    }
-    
-    // MARK: Private Methods
+
+    // MARK: Delegate Methods
+
     @objc private func settingsButtonTapped() {
         delegate?.settingsButtonTapped()
     }
@@ -88,40 +82,36 @@ class FeedView: UIView {
     @objc private func searchButtonTapped() {
         delegate?.searchButtonTapped()
     }
-    
+
     @objc private func refreshTableViewData(_ sender: UIRefreshControl) {
         delegate?.refreshTableViewData()
         sender.endRefreshing()
     }
-    
+
+    // MARK: Initial setup methods
+
     private func setupSubviews() {
         let subviews = [settingsButton, searchTextField, searchButton, tableView]
-        subviews.forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         subviews.forEach { addSubview($0) }
-        
+
         settingsButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         searchTextField.setContentHuggingPriority(.defaultLow, for: .horizontal)
         searchButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        
+
         NSLayoutConstraint.activate([
             settingsButton.heightAnchor.constraint(equalTo: searchTextField.heightAnchor),
             searchButton.heightAnchor.constraint(equalTo: searchTextField.heightAnchor),
-            
-            settingsButton.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: Constants.systemSpacingMultiplier),
+            settingsButton.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: Constants.spacingMultiplier),
             settingsButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            
-            searchTextField.leadingAnchor.constraint(equalToSystemSpacingAfter: settingsButton.trailingAnchor, multiplier: Constants.systemSpacingMultiplier),
+            searchTextField.leadingAnchor.constraint(equalToSystemSpacingAfter: settingsButton.trailingAnchor, multiplier: Constants.spacingMultiplier),
             searchTextField.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            
-            searchButton.leadingAnchor.constraint(equalToSystemSpacingAfter: searchTextField.trailingAnchor, multiplier: Constants.systemSpacingMultiplier),
+            searchButton.leadingAnchor.constraint(equalToSystemSpacingAfter: searchTextField.trailingAnchor, multiplier: Constants.spacingMultiplier),
             searchButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            trailingAnchor.constraint(equalToSystemSpacingAfter: searchButton.trailingAnchor, multiplier: Constants.systemSpacingMultiplier),
-
-            tableView.topAnchor.constraint(equalToSystemSpacingBelow: searchTextField.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
+            trailingAnchor.constraint(equalToSystemSpacingAfter: searchButton.trailingAnchor, multiplier: Constants.spacingMultiplier),
+            tableView.topAnchor.constraint(equalToSystemSpacingBelow: searchTextField.bottomAnchor, multiplier: Constants.spacingMultiplier),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
-
 }

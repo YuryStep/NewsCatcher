@@ -7,15 +7,13 @@
 
 import UIKit
 
-class FeedAssembly {
-    class func configureModule(usingDataManager dataManager: AppDataManager) -> UIViewController {
+enum FeedAssembly {
+    static func makeModule(with dataManager: AppDataManager) -> UIViewController {
         let feedView = FeedView()
-        let feedViewControler = FeedViewController(feedView: feedView)
-        let feedPresenter = FeedPresenter(view: feedViewControler, dataManager: dataManager)
-        
-        feedView.delegate = feedViewControler
-        feedViewControler.presenter = feedPresenter
-        
-        return feedViewControler
+        let feedViewController = FeedViewController(feedView: feedView)
+        let feedPresenter = FeedPresenter(view: feedViewController, dataManager: dataManager)
+        feedView.delegate = feedViewController
+        feedViewController.presenter = feedPresenter
+        return feedViewController
     }
 }
