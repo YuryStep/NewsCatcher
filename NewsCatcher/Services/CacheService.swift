@@ -18,17 +18,7 @@ protocol AppCacheService {
 }
 
 final class CacheService: AppCacheService {
-    private let userDefaults: UserDefaults
-    private let articlesDecoder: JSONDecoder
-    private let articlesEncoder: JSONEncoder
-    private let cache: NSCache<NSString, NSData>
-
-    init() {
-        userDefaults = UserDefaults.standard
-        articlesDecoder = JSONDecoder()
-        articlesEncoder = JSONEncoder()
-        cache = NSCache<NSString, NSData>()
-    }
+    private let cache = NSCache<NSString, NSData>()
 
     func getData(forKey key: String) -> Data? {
         let key = key as NSString
@@ -45,15 +35,15 @@ final class CacheService: AppCacheService {
     }
 
     func getArticles(forKey key: String) -> [Article]? {
-        guard let encodedArticles = userDefaults.data(forKey: key),
-              let decodedArticles = try? articlesDecoder.decode([Article].self, from: encodedArticles)
+        guard let encodedArticles = UserDefaults.standard.data(forKey: key),
+              let decodedArticles = try? JSONDecoder().decode([Article].self, from: encodedArticles)
         else { return nil }
         return decodedArticles
     }
 
     func save(articles: [Article], forKey key: String) {
-        if let encodedArticles = try? articlesEncoder.encode(articles) {
-            userDefaults.set(encodedArticles, forKey: key)
+        if let encodedArticles = try? JSONEncoder().encode(articles) {
+            UserDefaults.standard.set(encodedArticles, forKey: key)
         }
     }
 
