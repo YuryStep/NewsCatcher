@@ -24,7 +24,8 @@ final class FeedPresenter: FeedOutput {
 
     func viewWillAppear() {
         dataManager.onDataUpdate = { [weak self] in
-            self?.view?.reloadFeedTableView()
+            guard let self else { return }
+            view?.reloadFeedTableView()
         }
     }
 
@@ -34,12 +35,16 @@ final class FeedPresenter: FeedOutput {
 
     func searchButtonTapped() {
         guard let searchPhrase = view?.getSearchFieldText() else { return }
-        if searchPhrase.isEmpty {
-            view?.hideKeyboard()
-        } else {
-            dataManager.downloadNews(about: searchPhrase, searchCriteria: nil)
-            view?.hideKeyboard()
+        if !searchPhrase.isEmpty {
+            dataManager.downloadNews(about: searchPhrase, searchCriteria: nil) { result in
+                switch result {
+                case let .failure(error):
+                    self.handleError(error)
+                default: return
+                }
+            }
         }
+        view?.hideKeyboard()
     }
 
     func settingsButtonTapped() {
@@ -47,7 +52,13 @@ final class FeedPresenter: FeedOutput {
     }
 
     func refreshTableViewData() {
-        dataManager.downloadNews(about: nil, searchCriteria: nil)
+        dataManager.downloadNews(about: nil, searchCriteria: nil) { result in
+            switch result {
+            case let .failure(error):
+                self.handleError(error)
+            default: return
+            }
+        }
         // TODO: searchCriteria and keyword must be sent in future implementation to save current request properties.
     }
 
@@ -64,9 +75,14 @@ final class FeedPresenter: FeedOutput {
     }
 
     func getImageData(at indexPath: IndexPath, completion: @escaping (Data?) -> Void) {
-        dataManager.getImageDataForArticle(at: indexPath.row) { data in
-            guard let data = data else { return }
-            completion(data)
+        dataManager.getImageDataForArticle(at: indexPath.row) { result in
+            switch result {
+            case let .success(imageData):
+                completion(imageData)
+            case let .failure(error):
+                self.handleError(error)
+                completion(nil)
+            }
         }
     }
 
@@ -80,5 +96,15 @@ final class FeedPresenter: FeedOutput {
 
     func didTapOnCell(at index: Int) {
         view?.showArticle(at: index, dataManager: dataManager)
+    }
+}
+
+extension FeedPresenter {
+    private func handleError(_ error: NetworkError) {
+        // TODO: Create error handling cases
+        switch error {
+        default:
+            debugPrint(error.localizedDescription)
+        }
     }
 }
