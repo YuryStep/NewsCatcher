@@ -59,10 +59,10 @@ final class DataManager: AppDataManager {
         repository.downloadNews(about: keyword, searchCriteria: searchCriteria) { [weak self] result in
             guard let self else { return }
             switch result {
+            case .success(_):
+                onDataUpdate?()
             case let .failure(error):
                 completion(.failure(error))
-            default:
-                onDataUpdate?()
             }
         }
     }

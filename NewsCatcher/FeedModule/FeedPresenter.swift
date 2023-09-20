@@ -38,9 +38,10 @@ final class FeedPresenter: FeedOutput {
         if !searchPhrase.isEmpty {
             dataManager.downloadNews(about: searchPhrase, searchCriteria: nil) { result in
                 switch result {
+                case .success(_):
+                    return
                 case let .failure(error):
                     self.handleError(error)
-                default: return
                 }
             }
         }
@@ -52,14 +53,15 @@ final class FeedPresenter: FeedOutput {
     }
 
     func refreshTableViewData() {
+        // TODO: searchCriteria and keyword must be sent in future implementation to save current request properties.
         dataManager.downloadNews(about: nil, searchCriteria: nil) { result in
             switch result {
+            case .success(_):
+                return
             case let .failure(error):
                 self.handleError(error)
-            default: return
             }
         }
-        // TODO: searchCriteria and keyword must be sent in future implementation to save current request properties.
     }
 
     func getNumberOfRowsInSection() -> Int {
@@ -75,12 +77,14 @@ final class FeedPresenter: FeedOutput {
     }
 
     func getImageData(at indexPath: IndexPath, completion: @escaping (Data?) -> Void) {
-        dataManager.getImageDataForArticle(at: indexPath.row) { result in
+        dataManager.getImageDataForArticle(at: indexPath.row) { [weak self] result in
+            guard let self else { return }
+
             switch result {
             case let .success(imageData):
                 completion(imageData)
             case let .failure(error):
-                self.handleError(error)
+                handleError(error)
                 completion(nil)
             }
         }
