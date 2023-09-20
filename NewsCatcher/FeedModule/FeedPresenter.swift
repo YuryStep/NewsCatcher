@@ -56,7 +56,7 @@ final class FeedPresenter: FeedOutput {
         dataManager.downloadNews(about: nil, searchCriteria: nil) { [weak self] result in
             guard let self else { return }
             switch result {
-            case .success: dataManager.onDataUpdate!()
+            case .success: view?.reloadFeedTableView()
             case let .failure(error): handleError(error)
             }
         }

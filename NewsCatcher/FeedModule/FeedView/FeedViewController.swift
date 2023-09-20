@@ -90,7 +90,7 @@ final class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
 
     func reloadFeedTableView() {
         feedView.tableView.reloadData()
-            feedView.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        scrollTableViewBackToTheTop()
     }
 
     func showArticle(at index: Int, dataManager _: AppDataManager) {
@@ -104,6 +104,14 @@ final class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
 
     func hideKeyboard() {
         feedView.searchTextField.endEditing(true)
+    }
+}
+
+extension FeedViewController {
+    private func scrollTableViewBackToTheTop() {
+        guard feedView.tableView.numberOfSections > 0,
+              feedView.tableView.numberOfRows(inSection: 0) > 0 else { return }
+        feedView.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
 }
 
