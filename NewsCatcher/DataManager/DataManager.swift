@@ -9,7 +9,7 @@ import Foundation
 
 protocol AppDataManager {
     var onDataUpdate: (() -> Void)? { get set }
-    func downloadNews(about: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping ((Result<Bool, NetworkError>) -> Void))
+    func downloadNews(about: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping ((Result<Void, NetworkError>) -> Void))
     func getNumberOfArticles() -> Int
     func getTitleForArticle(at index: Int) -> String
     func getDescriptionForArticle(at index: Int) -> String
@@ -55,14 +55,11 @@ final class DataManager: AppDataManager {
 
     // MARK: AppDataManager API
 
-    func downloadNews(about keyword: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping ((Result<Bool, NetworkError>) -> Void)) {
-        repository.downloadNews(about: keyword, searchCriteria: searchCriteria) { [weak self] result in
-            guard let self else { return }
+    func downloadNews(about keyword: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping ((Result<Void, NetworkError>) -> Void)) {
+        repository.downloadNews(about: keyword, searchCriteria: searchCriteria) { result in
             switch result {
-            case .success(_):
-                onDataUpdate?()
-            case let .failure(error):
-                completion(.failure(error))
+            case .success: completion(.success(()))
+            case let .failure(error): completion(.failure(error))
             }
         }
     }

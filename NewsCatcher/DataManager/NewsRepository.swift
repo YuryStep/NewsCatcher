@@ -9,7 +9,7 @@ import Foundation
 
 protocol AppDataRepository {
     func getInitialFeed(completion: @escaping () -> Void)
-    func downloadNews(about: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping ((Result<Bool, NetworkError>) -> Void))
+    func downloadNews(about: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping ((Result<Void, NetworkError>) -> Void))
     func getNumberOfArticles() -> Int
     func getTitleForArticle(at index: Int) -> String
     func getDescriptionForArticle(at index: Int) -> String
@@ -55,7 +55,7 @@ final class NewsRepository: AppDataRepository {
         }
     }
 
-    func downloadNews(about keyword: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping ((Result<Bool, NetworkError>) -> Void)) {
+    func downloadNews(about keyword: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping ((Result<Void, NetworkError>) -> Void)) {
         networkService.downloadArticles(about: keyword, searchCriteria: searchCriteria) { [weak self] result in
             guard let self else { return }
 
@@ -63,7 +63,7 @@ final class NewsRepository: AppDataRepository {
             case let .success(articles):
                 self.articles = articles
                 cacheService.save(articles: articles, forKey: Constants.articlesCacheKey)
-                completion(.success(true))
+                completion(.success(()))
             case let .failure(error):
                 completion(.failure(error))
             }

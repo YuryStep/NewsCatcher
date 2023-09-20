@@ -36,12 +36,11 @@ final class FeedPresenter: FeedOutput {
     func searchButtonTapped() {
         guard let searchPhrase = view?.getSearchFieldText() else { return }
         if !searchPhrase.isEmpty {
-            dataManager.downloadNews(about: searchPhrase, searchCriteria: nil) { result in
+            dataManager.downloadNews(about: searchPhrase, searchCriteria: nil) { [weak self] result in
+                guard let self else { return }
                 switch result {
-                case .success(_):
-                    return
-                case let .failure(error):
-                    self.handleError(error)
+                case .success: view?.reloadFeedTableView()
+                case let .failure(error): handleError(error)
                 }
             }
         }
@@ -54,12 +53,11 @@ final class FeedPresenter: FeedOutput {
 
     func refreshTableViewData() {
         // TODO: searchCriteria and keyword must be sent in future implementation to save current request properties.
-        dataManager.downloadNews(about: nil, searchCriteria: nil) { result in
+        dataManager.downloadNews(about: nil, searchCriteria: nil) { [weak self] result in
+            guard let self else { return }
             switch result {
-            case .success(_):
-                return
-            case let .failure(error):
-                self.handleError(error)
+            case .success: dataManager.onDataUpdate!()
+            case let .failure(error): handleError(error)
             }
         }
     }
