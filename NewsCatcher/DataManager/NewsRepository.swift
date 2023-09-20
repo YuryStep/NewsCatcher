@@ -61,9 +61,13 @@ final class NewsRepository: AppDataRepository {
 
             switch result {
             case let .success(articles):
-                self.articles = articles
-                cacheService.save(articles: articles, forKey: Constants.articlesCacheKey)
-                completion(.success(()))
+                if !articles.isEmpty {
+                    self.articles = articles
+                    cacheService.save(articles: articles, forKey: Constants.articlesCacheKey)
+                    completion(.success(()))
+                } else {
+                    completion(.failure(.noArticlesFound))
+                }
             case let .failure(error):
                 completion(.failure(error))
             }

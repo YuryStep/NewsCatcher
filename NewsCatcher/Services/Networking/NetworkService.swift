@@ -95,7 +95,7 @@ final class NetworkService: AppNetworkService {
             if let data = data {
                 completion(.success(data))
             } else {
-                completion(.failure(NetworkError.noData))
+                completion(.failure(NetworkError.noDataInServerResponse))
             }
         } else {
             completion(.failure(NetworkError.getInvalidServerResponseError(httpResponse: httpResponse)))

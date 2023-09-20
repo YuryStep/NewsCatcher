@@ -12,8 +12,9 @@ enum NetworkError: Error {
     case noInternetConnection
     case requestFailed
     case noServerResponse
-    case noData
+    case noDataInServerResponse
     case decodingFailed
+    case noArticlesFound
 
     case badRequest400
     case unauthorized401
@@ -33,10 +34,12 @@ enum NetworkError: Error {
             return "Request Failed"
         case .noServerResponse:
             return "There is no response from the server"
-        case .noData:
+        case .noDataInServerResponse:
             return "There is no data in the server response"
         case .decodingFailed:
             return "Decoding Failed"
+        case .noArticlesFound:
+            return "No articles found. Try to change searching phrase"
         case .badRequest400:
             return "Your request is invalid. StatusCode: 400"
         case .unauthorized401:
