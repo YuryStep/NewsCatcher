@@ -126,13 +126,15 @@ extension FeedViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.reuseIdentifier, for: indexPath) as? FeedCell else {
             return UITableViewCell()
         }
+        let requestID = UUID()
+        cell.id = requestID
         let title = presenter.getTitle(at: indexPath)
         let sourceName = presenter.getSourceName(at: indexPath)
         let date = presenter.getPublishingDate(at: indexPath)
         let description = presenter.getDescription(at: indexPath)
         cell.configure(withTitle: title, sourceName: sourceName, date: date, description: description)
         presenter.getImageData(at: indexPath) { imageData in
-            if let imageData = imageData, let image = UIImage(data: imageData) {
+            if let imageData = imageData, let image = UIImage(data: imageData), cell.id == requestID {
                 cell.setImage(image)
             }
         }
