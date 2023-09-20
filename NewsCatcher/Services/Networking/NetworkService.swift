@@ -63,7 +63,7 @@ final class NetworkService: AppNetworkService {
 
     private func fetchData(from urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         guard let url = URL(string: urlString) else {
-            completion(.failure(NetworkError.invalidURL))
+            completion(.failure(.invalidURL))
             return
         }
 
@@ -79,26 +79,29 @@ final class NetworkService: AppNetworkService {
 
     private func handleNetworkError(_ error: Error, _ completion: @escaping (Result<Data, NetworkError>) -> Void) {
         if let error = error as NSError?, error.code == NSURLErrorNotConnectedToInternet {
-            completion(.failure(NetworkError.noInternetConnection))
+            completion(.failure(.noInternetConnection))
         } else {
-            completion(.failure(NetworkError.requestFailed))
+            completion(.failure(.requestFailed))
         }
     }
 
     private func handleHTTPResponse(_ response: URLResponse?, _ data: Data?, _ completion: @escaping (Result<Data, NetworkError>) -> Void) {
         guard let httpResponse = response as? HTTPURLResponse else {
-            completion(.failure(NetworkError.noServerResponse))
+            completion(.failure(.noServerResponse))
             return
         }
 
-        if httpResponse.statusCode == 200 {
+        switch httpResponse.statusCode {
+        case 200:
             if let data = data {
                 completion(.success(data))
             } else {
-                completion(.failure(NetworkError.noDataInServerResponse))
+                completion(.failure(.noDataInServerResponse))
             }
-        } else {
-            completion(.failure(NetworkError.getInvalidServerResponseError(httpResponse: httpResponse)))
+        case 403:
+            completion(.failure(.forbidden403))
+        default:
+            completion(.failure(.badResponse(statusCode: httpResponse.statusCode)))
         }
     }
 
