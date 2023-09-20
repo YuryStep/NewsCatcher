@@ -31,11 +31,13 @@ final class NetworkService: AppNetworkService {
             switch dataFetchingResult {
             case let .success(data):
                 parseNews(from: data) { decodingResult in
-                    switch decodingResult {
-                    case let .success(news):
-                        DispatchQueue.main.async { completion(.success(news.articles)) }
-                    case let .failure(error):
-                        DispatchQueue.main.async { completion(.failure(error)) }
+                    DispatchQueue.main.async {
+                        switch decodingResult {
+                        case let .success(news):
+                            completion(.success(news.articles))
+                        case let .failure(error):
+                            completion(.failure(error))
+                        }
                     }
                 }
             case let .failure(error):
@@ -46,11 +48,13 @@ final class NetworkService: AppNetworkService {
 
     func downloadImageData(from urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         fetchData(from: urlString) { result in
-            switch result {
-            case let .success(imageData):
-                DispatchQueue.main.async { completion(.success(imageData)) }
-            case let .failure(error):
-                DispatchQueue.main.async { completion(.failure(error)) }
+            DispatchQueue.main.async {
+                switch result {
+                case let .success(imageData):
+                    completion(.success(imageData))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
     }
