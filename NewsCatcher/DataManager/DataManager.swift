@@ -31,7 +31,8 @@ protocol ArticleSearchCriteria {
 final class DataManager: AppDataManager {
     static let shared = DataManager(
         networkService: NetworkService(apiRequestBuilder: APIRequestBuilder()),
-        cacheService: CacheService())
+        cacheService: CacheService()
+    )
 
     private enum Constants {
         static let articlesCacheKey = "Saved NCArticles"
@@ -59,19 +60,21 @@ final class DataManager: AppDataManager {
         }
     }
 
-    func downloadNews(about keyword: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping ((Result<Void, NetworkError>) -> Void)) {
+    func downloadNews(
+        about keyword: String?,
+        searchCriteria: ArticleSearchCriteria?,
+        completion: @escaping ((Result<Void, NetworkError>) -> Void)
+    ) {
         networkService.downloadArticles(about: keyword, searchCriteria: searchCriteria) { [weak self] result in
             guard let self else { return }
 
             switch result {
             case let .success(articles):
+                self.articles = articles
                 if !articles.isEmpty {
-                    self.articles = articles
                     cacheService.save(articles: articles, forKey: Constants.articlesCacheKey)
-                    completion(.success(()))
-                } else {
-                    completion(.failure(.noArticlesFound))
                 }
+                completion(.success(()))
             case let .failure(error):
                 completion(.failure(error))
             }

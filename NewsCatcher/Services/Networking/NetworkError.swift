@@ -16,7 +16,6 @@ enum NetworkError: Error {
     case decodingFailed
     case forbidden403
     case badResponse(statusCode: Int)
-    case noArticlesFound
 
     var localizedDescription: String {
         switch self {
@@ -36,8 +35,6 @@ enum NetworkError: Error {
             return "You have reached your daily quota, the next reset is at 00:00 UTC. StatusCode: 403"
         case let .badResponse(statusCode: statusCode):
             return "There is a bad server response. StatusCode: \(statusCode)"
-        case .noArticlesFound:
-            return "No articles found. Try to change searching phrase"
         }
     }
 }
