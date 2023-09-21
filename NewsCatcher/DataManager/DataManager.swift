@@ -29,8 +29,6 @@ protocol ArticleSearchCriteria {
 }
 
 final class DataManager: AppDataManager {
-    // MARK: Dependencies
-
     static let shared = DataManager(
         repository: NewsRepository(
             networkService: NetworkService(apiRequestBuilder: APIRequestBuilder()),
@@ -38,12 +36,8 @@ final class DataManager: AppDataManager {
         )
     )
 
-    // MARK: Dependencies
-
     private let repository: AppDataRepository
     var onDataUpdate: (() -> Void)?
-
-    // MARK: Initializer
 
     private init(repository: AppDataRepository) {
         self.repository = repository
@@ -52,8 +46,6 @@ final class DataManager: AppDataManager {
             onDataUpdate?()
         }
     }
-
-    // MARK: AppDataManager API
 
     func downloadNews(about keyword: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping ((Result<Void, NetworkError>) -> Void)) {
         repository.downloadNews(about: keyword, searchCriteria: searchCriteria) { result in

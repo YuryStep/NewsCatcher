@@ -15,13 +15,9 @@ protocol AppNetworkService {
 final class NetworkService: AppNetworkService {
     private let apiRequestBuilder: AppRequestBuilder
 
-    // MARK: Initializer
-
     init(apiRequestBuilder: AppRequestBuilder) {
         self.apiRequestBuilder = apiRequestBuilder
     }
-
-    // MARK: AppNetworkManager
 
     func downloadArticles(about keyPhrase: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping (Result<[Article], NetworkError>) -> Void) {
         let urlRequestString = apiRequestBuilder.getURLRequestString(for: keyPhrase, searchCriteria: searchCriteria)
@@ -58,8 +54,6 @@ final class NetworkService: AppNetworkService {
             }
         }
     }
-
-    // MARK: Private Methods
 
     private func fetchData(from urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         guard let url = URL(string: urlString) else {

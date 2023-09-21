@@ -34,12 +34,8 @@ final class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
         static let navigationItemTitle = "News Catcher"
     }
 
-    // MARK: Dependencies
-
     private var feedView: FeedView!
     var presenter: FeedOutput!
-
-    // MARK: Initializers
 
     init(feedView: FeedView) {
         super.init(nibName: nil, bundle: nil)
@@ -50,8 +46,6 @@ final class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
     required init?(coder _: NSCoder) {
         fatalError("This class does not support NSCoder")
     }
-
-    // MARK: Lifecycle methods
 
     override func loadView() {
         view = feedView
@@ -72,8 +66,6 @@ final class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
         presenter.didReceiveMemoryWarning()
     }
 
-    // MARK: Output methods
-
     func searchButtonTapped() {
         presenter.searchButtonTapped()
     }
@@ -85,8 +77,6 @@ final class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
     func refreshTableViewData() {
         presenter.refreshTableViewData()
     }
-
-    // MARK: Input methods
 
     func reloadFeedTableView() {
         feedView.tableView.reloadData()
@@ -115,8 +105,6 @@ extension FeedViewController {
     }
 }
 
-// MARK: - UITableViewDataSource
-
 extension FeedViewController: UITableViewDataSource {
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return presenter.getNumberOfRowsInSection()
@@ -142,16 +130,12 @@ extension FeedViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - UITableViewDelegate
-
 extension FeedViewController: UITableViewDelegate {
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         presenter.didTapOnCell(at: indexPath.row)
         feedView.tableView.deselectRow(at: indexPath, animated: true)
     }
 }
-
-// MARK: - UITextFieldDelegate
 
 extension FeedViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_: UITextField) -> Bool {

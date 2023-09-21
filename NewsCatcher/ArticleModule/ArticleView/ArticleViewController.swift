@@ -27,12 +27,8 @@ final class ArticleViewController: UIViewController {
         static let navigationItemTitle = "News Catcher"
     }
 
-    // MARK: Dependencies
-
     var articleView: ArticleView!
     var presenter: ArticleOutput!
-
-    // MARK: Initializers
 
     init(articleView: ArticleView) {
         super.init(nibName: nil, bundle: nil)
@@ -44,8 +40,6 @@ final class ArticleViewController: UIViewController {
     required init?(coder _: NSCoder) {
         fatalError("This class does not support NSCoder")
     }
-
-    // MARK: Lifecycle methods
 
     override func loadView() {
         view = articleView
@@ -67,8 +61,6 @@ final class ArticleViewController: UIViewController {
         presenter.handleMemoryWarning()
     }
 }
-
-// MARK: ArticleInput
 
 extension ArticleViewController: ArticleInput {
     func updateView() {
@@ -94,8 +86,6 @@ extension ArticleViewController: ArticleInput {
         navigationController?.pushViewController(webArticleViewController, animated: true)
     }
 }
-
-// MARK: ArticleViewDelegate
 
 extension ArticleViewController: ArticleViewDelegate {
     func readInSourceButtonTapped() {

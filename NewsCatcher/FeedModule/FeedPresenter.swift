@@ -8,19 +8,13 @@
 import Foundation
 
 final class FeedPresenter: FeedOutput {
-    // MARK: Dependencies
-
     private weak var view: FeedInput?
     private var dataManager: AppDataManager
-
-    // MARK: Initializer
 
     init(view: FeedInput, dataManager: AppDataManager) {
         self.view = view
         self.dataManager = dataManager
     }
-
-    // MARK: FeedOutput
 
     func viewWillAppear() {
         dataManager.onDataUpdate = { [weak self] in

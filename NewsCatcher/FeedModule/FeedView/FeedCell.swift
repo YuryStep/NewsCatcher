@@ -21,8 +21,6 @@ final class FeedCell: UITableViewCell {
     private var timer: Timer?
     var id = UUID()
 
-    // MARK: Subviews
-
     private lazy var articleImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -41,8 +39,6 @@ final class FeedCell: UITableViewCell {
         return indicator
     }()
 
-    // MARK: Initializers:
-
     @available(*, unavailable)
     required init?(coder _: NSCoder) {
         fatalError("This class does not support NSCoder")
@@ -52,8 +48,6 @@ final class FeedCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: FeedCell.reuseIdentifier)
         setupSubviews()
     }
-
-    // MARK: Public API
 
     func configure(withTitle title: String, sourceName: String, date: String, description: String) {
         timer?.invalidate()
@@ -75,8 +69,6 @@ final class FeedCell: UITableViewCell {
         articleImageView.image = image
         loadingIndicator.stopAnimating()
     }
-
-    // MARK: Private Methods
 
     private func setupSubviews() {
         let subviews = [loadingIndicator, articleImageView, sourceNameLabel, dateLabel, titleLabel, descriptionLabel]

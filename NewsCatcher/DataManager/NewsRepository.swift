@@ -27,23 +27,14 @@ final class NewsRepository: AppDataRepository {
         static let publishingDateFormat = "yyyy-MM-dd"
     }
 
-    // MARK: Dependencies
-
     private let networkService: AppNetworkService
     private let cacheService: AppCacheService
-
-    // MARK: Data
-
     private var articles = [Article]()
-
-    // MARK: Initializer
 
     init(networkService: AppNetworkService, cacheService: AppCacheService) {
         self.networkService = networkService
         self.cacheService = cacheService
     }
-
-    // MARK: DataRepository
 
     func getInitialFeed(completion: @escaping () -> Void) {
         if let cachedArticles = cacheService.getArticles(forKey: Constants.articlesCacheKey) {

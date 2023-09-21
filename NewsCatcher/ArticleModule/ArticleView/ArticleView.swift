@@ -27,8 +27,6 @@ final class ArticleView: UIView {
     var index: Int?
     private var timer: Timer?
 
-    // MARK: Subviews
-
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -63,8 +61,6 @@ final class ArticleView: UIView {
         return button
     }()
 
-    // MARK: Initializers
-
     @available(*, unavailable)
     required init?(coder _: NSCoder) {
         fatalError("This class does not support NSCoder")
@@ -76,8 +72,6 @@ final class ArticleView: UIView {
         backgroundColor = .white
         setupSubviews()
     }
-
-    // MARK: Input methods
 
     func configure(with image: UIImage?, title: String, sourceName: String, date: String, content: String) {
         timer?.invalidate()
@@ -101,8 +95,6 @@ final class ArticleView: UIView {
     func update() {
         setNeedsDisplay()
     }
-
-    // MARK: Output methods
 
     @objc func goToSourceButtonTapped() {
         delegate?.readInSourceButtonTapped()

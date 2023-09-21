@@ -23,8 +23,6 @@ final class FeedView: UIView {
 
     weak var delegate: FeedViewDelegate?
 
-    // MARK: Subviews
-
     lazy var settingsButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -60,8 +58,6 @@ final class FeedView: UIView {
         return tableView
     }()
 
-    // MARK: Initializers
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .systemGray5
@@ -72,8 +68,6 @@ final class FeedView: UIView {
     required init?(coder _: NSCoder) {
         fatalError("This class does not support NSCoder")
     }
-
-    // MARK: Delegate Methods
 
     @objc private func settingsButtonTapped() {
         delegate?.settingsButtonTapped()
@@ -87,8 +81,6 @@ final class FeedView: UIView {
         delegate?.refreshTableViewData()
         sender.endRefreshing()
     }
-
-    // MARK: Initial setup methods
 
     private func setupSubviews() {
         let subviews = [settingsButton, searchTextField, searchButton, tableView]
