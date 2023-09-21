@@ -19,6 +19,7 @@ final class FeedCell: UITableViewCell {
 
     static let reuseIdentifier = "FeedCellIdentifier"
     private var timer: Timer?
+    var id = UUID()
 
     // MARK: Subviews
 

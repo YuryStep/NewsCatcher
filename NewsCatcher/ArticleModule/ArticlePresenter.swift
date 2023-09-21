@@ -43,9 +43,13 @@ final class ArticlePresenter: ArticleOutput {
     }
 
     func getImageData(atIndex index: Int, completion: @escaping (Data?) -> Void) {
-        dataManager.getImageDataForArticle(at: index) { data in
-            guard let data = data else { return }
-            completion(data)
+        dataManager.getImageDataForArticle(at: index) { result in
+            switch result {
+            case let .success(imageData): completion(imageData)
+            case let .failure(error):
+                self.handleError(error)
+                completion(nil)
+            }
         }
     }
 
@@ -54,6 +58,16 @@ final class ArticlePresenter: ArticleOutput {
         let urlString = dataManager.getSourceURLForArticle(at: index)
         if let url = URL(string: urlString) {
             view?.goToWebArticle(sourceURL: url)
+        }
+    }
+}
+
+extension ArticlePresenter {
+    private func handleError(_ error: NetworkError) {
+        // TODO: Create error handling cases
+        switch error {
+        default:
+            debugPrint(error.localizedDescription)
         }
     }
 }

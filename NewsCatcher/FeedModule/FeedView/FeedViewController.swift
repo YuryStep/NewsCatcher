@@ -90,7 +90,7 @@ final class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
 
     func reloadFeedTableView() {
         feedView.tableView.reloadData()
-        feedView.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        scrollTableViewBackToTheTop()
     }
 
     func showArticle(at index: Int, dataManager _: AppDataManager) {
@@ -107,6 +107,14 @@ final class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
     }
 }
 
+extension FeedViewController {
+    private func scrollTableViewBackToTheTop() {
+        guard feedView.tableView.numberOfSections > 0,
+              feedView.tableView.numberOfRows(inSection: 0) > 0 else { return }
+        feedView.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+    }
+}
+
 // MARK: - UITableViewDataSource
 
 extension FeedViewController: UITableViewDataSource {
@@ -118,13 +126,15 @@ extension FeedViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.reuseIdentifier, for: indexPath) as? FeedCell else {
             return UITableViewCell()
         }
+        let requestID = UUID()
+        cell.id = requestID
         let title = presenter.getTitle(at: indexPath)
         let sourceName = presenter.getSourceName(at: indexPath)
         let date = presenter.getPublishingDate(at: indexPath)
         let description = presenter.getDescription(at: indexPath)
         cell.configure(withTitle: title, sourceName: sourceName, date: date, description: description)
         presenter.getImageData(at: indexPath) { imageData in
-            if let imageData = imageData, let image = UIImage(data: imageData) {
+            if let imageData = imageData, let image = UIImage(data: imageData), cell.id == requestID {
                 cell.setImage(image)
             }
         }

@@ -32,6 +32,7 @@
 		EF85DBA02A9F5A2E00CD9295 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF85DB9F2A9F5A2E00CD9295 /* Assets.xcassets */; };
 		EF85DBA32A9F5A2E00CD9295 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF85DBA12A9F5A2E00CD9295 /* LaunchScreen.storyboard */; };
 		EF85DBAB2A9F7A6700CD9295 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF85DBAA2A9F7A6700CD9295 /* FeedView.swift */; };
+		EF91997C2AB99888000A6364 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91997B2AB99888000A6364 /* NetworkError.swift */; };
 		EFF046B82AB0939F00121D66 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = EFF046B72AB0939F00121D66 /* .swiftlint.yml */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +64,7 @@
 		EF85DBA22A9F5A2E00CD9295 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EF85DBA42A9F5A2E00CD9295 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF85DBAA2A9F7A6700CD9295 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		EF91997B2AB99888000A6364 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		EFF046B72AB0939F00121D66 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -112,6 +114,7 @@
 				EF28C5122AA1CF2F00B68649 /* NetworkService.swift */,
 				EF2897CC2AA7210000B9A335 /* APIRequestBuilder.swift */,
 				EF28C5142AA1CFFC00B68649 /* News.swift */,
+				EF91997B2AB99888000A6364 /* NetworkError.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 			files = (
 				EF2E828D2AABA3280065F4C5 /* NewsCatcherAssembly.swift in Sources */,
 				EF28C5202AA3432700B68649 /* ArticleViewController.swift in Sources */,
+				EF91997C2AB99888000A6364 /* NetworkError.swift in Sources */,
 				EF85DBAB2A9F7A6700CD9295 /* FeedView.swift in Sources */,
 				EF28C50C2AA06D9A00B68649 /* FeedCell.swift in Sources */,
 				EF85DB9B2A9F5A2C00CD9295 /* FeedViewController.swift in Sources */,
