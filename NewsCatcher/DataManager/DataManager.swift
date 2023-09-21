@@ -30,65 +30,107 @@ protocol ArticleSearchCriteria {
 
 final class DataManager: AppDataManager {
     static let shared = DataManager(
-        repository: NewsRepository(
-            networkService: NetworkService(apiRequestBuilder: APIRequestBuilder()),
-            cacheService: CacheService()
-        )
-    )
+        networkService: NetworkService(apiRequestBuilder: APIRequestBuilder()),
+        cacheService: CacheService())
 
-    private let repository: AppDataRepository
+    private enum Constants {
+        static let articlesCacheKey = "Saved NCArticles"
+        static let publishingDateFormat = "yyyy-MM-dd"
+    }
+
     var onDataUpdate: (() -> Void)?
+    private let networkService: AppNetworkService
+    private let cacheService: AppCacheService
+    private var articles = [Article]() // TODO: remove
 
-    private init(repository: AppDataRepository) {
-        self.repository = repository
-        repository.getInitialFeed { [weak self] in
-            guard let self else { return }
-            onDataUpdate?()
+    private init(networkService: AppNetworkService, cacheService: AppCacheService) {
+        self.networkService = networkService
+        self.cacheService = cacheService
+        getInitialFeed()
+    }
+
+    func getInitialFeed() {
+        if let cachedArticles = cacheService.getArticles(forKey: Constants.articlesCacheKey) {
+            articles = cachedArticles
+        } else {
+            downloadNews(about: nil, searchCriteria: nil) { _ in
+                self.onDataUpdate?()
+            }
         }
     }
 
     func downloadNews(about keyword: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping ((Result<Void, NetworkError>) -> Void)) {
-        repository.downloadNews(about: keyword, searchCriteria: searchCriteria) { result in
+        networkService.downloadArticles(about: keyword, searchCriteria: searchCriteria) { [weak self] result in
+            guard let self else { return }
+
             switch result {
-            case .success: completion(.success(()))
-            case let .failure(error): completion(.failure(error))
+            case let .success(articles):
+                if !articles.isEmpty {
+                    self.articles = articles
+                    cacheService.save(articles: articles, forKey: Constants.articlesCacheKey)
+                    completion(.success(()))
+                } else {
+                    completion(.failure(.noArticlesFound))
+                }
+            case let .failure(error):
+                completion(.failure(error))
             }
         }
     }
 
     func getNumberOfArticles() -> Int {
-        repository.getNumberOfArticles()
+        articles.count
     }
 
     func getTitleForArticle(at index: Int) -> String {
-        repository.getTitleForArticle(at: index)
+        articles[index].title
     }
 
     func getDescriptionForArticle(at index: Int) -> String {
-        repository.getDescriptionForArticle(at: index)
+        articles[index].description
     }
 
     func getContentForArticle(at index: Int) -> String {
-        repository.getContentForArticle(at: index)
+        articles[index].content
     }
 
     func getImageDataForArticle(at index: Int, completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        repository.getImageDataForArticle(at: index, completion: completion)
+        let imageURL = articles[index].imageStringURL
+        if let imageData = cacheService.getData(forKey: imageURL) {
+            completion(.success(imageData))
+        } else {
+            networkService.downloadImageData(from: imageURL) { response in
+                switch response {
+                case let .success(imageData):
+                    self.cacheService.save(imageData, forKey: imageURL)
+                    completion(.success(imageData))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
     }
 
     func getSourceURLForArticle(at index: Int) -> String {
-        repository.getSourceURLForArticle(at: index)
+        articles[index].source.url
     }
 
     func getSourceNameForArticle(at index: Int) -> String {
-        repository.getSourceNameForArticle(at: index)
+        articles[index].source.name
     }
 
     func getPublishingDateForArticle(at index: Int) -> String {
-        repository.getPublishingDateForArticle(at: index)
+        let dateString = articles[index].publishedAt
+        if let date = ISO8601DateFormatter().date(from: dateString) {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = Constants.publishingDateFormat
+            return dateFormatter.string(from: date)
+        } else {
+            return dateString
+        }
     }
 
     func clearCache() {
-        repository.clearCache()
+        cacheService.clearCache()
     }
 }
