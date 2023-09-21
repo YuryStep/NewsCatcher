@@ -9,17 +9,15 @@ import UIKit
 
 protocol ArticleInput: AnyObject {
     func updateView()
-    func getArticleIndex() -> Int?
-    func setupArticleView(withTitle title: String, content: String, sourceName: String, publishingDate date: String)
+    func setupArticleView(withTitle: String, content: String, sourceName: String, publishingDate: String)
     func goToWebArticle(sourceURL: URL)
 }
 
 protocol ArticleOutput: AnyObject {
     func viewDidLoad()
-    func viewWillAppear()
-    func handleMemoryWarning()
+    func didReceiveMemoryWarning()
     func readInSourceButtonTapped()
-    func getImageData(atIndex: Int, completion: @escaping (Data?) -> Void)
+    func getImageData(completion: @escaping (Data?) -> Void)
 }
 
 final class ArticleViewController: UIViewController {
@@ -51,14 +49,15 @@ final class ArticleViewController: UIViewController {
         presenter.viewDidLoad()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        presenter.viewWillAppear()
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        presenter.handleMemoryWarning()
+        presenter.didReceiveMemoryWarning()
+    }
+}
+
+extension ArticleViewController: ArticleViewDelegate {
+    func readInSourceButtonTapped() {
+        presenter.readInSourceButtonTapped()
     }
 }
 
@@ -67,16 +66,11 @@ extension ArticleViewController: ArticleInput {
         articleView.setNeedsDisplay()
     }
 
-    func getArticleIndex() -> Int? {
-        articleView.index
-    }
-
     func setupArticleView(withTitle title: String, content: String, sourceName: String, publishingDate date: String) {
-        guard let index = articleView.index else { return }
-        articleView.configure(with: nil, title: title, sourceName: sourceName, date: date, content: content)
-        presenter.getImageData(atIndex: index) { imageData in
+        articleView.configure(withTitle: title, sourceName: sourceName, date: date, content: content)
+        presenter.getImageData { imageData in
             if let imageData = imageData, let image = UIImage(data: imageData) {
-                self.articleView.configure(with: image, title: title, sourceName: sourceName, date: date, content: content)
+                self.articleView.setImage(image)
             }
         }
     }
@@ -84,11 +78,5 @@ extension ArticleViewController: ArticleInput {
     func goToWebArticle(sourceURL url: URL) {
         let webArticleViewController = WebArticleViewController(sourceURL: url)
         navigationController?.pushViewController(webArticleViewController, animated: true)
-    }
-}
-
-extension ArticleViewController: ArticleViewDelegate {
-    func readInSourceButtonTapped() {
-        presenter.readInSourceButtonTapped()
     }
 }

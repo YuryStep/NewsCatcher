@@ -18,7 +18,7 @@ final class FeedView: UIView {
         static let spacingMultiplier: CGFloat = 1
         static let settingsButtonImageSystemName = "gearshape"
         static let searchButtonImageSystemName = "magnifyingglass"
-        static let searchTextFieldPlaceholder = "WWDC 2023"
+        static let searchTextFieldPlaceholder = "iOS"
     }
 
     weak var delegate: FeedViewDelegate?

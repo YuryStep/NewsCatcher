@@ -90,7 +90,7 @@
 		EF2897D32AA7717B00B9A335 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				EF28C51D2AA3146800B68649 /* CacheService.swift */,
+				EF9892C22ABCA5D60015D624 /* CacheService */,
 				EF28C5162AA1D04800B68649 /* Networking */,
 			);
 			path = Services;
@@ -111,7 +111,6 @@
 			children = (
 				EF28C5122AA1CF2F00B68649 /* NetworkService.swift */,
 				EF2897CC2AA7210000B9A335 /* APIRequestBuilder.swift */,
-				EF28C5142AA1CFFC00B68649 /* News.swift */,
 				EF91997B2AB99888000A6364 /* NetworkError.swift */,
 			);
 			path = Networking;
@@ -120,8 +119,6 @@
 		EF28C5172AA2093600B68649 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				EF85DB962A9F5A2C00CD9295 /* AppDelegate.swift */,
-				EF85DB982A9F5A2C00CD9295 /* SceneDelegate.swift */,
 				EF85DB9F2A9F5A2E00CD9295 /* Assets.xcassets */,
 				EF85DBA12A9F5A2E00CD9295 /* LaunchScreen.storyboard */,
 				EF85DBA42A9F5A2E00CD9295 /* Info.plist */,
@@ -133,8 +130,8 @@
 			isa = PBXGroup;
 			children = (
 				EF28C51A2AA233F900B68649 /* FeedAssembly.swift */,
-				EF28C5112AA0E40A00B68649 /* FeedView */,
 				EF28C50F2AA0CD4600B68649 /* FeedPresenter.swift */,
+				EF28C5112AA0E40A00B68649 /* FeedView */,
 			);
 			path = FeedModule;
 			sourceTree = "<group>";
@@ -152,8 +149,8 @@
 			isa = PBXGroup;
 			children = (
 				EF28C5252AA343DF00B68649 /* ArticleAssembly.swift */,
-				EF28C5272AA343FB00B68649 /* ArticleView */,
 				EF28C5232AA343AD00B68649 /* ArticlePresenter.swift */,
+				EF28C5272AA343FB00B68649 /* ArticleView */,
 			);
 			path = ArticleModule;
 			sourceTree = "<group>";
@@ -195,16 +192,43 @@
 		EF85DB952A9F5A2C00CD9295 /* NewsCatcher */ = {
 			isa = PBXGroup;
 			children = (
-				EF2E828C2AABA3280065F4C5 /* NewsCatcherAssembly.swift */,
 				EF2E828B2AABA30C0065F4C5 /* DataManager */,
 				EF2897D32AA7717B00B9A335 /* Services */,
+				EF9892C12ABCA30C0015D624 /* Model */,
 				EF28C51C2AA239E700B68649 /* FeedModule */,
 				EF28C5282AA3442900B68649 /* ArticleModule */,
 				EF4E320D2AB440DB005C0E04 /* WebArticleModule */,
 				EF2897D22AA770FC00B9A335 /* Extensions */,
+				EF9892C32ABCA6860015D624 /* Root */,
 				EF28C5172AA2093600B68649 /* Supporting Files */,
 			);
 			path = NewsCatcher;
+			sourceTree = "<group>";
+		};
+		EF9892C12ABCA30C0015D624 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EF28C5142AA1CFFC00B68649 /* News.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		EF9892C22ABCA5D60015D624 /* CacheService */ = {
+			isa = PBXGroup;
+			children = (
+				EF28C51D2AA3146800B68649 /* CacheService.swift */,
+			);
+			path = CacheService;
+			sourceTree = "<group>";
+		};
+		EF9892C32ABCA6860015D624 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				EF85DB962A9F5A2C00CD9295 /* AppDelegate.swift */,
+				EF85DB982A9F5A2C00CD9295 /* SceneDelegate.swift */,
+				EF2E828C2AABA3280065F4C5 /* NewsCatcherAssembly.swift */,
+			);
+			path = Root;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

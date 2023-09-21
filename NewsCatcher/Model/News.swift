@@ -5,6 +5,8 @@
 //  Created by Юрий Степанчук on 01.09.2023.
 //
 
+import Foundation
+
 struct News: Codable {
     let totalArticles: Int
     let articles: [Article]

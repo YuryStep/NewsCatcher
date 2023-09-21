@@ -8,7 +8,7 @@
 import Foundation
 
 protocol AppNetworkService {
-    func downloadArticles(about: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping ((Result<[Article], NetworkError>) -> Void))
+    func downloadArticles(about: String?, searchCriteria: SearchCriteria?, completion: @escaping ((Result<[Article], NetworkError>) -> Void))
     func downloadImageData(from urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void)
 }
 
@@ -19,7 +19,7 @@ final class NetworkService: AppNetworkService {
         self.apiRequestBuilder = apiRequestBuilder
     }
 
-    func downloadArticles(about keyPhrase: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping (Result<[Article], NetworkError>) -> Void) {
+    func downloadArticles(about keyPhrase: String?, searchCriteria: SearchCriteria?, completion: @escaping (Result<[Article], NetworkError>) -> Void) {
         let urlRequestString = apiRequestBuilder.getURLRequestString(for: keyPhrase, searchCriteria: searchCriteria)
         fetchData(from: urlRequestString) { [weak self] dataFetchingResult in
             guard let self else { return }

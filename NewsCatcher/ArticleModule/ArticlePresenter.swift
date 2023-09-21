@@ -7,56 +7,54 @@
 
 import Foundation
 
-final class ArticlePresenter: ArticleOutput {
+final class ArticlePresenter {
+    struct State {
+        var article: Article
+    }
+
     private weak var view: ArticleInput?
     private var dataManager: AppDataManager
+    private var state: State
 
-    init(view: ArticleInput, dataManager: AppDataManager) {
+    init(view: ArticleInput, article: Article, dataManager: AppDataManager) {
         self.view = view
+        state = State(article: article)
         self.dataManager = dataManager
     }
+}
 
+extension ArticlePresenter: ArticleOutput {
     func viewDidLoad() {
-        guard let index = view?.getArticleIndex() else { return }
-        let title = dataManager.getTitleForArticle(at: index)
-        let content = dataManager.getContentForArticle(at: index)
-        let sourceName = dataManager.getSourceNameForArticle(at: index)
-        let date = dataManager.getPublishingDateForArticle(at: index)
-        view?.setupArticleView(withTitle: title, content: content, sourceName: sourceName, publishingDate: date)
+        view?.setupArticleView(withTitle: state.article.title,
+                               content: state.article.content,
+                               sourceName: state.article.source.name,
+                               publishingDate: state.article.publishedAt.dateFormatted())
     }
 
-    func viewWillAppear() {
-        dataManager.onDataUpdate = { [weak self] in
-            guard let self else { return }
-            view?.updateView()
-        }
-    }
-
-    func handleMemoryWarning() {
+    func didReceiveMemoryWarning() {
         dataManager.clearCache()
     }
 
-    func getImageData(atIndex index: Int, completion: @escaping (Data?) -> Void) {
-        dataManager.getImageDataForArticle(at: index) { result in
+    func getImageData(completion: @escaping (Data?) -> Void) {
+        let imageStringURL = state.article.imageStringURL
+        dataManager.getImageData(from: imageStringURL) { [weak self] result in
+            guard let self, state.article.imageStringURL == imageStringURL else { return }
             switch result {
-            case let .success(imageData): completion(imageData)
+            case let .success(imageData):
+                completion(imageData)
             case let .failure(error):
-                self.handleError(error)
+                handleError(error)
                 completion(nil)
             }
         }
     }
 
     func readInSourceButtonTapped() {
-        guard let index = view?.getArticleIndex() else { return }
-        let urlString = dataManager.getSourceURLForArticle(at: index)
-        if let url = URL(string: urlString) {
+        if let url = URL(string: state.article.urlString) {
             view?.goToWebArticle(sourceURL: url)
         }
     }
-}
 
-extension ArticlePresenter {
     private func handleError(_ error: NetworkError) {
         // TODO: Create error handling cases
         switch error {

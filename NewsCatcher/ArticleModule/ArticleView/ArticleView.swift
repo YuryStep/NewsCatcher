@@ -24,7 +24,6 @@ final class ArticleView: UIView {
     }
 
     weak var delegate: ArticleViewDelegate?
-    var index: Int?
     private var timer: Timer?
 
     private lazy var scrollView: UIScrollView = {
@@ -66,30 +65,31 @@ final class ArticleView: UIView {
         fatalError("This class does not support NSCoder")
     }
 
-    init(frame: CGRect, index: Int) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
-        self.index = index
         backgroundColor = .white
         setupSubviews()
     }
 
-    func configure(with image: UIImage?, title: String, sourceName: String, date: String, content: String) {
+    func configure(withTitle title: String, sourceName: String, date: String, content: String) {
         timer?.invalidate()
-        if let image = image {
-            articleImageView.image = image
-            loadingIndicator.stopAnimating()
-        } else {
-            articleImageView.image = nil
-            loadingIndicator.startAnimating()
-            timer = Timer.scheduledTimer(withTimeInterval: Constants.timeIntervalForImagePlaceholder, repeats: false) { _ in
+        articleImageView.image = nil
+        loadingIndicator.startAnimating()
+        timer = Timer.scheduledTimer(withTimeInterval: Constants.timeIntervalForImagePlaceholder, repeats: false) { _ in
+            if self.articleImageView.image == nil {
                 self.loadingIndicator.stopAnimating()
                 self.articleImageView.image = UIImage(named: Constants.placeholderImageName)
             }
         }
         titleLabel.text = title
-        contentLabel.text = content
         sourceNameLabel.text = Constants.sourceCaptionText + sourceName
         dateLabel.text = Constants.dateCaptionText + date
+        contentLabel.text = content
+    }
+
+    func setImage(_ image: UIImage) {
+        articleImageView.image = image
+        loadingIndicator.stopAnimating()
     }
 
     func update() {

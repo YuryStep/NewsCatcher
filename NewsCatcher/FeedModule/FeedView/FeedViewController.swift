@@ -7,16 +7,16 @@
 
 protocol FeedInput: AnyObject {
     func reloadFeedTableView()
-    func showArticle(at index: Int, dataManager: AppDataManager)
+    func showArticle(_ article: Article)
     func getSearchFieldText() -> String?
+    func cleanSearchTextField()
     func hideKeyboard()
 }
 
 protocol FeedOutput: AnyObject {
-    func viewWillAppear()
     func didReceiveMemoryWarning()
-    func searchButtonTapped()
-    func settingsButtonTapped()
+    func didTapOnSearchButton()
+    func didTapOnSettingsButton()
     func refreshTableViewData()
     func getNumberOfRowsInSection() -> Int
     func getTitle(at indexPath: IndexPath) -> String
@@ -24,7 +24,7 @@ protocol FeedOutput: AnyObject {
     func getImageData(at indexPath: IndexPath, completion: @escaping (Data?) -> Void)
     func getSourceName(at indexPath: IndexPath) -> String
     func getPublishingDate(at indexPath: IndexPath) -> String
-    func didTapOnCell(at index: Int)
+    func didTapOnCell(at indexPath: IndexPath)
 }
 
 import UIKit
@@ -56,22 +56,17 @@ final class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
         feedView.searchTextField.delegate = self
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        presenter.viewWillAppear()
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         presenter.didReceiveMemoryWarning()
     }
 
     func searchButtonTapped() {
-        presenter.searchButtonTapped()
+        presenter.didTapOnSearchButton()
     }
 
     func settingsButtonTapped() {
-        presenter.settingsButtonTapped()
+        presenter.didTapOnSettingsButton()
     }
 
     func refreshTableViewData() {
@@ -83,13 +78,17 @@ final class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
         scrollTableViewBackToTheTop()
     }
 
-    func showArticle(at index: Int, dataManager _: AppDataManager) {
-        let articleViewController = ArticleAssembly.makeModule(index: index)
+    func showArticle(_ article: Article) {
+        let articleViewController = ArticleAssembly.makeModule(for: article)
         navigationController?.pushViewController(articleViewController, animated: true)
     }
 
     func getSearchFieldText() -> String? {
         return feedView.searchTextField.text
+    }
+
+    func cleanSearchTextField() {
+        feedView.searchTextField.text = nil
     }
 
     func hideKeyboard() {
@@ -114,15 +113,13 @@ extension FeedViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.reuseIdentifier, for: indexPath) as? FeedCell else {
             return UITableViewCell()
         }
-        let requestID = UUID()
-        cell.id = requestID
         let title = presenter.getTitle(at: indexPath)
         let sourceName = presenter.getSourceName(at: indexPath)
         let date = presenter.getPublishingDate(at: indexPath)
         let description = presenter.getDescription(at: indexPath)
         cell.configure(withTitle: title, sourceName: sourceName, date: date, description: description)
         presenter.getImageData(at: indexPath) { imageData in
-            if let imageData = imageData, let image = UIImage(data: imageData), cell.id == requestID {
+            if let imageData = imageData, let image = UIImage(data: imageData) {
                 cell.setImage(image)
             }
         }
@@ -132,7 +129,7 @@ extension FeedViewController: UITableViewDataSource {
 
 extension FeedViewController: UITableViewDelegate {
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter.didTapOnCell(at: indexPath.row)
+        presenter.didTapOnCell(at: indexPath)
         feedView.tableView.deselectRow(at: indexPath, animated: true)
     }
 }

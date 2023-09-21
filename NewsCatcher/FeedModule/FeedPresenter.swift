@@ -7,71 +7,65 @@
 
 import Foundation
 
-final class FeedPresenter: FeedOutput {
+final class FeedPresenter {
+    struct State {
+        var news: [Article]
+    }
+
     private weak var view: FeedInput?
     private var dataManager: AppDataManager
+    private var state: State
 
     init(view: FeedInput, dataManager: AppDataManager) {
         self.view = view
         self.dataManager = dataManager
+        state = State(news: [Article]())
+        loadCurrentNews()
     }
+}
 
-    func viewWillAppear() {
-        dataManager.onDataUpdate = { [weak self] in
-            guard let self else { return }
-            view?.reloadFeedTableView()
-        }
-    }
-
+extension FeedPresenter: FeedOutput {
     func didReceiveMemoryWarning() {
         dataManager.clearCache()
     }
 
-    func searchButtonTapped() {
+    func didTapOnSearchButton() {
         guard let searchPhrase = view?.getSearchFieldText() else { return }
         if !searchPhrase.isEmpty {
-            dataManager.downloadNews(about: searchPhrase, searchCriteria: nil) { [weak self] result in
-                guard let self else { return }
-                switch result {
-                case .success: view?.reloadFeedTableView()
-                case let .failure(error): handleError(error)
-                }
-            }
+            displayNews(about: searchPhrase, searchCriteria: nil)
         }
         view?.hideKeyboard()
     }
 
-    func settingsButtonTapped() {
-        print("settingsButtonTapped")
+    func didTapOnSettingsButton() {
+        debugPrint("Settings Button Tapped")
+    }
+
+    func didTapOnCell(at indexPath: IndexPath) {
+        view?.showArticle(state.news[indexPath.row])
     }
 
     func refreshTableViewData() {
-        // TODO: searchCriteria and keyword must be sent in future implementation to save current request properties.
-        dataManager.downloadNews(about: nil, searchCriteria: nil) { [weak self] result in
-            guard let self else { return }
-            switch result {
-            case .success: view?.reloadFeedTableView()
-            case let .failure(error): handleError(error)
-            }
-        }
+        displayNews(about: nil, searchCriteria: nil)
+        view?.cleanSearchTextField()
     }
 
     func getNumberOfRowsInSection() -> Int {
-        return dataManager.getNumberOfArticles()
+        return state.news.count
     }
 
     func getTitle(at indexPath: IndexPath) -> String {
-        return dataManager.getTitleForArticle(at: indexPath.row)
+        return state.news[indexPath.row].title
     }
 
     func getDescription(at indexPath: IndexPath) -> String {
-        return dataManager.getDescriptionForArticle(at: indexPath.row)
+        return state.news[indexPath.row].description
     }
 
     func getImageData(at indexPath: IndexPath, completion: @escaping (Data?) -> Void) {
-        dataManager.getImageDataForArticle(at: indexPath.row) { [weak self] result in
-            guard let self else { return }
-
+        let imageStringURL = state.news[indexPath.row].imageStringURL
+        dataManager.getImageData(from: imageStringURL) { [weak self] result in
+            guard let self, state.news[indexPath.row].imageStringURL == imageStringURL else { return }
             switch result {
             case let .success(imageData):
                 completion(imageData)
@@ -83,19 +77,43 @@ final class FeedPresenter: FeedOutput {
     }
 
     func getSourceName(at indexPath: IndexPath) -> String {
-        return dataManager.getSourceNameForArticle(at: indexPath.row)
+        return state.news[indexPath.row].source.name
     }
 
     func getPublishingDate(at indexPath: IndexPath) -> String {
-        return dataManager.getPublishingDateForArticle(at: indexPath.row)
+        return state.news[indexPath.row].publishedAt.dateFormatted()
     }
 
-    func didTapOnCell(at index: Int) {
-        view?.showArticle(at: index, dataManager: dataManager)
+    private func loadCurrentNews() {
+        dataManager.getCurrentNews { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case let .success(fetchedNews):
+                state.news = fetchedNews
+            case let .failure(error):
+                handleError(error)
+            }
+        }
     }
-}
 
-extension FeedPresenter {
+    private func displayNews(about searchPhrase: String?, searchCriteria: SearchCriteria?) {
+        dataManager.getNews(about: searchPhrase, searchCriteria: searchCriteria) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case let .success(news):
+                if news.isEmpty {
+                    // TODO: Make Alert or changeView
+                    debugPrint("There is no any news articles found. Try to change your request.")
+                } else {
+                    self.state.news = news
+                    view?.reloadFeedTableView()
+                }
+            case let .failure(error):
+                handleError(error)
+            }
+        }
+    }
+
     private func handleError(_ error: NetworkError) {
         // TODO: Create error handling cases
         switch error {

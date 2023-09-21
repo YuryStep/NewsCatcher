@@ -19,7 +19,6 @@ final class FeedCell: UITableViewCell {
 
     static let reuseIdentifier = "FeedCellIdentifier"
     private var timer: Timer?
-    var id = UUID()
 
     private lazy var articleImageView: UIImageView = {
         let imageView = UIImageView()
