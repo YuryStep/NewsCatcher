@@ -113,7 +113,7 @@ extension FeedPresenter: FeedOutput {
                     view?.showAlertWithTitle(Constants.alertTitleNoArticlesFound, text: Constants.alertTextNoArticlesFound)
                 } else {
                     self.state.news = news
-                    refreshTableViewData()
+                    view?.reloadFeedTableView()
                 }
             case let .failure(error):
                 handleError(error)

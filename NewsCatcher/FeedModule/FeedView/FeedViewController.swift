@@ -109,9 +109,7 @@ extension FeedViewController: FeedInput {
         let alertController = UIAlertController(title: title, message: text, preferredStyle: .alert)
         let okAction = UIAlertAction(title: Constants.defaultAlertButtonText, style: .default, handler: nil)
         alertController.addAction(okAction)
-        present(alertController, animated: true) {
-            self.feedView.tableView.refreshControl?.endRefreshing()
-        }
+        present(alertController, animated: true, completion: nil)
     }
 }
 
