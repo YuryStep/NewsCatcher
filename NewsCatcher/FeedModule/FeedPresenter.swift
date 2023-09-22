@@ -8,7 +8,14 @@
 import Foundation
 
 final class FeedPresenter {
-    struct State {
+    private enum Constants {
+        static let errorAlertTitleNoInternetConnection = "No Internet Connection"
+        static let errorAlertTitleDailyLimitReached = "Daily Request Limit Reached"
+        static let alertTitleNoArticlesFound = "No articles found"
+        static let alertTextNoArticlesFound = "No news articles found. Please try to change your request."
+    }
+
+    private struct State {
         var news: [Article]
     }
 
@@ -102,11 +109,11 @@ extension FeedPresenter: FeedOutput {
             switch result {
             case let .success(news):
                 if news.isEmpty {
-                    // TODO: Make Alert or changeView
-                    debugPrint("There is no any news articles found. Try to change your request.")
+                    // TODO: Optional: Change it from alert to view with text in the center instead of FeedTable
+                    view?.showAlertWithTitle(Constants.alertTitleNoArticlesFound, text: Constants.alertTextNoArticlesFound)
                 } else {
                     self.state.news = news
-                    view?.reloadFeedTableView()
+                    refreshTableViewData()
                 }
             case let .failure(error):
                 handleError(error)
@@ -115,8 +122,11 @@ extension FeedPresenter: FeedOutput {
     }
 
     private func handleError(_ error: NetworkError) {
-        // TODO: Create error handling cases
         switch error {
+        case .noInternetConnection:
+            view?.showAlertWithTitle(Constants.errorAlertTitleNoInternetConnection, text: error.localizedDescription)
+        case .forbidden403:
+            view?.showAlertWithTitle(Constants.errorAlertTitleDailyLimitReached, text: error.localizedDescription)
         default:
             debugPrint(error.localizedDescription)
         }

@@ -74,29 +74,28 @@ final class FeedCell: UITableViewCell {
         subviews.forEach { contentView.addSubview($0) }
         let marginGuide = contentView.layoutMarginsGuide
         NSLayoutConstraint.activate([
-            // loadingIndicator constraints
             loadingIndicator.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
             loadingIndicator.topAnchor.constraint(equalToSystemSpacingBelow: marginGuide.topAnchor, multiplier: Constants.imageViewAspectRatio),
             loadingIndicator.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
             loadingIndicator.heightAnchor.constraint(equalTo: marginGuide.widthAnchor, multiplier: Constants.imageViewAspectRatio),
-            // articleImageView constraints
+
             articleImageView.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
             articleImageView.topAnchor.constraint(equalTo: marginGuide.topAnchor),
             articleImageView.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
             articleImageView.heightAnchor.constraint(equalTo: articleImageView.widthAnchor, multiplier: Constants.imageViewAspectRatio),
-            // sourceNameLabel constraints
+
             sourceNameLabel.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
             sourceNameLabel.topAnchor.constraint(equalToSystemSpacingBelow: articleImageView.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
             sourceNameLabel.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
-            // dateLabel constraints
+
             dateLabel.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
             dateLabel.topAnchor.constraint(equalToSystemSpacingBelow: sourceNameLabel.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
             dateLabel.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
-            // titleLabel constraints
+
             titleLabel.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: dateLabel.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
             titleLabel.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
-            // descriptionLabel constraints
+
             descriptionLabel.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
             descriptionLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
             descriptionLabel.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),

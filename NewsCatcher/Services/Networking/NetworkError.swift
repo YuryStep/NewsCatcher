@@ -22,7 +22,7 @@ enum NetworkError: Error {
         case .invalidURL:
             return "Invalid URL"
         case .noInternetConnection:
-            return "No Internet Connection"
+            return "Unable to fetch news articles. Check your internet connection."
         case .requestFailed:
             return "Request Failed"
         case .noServerResponse:
@@ -32,7 +32,7 @@ enum NetworkError: Error {
         case .decodingFailed:
             return "Decoding Failed"
         case .forbidden403:
-            return "You have reached your daily quota, the next reset is at 00:00 UTC. StatusCode: 403"
+            return "You have reached your daily quota. The next reset is at 00:00 UTC"
         case let .badResponse(statusCode: statusCode):
             return "There is a bad server response. StatusCode: \(statusCode)"
         }

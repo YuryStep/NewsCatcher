@@ -11,6 +11,7 @@ protocol FeedInput: AnyObject {
     func getSearchFieldText() -> String?
     func cleanSearchTextField()
     func hideKeyboard()
+    func showAlertWithTitle(_ title: String, text: String)
 }
 
 protocol FeedOutput: AnyObject {
@@ -29,9 +30,10 @@ protocol FeedOutput: AnyObject {
 
 import UIKit
 
-final class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
+final class FeedViewController: UIViewController, FeedViewDelegate {
     enum Constants {
         static let navigationItemTitle = "News Catcher"
+        static let defaultAlertButtonText = "OK"
     }
 
     private var feedView: FeedView!
@@ -72,10 +74,18 @@ final class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
     func refreshTableViewData() {
         presenter.refreshTableViewData()
     }
+}
 
+extension FeedViewController: FeedInput {
     func reloadFeedTableView() {
         feedView.tableView.reloadData()
         scrollTableViewBackToTheTop()
+    }
+
+    private func scrollTableViewBackToTheTop() {
+        guard feedView.tableView.numberOfSections > 0,
+              feedView.tableView.numberOfRows(inSection: 0) > 0 else { return }
+        feedView.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
 
     func showArticle(_ article: Article) {
@@ -94,13 +104,14 @@ final class FeedViewController: UIViewController, FeedViewDelegate, FeedInput {
     func hideKeyboard() {
         feedView.searchTextField.endEditing(true)
     }
-}
 
-extension FeedViewController {
-    private func scrollTableViewBackToTheTop() {
-        guard feedView.tableView.numberOfSections > 0,
-              feedView.tableView.numberOfRows(inSection: 0) > 0 else { return }
-        feedView.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+    func showAlertWithTitle(_ title: String, text: String) {
+        let alertController = UIAlertController(title: title, message: text, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: Constants.defaultAlertButtonText, style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true) {
+            self.feedView.tableView.refreshControl?.endRefreshing()
+        }
     }
 }
 

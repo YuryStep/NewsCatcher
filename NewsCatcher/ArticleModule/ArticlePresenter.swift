@@ -8,7 +8,7 @@
 import Foundation
 
 final class ArticlePresenter {
-    struct State {
+    private struct State {
         var article: Article
     }
 
