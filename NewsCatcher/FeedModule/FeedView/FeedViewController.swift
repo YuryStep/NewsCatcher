@@ -12,6 +12,7 @@ protocol FeedInput: AnyObject {
     func cleanSearchTextField()
     func hideKeyboard()
     func showAlertWithTitle(_ title: String, text: String)
+    func stopFeedDataRefreshing()
 }
 
 protocol FeedOutput: AnyObject {
@@ -109,8 +110,13 @@ extension FeedViewController: FeedInput {
         let alertController = UIAlertController(title: title, message: text, preferredStyle: .alert)
         let okAction = UIAlertAction(title: Constants.defaultAlertButtonText, style: .default, handler: nil)
         alertController.addAction(okAction)
-        present(alertController, animated: true, completion: nil)
+        present(alertController, animated: true)
     }
+
+    func stopFeedDataRefreshing() {
+        feedView.tableView.refreshControl?.endRefreshing()
+    }
+
 }
 
 extension FeedViewController: UITableViewDataSource {

@@ -16,7 +16,46 @@ final class FeedPresenter {
     }
 
     private struct State {
-        var news: [Article]
+        private var news = [Article]()
+
+        mutating func setupNews(with news: [Article]) {
+            self.news = news
+        }
+
+        func getArticle(atIndex index: Int) -> Article? {
+            // TODO: Does it really needed to have this check?
+            guard index >= 0, index < news.count else { return nil }
+            return news[index]
+        }
+
+        func getNewsCount() -> Int {
+            return news.count
+        }
+
+        func getTitle(atIndex index: Int) -> String {
+            guard index >= 0, index < news.count else { return "" }
+            return news[index].title
+        }
+
+        func getDescription(atIndex index: Int) -> String {
+            guard index >= 0, index < news.count else { return "" }
+            return news[index].description
+        }
+
+        func getSourceName(atIndex index: Int) -> String {
+            guard index >= 0, index < news.count else { return "" }
+            return news[index].source.name
+        }
+
+        func getPublishingDate(atIndex index: Int) -> String {
+            guard index >= 0, index < news.count else { return "" }
+            return news[index].publishedAt.dateFormatted()
+        }
+
+        func getImageStringURLForArticle(atIndex index: Int) -> String {
+            return news[index].imageStringURL
+        }
+
     }
 
     private weak var view: FeedInput?
@@ -26,7 +65,7 @@ final class FeedPresenter {
     init(view: FeedInput, dataManager: AppDataManager) {
         self.view = view
         self.dataManager = dataManager
-        state = State(news: [Article]())
+        self.state = State()
         loadCurrentNews()
     }
 }
@@ -49,7 +88,8 @@ extension FeedPresenter: FeedOutput {
     }
 
     func didTapOnCell(at indexPath: IndexPath) {
-        view?.showArticle(state.news[indexPath.row])
+        guard let targetArticle = state.getArticle(atIndex: indexPath.row) else { return }
+        view?.showArticle(targetArticle)
     }
 
     func refreshTableViewData() {
@@ -58,21 +98,21 @@ extension FeedPresenter: FeedOutput {
     }
 
     func getNumberOfRowsInSection() -> Int {
-        return state.news.count
+        return state.getNewsCount()
     }
 
     func getTitle(at indexPath: IndexPath) -> String {
-        return state.news[indexPath.row].title
+        return state.getTitle(atIndex: indexPath.row)
     }
 
     func getDescription(at indexPath: IndexPath) -> String {
-        return state.news[indexPath.row].description
+        return state.getDescription(atIndex: indexPath.row)
     }
 
     func getImageData(at indexPath: IndexPath, completion: @escaping (Data?) -> Void) {
-        let imageStringURL = state.news[indexPath.row].imageStringURL
+        let imageStringURL = state.getImageStringURLForArticle(atIndex: indexPath.row)
         dataManager.getImageData(from: imageStringURL) { [weak self] result in
-            guard let self, state.news[indexPath.row].imageStringURL == imageStringURL else { return }
+            guard let self, state.getImageStringURLForArticle(atIndex: indexPath.row) == imageStringURL else { return }
             switch result {
             case let .success(imageData):
                 completion(imageData)
@@ -84,11 +124,11 @@ extension FeedPresenter: FeedOutput {
     }
 
     func getSourceName(at indexPath: IndexPath) -> String {
-        return state.news[indexPath.row].source.name
+        return state.getSourceName(atIndex: indexPath.row)
     }
 
     func getPublishingDate(at indexPath: IndexPath) -> String {
-        return state.news[indexPath.row].publishedAt.dateFormatted()
+        return state.getPublishingDate(atIndex: indexPath.row)
     }
 
     private func loadCurrentNews() {
@@ -96,7 +136,7 @@ extension FeedPresenter: FeedOutput {
             guard let self else { return }
             switch result {
             case let .success(fetchedNews):
-                state.news = fetchedNews
+                state.setupNews(with: fetchedNews)
             case let .failure(error):
                 handleError(error)
             }
@@ -106,13 +146,14 @@ extension FeedPresenter: FeedOutput {
     private func displayNews(about searchPhrase: String?, searchCriteria: SearchCriteria?) {
         dataManager.getNews(about: searchPhrase, searchCriteria: searchCriteria) { [weak self] result in
             guard let self else { return }
+            view?.stopFeedDataRefreshing() // TODO: It doesn't work
             switch result {
             case let .success(news):
                 if news.isEmpty {
                     // TODO: Optional: Change it from alert to view with text in the center instead of FeedTable
                     view?.showAlertWithTitle(Constants.alertTitleNoArticlesFound, text: Constants.alertTextNoArticlesFound)
                 } else {
-                    self.state.news = news
+                    state.setupNews(with: news)
                     view?.reloadFeedTableView()
                 }
             case let .failure(error):

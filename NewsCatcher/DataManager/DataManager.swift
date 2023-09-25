@@ -83,9 +83,7 @@ extension DataManager {
     }
 
     private func downloadImageData(from urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        if let imageData = cacheService.getData(forKey: urlString) {
-            completion(.success(imageData))
-        } else {
+        guard let imageData = cacheService.getData(forKey: urlString) else {
             networkService.downloadImageData(from: urlString) { response in
                 switch response {
                 case let .success(imageData):
@@ -95,6 +93,8 @@ extension DataManager {
                     completion(.failure(error))
                 }
             }
+            return
         }
+        completion(.success(imageData))
     }
 }

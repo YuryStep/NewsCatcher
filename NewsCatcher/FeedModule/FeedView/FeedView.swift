@@ -53,7 +53,7 @@ final class FeedView: UIView {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.cellLayoutMarginsFollowReadableWidth = true
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(refreshTableViewData(_:)), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshTableViewData), for: .valueChanged)
         tableView.refreshControl = refreshControl
         return tableView
     }()
@@ -77,9 +77,9 @@ final class FeedView: UIView {
         delegate?.searchButtonTapped()
     }
 
-    @objc private func refreshTableViewData(_ sender: UIRefreshControl) {
-        delegate?.refreshTableViewData()
-        sender.endRefreshing()
+    @objc private func refreshTableViewData() {
+            delegate?.refreshTableViewData()
+            tableView.refreshControl?.endRefreshing()
     }
 
     private func setupSubviews() {
