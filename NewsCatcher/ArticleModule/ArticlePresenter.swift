@@ -9,7 +9,15 @@ import Foundation
 
 final class ArticlePresenter {
     private struct State {
-        var article: Article
+        private let article: Article
+
+        init(_ article: Article) {
+            self.article = article
+        }
+
+        func getArticle() -> Article {
+            return article
+        }
     }
 
     private weak var view: ArticleInput?
@@ -18,17 +26,17 @@ final class ArticlePresenter {
 
     init(view: ArticleInput, article: Article, dataManager: AppDataManager) {
         self.view = view
-        state = State(article: article)
+        state = State(article)
         self.dataManager = dataManager
     }
 }
 
 extension ArticlePresenter: ArticleOutput {
     func viewDidLoad() {
-        view?.setupArticleView(withTitle: state.article.title,
-                               content: state.article.content,
-                               sourceName: state.article.source.name,
-                               publishingDate: state.article.publishedAt.dateFormatted())
+        view?.setupArticleView(withTitle: state.getArticle().title,
+                               content: state.getArticle().content,
+                               sourceName: state.getArticle().source.name,
+                               publishingDate: state.getArticle().publishedAt.dateFormatted())
     }
 
     func didReceiveMemoryWarning() {
@@ -36,9 +44,9 @@ extension ArticlePresenter: ArticleOutput {
     }
 
     func getImageData(completion: @escaping (Data?) -> Void) {
-        let imageStringURL = state.article.imageStringURL
+        let imageStringURL = state.getArticle().imageStringURL
         dataManager.getImageData(from: imageStringURL) { [weak self] result in
-            guard let self, state.article.imageStringURL == imageStringURL else { return }
+            guard let self, state.getArticle().imageStringURL == imageStringURL else { return }
             switch result {
             case let .success(imageData):
                 completion(imageData)
@@ -50,7 +58,7 @@ extension ArticlePresenter: ArticleOutput {
     }
 
     func readInSourceButtonTapped() {
-        if let url = URL(string: state.article.urlString) {
+        if let url = URL(string: state.getArticle().urlString) {
             view?.goToWebArticle(sourceURL: url)
         }
     }
