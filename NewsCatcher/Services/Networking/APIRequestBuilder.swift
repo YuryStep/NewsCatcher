@@ -6,7 +6,7 @@
 //
 
 protocol AppRequestBuilder {
-    func getURLRequestString(for keyPhrase: String?, searchCriteria: ArticleSearchCriteria?) -> String
+    func getURLRequestString(for keyPhrase: String?, searchCriteria: SearchCriteria?) -> String
 }
 
 final class APIRequestBuilder: AppRequestBuilder {
@@ -20,7 +20,7 @@ final class APIRequestBuilder: AppRequestBuilder {
         static let defaultSortBy = "publishedAt"
     }
 
-    func getURLRequestString(for keyPhrase: String?, searchCriteria: ArticleSearchCriteria?) -> String {
+    func getURLRequestString(for keyPhrase: String?, searchCriteria: SearchCriteria?) -> String {
         let keyPhrase = keyPhrase ?? Constants.defaultKeyPhrase
         let query = turnIntoAPIQuery(keyPhrase)
         let lang = searchCriteria?.articleLanguage ?? Constants.defaultArticleLanguage

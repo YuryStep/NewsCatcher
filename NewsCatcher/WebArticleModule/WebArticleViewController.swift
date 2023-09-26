@@ -11,8 +11,6 @@ final class WebArticleViewController: UIViewController {
     var webView: WKWebView!
     var sourceURL: URL!
 
-    // MARK: Initializers
-
     init(webView: WKWebView = WKWebView(), sourceURL: URL) {
         super.init(nibName: nil, bundle: nil)
         self.webView = webView
@@ -48,7 +46,5 @@ final class WebArticleViewController: UIViewController {
         webView.allowsBackForwardNavigationGestures = true
     }
 }
-
-// MARK: - WKNavigationDelegate
 
 extension WebArticleViewController: WKNavigationDelegate {}

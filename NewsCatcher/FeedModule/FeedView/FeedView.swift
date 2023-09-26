@@ -18,12 +18,10 @@ final class FeedView: UIView {
         static let spacingMultiplier: CGFloat = 1
         static let settingsButtonImageSystemName = "gearshape"
         static let searchButtonImageSystemName = "magnifyingglass"
-        static let searchTextFieldPlaceholder = "WWDC 2023"
+        static let searchTextFieldPlaceholder = "iOS"
     }
 
     weak var delegate: FeedViewDelegate?
-
-    // MARK: Subviews
 
     lazy var settingsButton: UIButton = {
         let button = UIButton(type: .system)
@@ -55,12 +53,10 @@ final class FeedView: UIView {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.cellLayoutMarginsFollowReadableWidth = true
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(refreshTableViewData(_:)), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshTableViewData), for: .valueChanged)
         tableView.refreshControl = refreshControl
         return tableView
     }()
-
-    // MARK: Initializers
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -73,8 +69,6 @@ final class FeedView: UIView {
         fatalError("This class does not support NSCoder")
     }
 
-    // MARK: Delegate Methods
-
     @objc private func settingsButtonTapped() {
         delegate?.settingsButtonTapped()
     }
@@ -83,12 +77,10 @@ final class FeedView: UIView {
         delegate?.searchButtonTapped()
     }
 
-    @objc private func refreshTableViewData(_ sender: UIRefreshControl) {
-        delegate?.refreshTableViewData()
-        sender.endRefreshing()
+    @objc private func refreshTableViewData() {
+            delegate?.refreshTableViewData()
+            tableView.refreshControl?.endRefreshing()
     }
-
-    // MARK: Initial setup methods
 
     private func setupSubviews() {
         let subviews = [settingsButton, searchTextField, searchButton, tableView]

@@ -8,20 +8,13 @@
 import Foundation
 
 protocol AppDataManager {
-    var onDataUpdate: (() -> Void)? { get set }
-    func downloadNews(about: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping ((Result<Void, NetworkError>) -> Void))
-    func getNumberOfArticles() -> Int
-    func getTitleForArticle(at index: Int) -> String
-    func getDescriptionForArticle(at index: Int) -> String
-    func getContentForArticle(at index: Int) -> String
-    func getImageDataForArticle(at index: Int, completion: @escaping (Result<Data, NetworkError>) -> Void)
-    func getSourceURLForArticle(at index: Int) -> String
-    func getSourceNameForArticle(at index: Int) -> String
-    func getPublishingDateForArticle(at index: Int) -> String
+    func getCurrentNews(completion: @escaping ((Result<[Article], NetworkError>) -> Void))
+    func getNews(about: String?, searchCriteria: SearchCriteria?, completion: @escaping ((Result<[Article], NetworkError>) -> Void))
+    func getImageData(from urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void)
     func clearCache()
 }
 
-protocol ArticleSearchCriteria {
+protocol SearchCriteria {
     var articleLanguage: String { get }
     var publicationCountry: String { get }
     var searchPlaces: String { get }
@@ -29,74 +22,79 @@ protocol ArticleSearchCriteria {
 }
 
 final class DataManager: AppDataManager {
-    // MARK: Dependencies
-
-    static let shared = DataManager(
-        repository: NewsRepository(
-            networkService: NetworkService(apiRequestBuilder: APIRequestBuilder()),
-            cacheService: CacheService()
-        )
-    )
-
-    // MARK: Dependencies
-
-    private let repository: AppDataRepository
-    var onDataUpdate: (() -> Void)?
-
-    // MARK: Initializer
-
-    private init(repository: AppDataRepository) {
-        self.repository = repository
-        repository.getInitialFeed { [weak self] in
-            guard let self else { return }
-            onDataUpdate?()
-        }
+    private enum Constants {
+        static let cachedArticlesKey = "Saved NCArticles"
     }
 
-    // MARK: AppDataManager API
+    static let shared = DataManager(
+        networkService: NetworkService(apiRequestBuilder: APIRequestBuilder()),
+        cacheService: CacheService()
+    )
 
-    func downloadNews(about keyword: String?, searchCriteria: ArticleSearchCriteria?, completion: @escaping ((Result<Void, NetworkError>) -> Void)) {
-        repository.downloadNews(about: keyword, searchCriteria: searchCriteria) { result in
-            switch result {
-            case .success: completion(.success(()))
-            case let .failure(error): completion(.failure(error))
+    private let networkService: AppNetworkService
+    private let cacheService: AppCacheService
+
+    private init(networkService: AppNetworkService, cacheService: AppCacheService) {
+        self.networkService = networkService
+        self.cacheService = cacheService
+    }
+
+    func getCurrentNews(completion: @escaping ((Result<[Article], NetworkError>) -> Void)) {
+        if let cachedArticles = cacheService.getArticles(forKey: Constants.cachedArticlesKey) {
+            completion(.success(cachedArticles))
+        } else {
+            downloadNews(about: nil, searchCriteria: nil) { downloadingResult in
+                completion(downloadingResult)
             }
         }
     }
 
-    func getNumberOfArticles() -> Int {
-        repository.getNumberOfArticles()
+    func getNews(about keyword: String?, searchCriteria: SearchCriteria?, completion: @escaping ((Result<[Article], NetworkError>) -> Void)) {
+        downloadNews(about: keyword, searchCriteria: searchCriteria) { result in
+            completion(result)
+        }
     }
 
-    func getTitleForArticle(at index: Int) -> String {
-        repository.getTitleForArticle(at: index)
-    }
-
-    func getDescriptionForArticle(at index: Int) -> String {
-        repository.getDescriptionForArticle(at: index)
-    }
-
-    func getContentForArticle(at index: Int) -> String {
-        repository.getContentForArticle(at: index)
-    }
-
-    func getImageDataForArticle(at index: Int, completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        repository.getImageDataForArticle(at: index, completion: completion)
-    }
-
-    func getSourceURLForArticle(at index: Int) -> String {
-        repository.getSourceURLForArticle(at: index)
-    }
-
-    func getSourceNameForArticle(at index: Int) -> String {
-        repository.getSourceNameForArticle(at: index)
-    }
-
-    func getPublishingDateForArticle(at index: Int) -> String {
-        repository.getPublishingDateForArticle(at: index)
+    func getImageData(from urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+        downloadImageData(from: urlString) { result in
+            completion(result)
+        }
     }
 
     func clearCache() {
-        repository.clearCache()
+        cacheService.clearCache()
+    }
+}
+
+extension DataManager {
+    private func downloadNews(about keyword: String?, searchCriteria: SearchCriteria?, completion: @escaping ((Result<[Article], NetworkError>) -> Void)) {
+        networkService.downloadArticles(about: keyword, searchCriteria: searchCriteria) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case let .success(articles):
+                if !articles.isEmpty {
+                    cacheService.save(articles: articles, forKey: Constants.cachedArticlesKey)
+                }
+                completion(.success(articles))
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    private func downloadImageData(from urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+        guard let imageData = cacheService.getData(forKey: urlString) else {
+            networkService.downloadImageData(from: urlString) { response in
+                switch response {
+                case let .success(imageData):
+                    self.cacheService.save(imageData, forKey: urlString)
+                    completion(.success(imageData))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+            return
+        }
+        completion(.success(imageData))
     }
 }
