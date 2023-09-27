@@ -10,7 +10,7 @@ import UIKit
 protocol FeedViewDelegate: AnyObject {
     func searchButtonTapped()
     func settingsButtonTapped()
-    func refreshTableViewData()
+    func didPullToRefreshTableViewData()
 }
 
 final class FeedView: UIView {
@@ -53,7 +53,7 @@ final class FeedView: UIView {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.cellLayoutMarginsFollowReadableWidth = true
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(refreshTableViewData), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(didPullToRefreshTableViewData), for: .valueChanged)
         tableView.refreshControl = refreshControl
         return tableView
     }()
@@ -77,8 +77,8 @@ final class FeedView: UIView {
         delegate?.searchButtonTapped()
     }
 
-    @objc private func refreshTableViewData() {
-            delegate?.refreshTableViewData()
+    @objc private func didPullToRefreshTableViewData() {
+            delegate?.didPullToRefreshTableViewData()
     }
 
     private func setupSubviews() {

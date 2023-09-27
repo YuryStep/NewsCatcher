@@ -8,17 +8,23 @@
 import UIKit
 
 final class FeedCell: UITableViewCell {
+    struct DisplayData {
+        let title: String
+        let description: String
+        let publishedAt: String
+        let sourceName: String
+        let imageStringURL: String
+    }
+
     private enum Constants {
         static let systemSpacingMultiplier: CGFloat = 1
         static let imageViewAspectRatio: CGFloat = 0.6
         static let placeholderImageName: String = "noImageIcon"
-        static let timeIntervalForImagePlaceholder: Double = 5
         static let sourceCaptionText = "Source: "
         static let dateCaptionText = "Published at: "
     }
 
     static let reuseIdentifier = "FeedCellIdentifier"
-    private var timer: Timer?
 
     private lazy var articleImageView: UIImageView = {
         let imageView = UIImageView()
@@ -48,24 +54,21 @@ final class FeedCell: UITableViewCell {
         setupSubviews()
     }
 
-    func configure(withTitle title: String, sourceName: String, date: String, description: String) {
-        timer?.invalidate()
-        articleImageView.image = nil
+    func configure(with displayData: DisplayData) {
         loadingIndicator.startAnimating()
-        timer = Timer.scheduledTimer(withTimeInterval: Constants.timeIntervalForImagePlaceholder, repeats: false) { _ in
-            if self.articleImageView.image == nil {
-                self.loadingIndicator.stopAnimating()
-                self.articleImageView.image = UIImage(named: Constants.placeholderImageName)
-            }
-        }
-        titleLabel.text = title
-        descriptionLabel.text = description
-        sourceNameLabel.text = Constants.sourceCaptionText + sourceName
-        dateLabel.text = Constants.dateCaptionText + date
+
+        titleLabel.text = displayData.title
+        descriptionLabel.text = displayData.description
+        sourceNameLabel.text = Constants.sourceCaptionText + displayData.sourceName
+        dateLabel.text = Constants.dateCaptionText + displayData.publishedAt
     }
 
-    func setImage(_ image: UIImage) {
-        articleImageView.image = image
+    func setImage(_ imageData: Data?) {
+        if let imageData = imageData, let fetchedImage = UIImage(data: imageData) {
+            articleImageView.image = fetchedImage
+        } else {
+            articleImageView.image = UIImage(named: Constants.placeholderImageName)
+        }
         loadingIndicator.stopAnimating()
     }
 

@@ -19,14 +19,11 @@ protocol FeedOutput: AnyObject {
     func didReceiveMemoryWarning()
     func didTapOnSearchButton()
     func didTapOnSettingsButton()
-    func refreshTableViewData()
-    func getNumberOfRowsInSection() -> Int
-    func getTitle(at indexPath: IndexPath) -> String
-    func getDescription(at indexPath: IndexPath) -> String
-    func getImageData(at indexPath: IndexPath, completion: @escaping (Data?) -> Void)
-    func getSourceName(at indexPath: IndexPath) -> String
-    func getPublishingDate(at indexPath: IndexPath) -> String
     func didTapOnCell(at indexPath: IndexPath)
+    func didPullToRefreshTableViewData()
+    func getNumberOfRowsInSection() -> Int
+    func getImageData(at indexPath: IndexPath, completion: @escaping (Data?) -> Void)
+    func getFeedDisplayData(at indexPath: IndexPath) -> FeedCell.DisplayData
 }
 
 import UIKit
@@ -72,8 +69,8 @@ final class FeedViewController: UIViewController, FeedViewDelegate {
         presenter.didTapOnSettingsButton()
     }
 
-    func refreshTableViewData() {
-        presenter.refreshTableViewData()
+    func didPullToRefreshTableViewData() {
+        presenter.didPullToRefreshTableViewData()
     }
 }
 
@@ -128,16 +125,10 @@ extension FeedViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.reuseIdentifier, for: indexPath) as? FeedCell else {
             return UITableViewCell()
         }
-        let title = presenter.getTitle(at: indexPath)
-        let sourceName = presenter.getSourceName(at: indexPath)
-        let date = presenter.getPublishingDate(at: indexPath)
-        let description = presenter.getDescription(at: indexPath)
-        cell.configure(withTitle: title, sourceName: sourceName, date: date, description: description)
+        cell.configure(with: presenter.getFeedDisplayData(at: indexPath))
         presenter.getImageData(at: indexPath) { imageData in
-            if let imageData = imageData, let image = UIImage(data: imageData) {
-                cell.setImage(image)
+                cell.setImage(imageData)
             }
-        }
         return cell
     }
 }

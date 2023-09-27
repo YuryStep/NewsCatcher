@@ -8,9 +8,8 @@
 import UIKit
 
 protocol ArticleInput: AnyObject {
-    func updateView()
-    func setupArticleView(withTitle: String, content: String, sourceName: String, publishingDate: String)
-    func goToWebArticle(sourceURL: URL)
+    func setupArticleView(with: ArticleView.DisplayData)
+    func openWebArticle(sourceURL: URL)
 }
 
 protocol ArticleOutput: AnyObject {
@@ -62,20 +61,14 @@ extension ArticleViewController: ArticleViewDelegate {
 }
 
 extension ArticleViewController: ArticleInput {
-    func updateView() {
-        articleView.setNeedsDisplay()
-    }
-
-    func setupArticleView(withTitle title: String, content: String, sourceName: String, publishingDate date: String) {
-        articleView.configure(withTitle: title, sourceName: sourceName, date: date, content: content)
+    func setupArticleView(with displayData: ArticleView.DisplayData) {
+        articleView.configure(with: displayData)
         presenter.getImageData { imageData in
-            if let imageData = imageData, let image = UIImage(data: imageData) {
-                self.articleView.setImage(image)
-            }
+            self.articleView.setImage(imageData)
         }
     }
 
-    func goToWebArticle(sourceURL url: URL) {
+    func openWebArticle(sourceURL url: URL) {
         let webArticleViewController = WebArticleViewController(sourceURL: url)
         navigationController?.pushViewController(webArticleViewController, animated: true)
     }

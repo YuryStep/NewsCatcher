@@ -33,10 +33,8 @@ final class ArticlePresenter {
 
 extension ArticlePresenter: ArticleOutput {
     func viewDidLoad() {
-        view?.setupArticleView(withTitle: state.getArticle().title,
-                               content: state.getArticle().content,
-                               sourceName: state.getArticle().source.name,
-                               publishingDate: state.getArticle().publishedAt.dateFormatted())
+        let displayData = getDisplayDataForCurrentState()
+        view?.setupArticleView(with: displayData)
     }
 
     func didReceiveMemoryWarning() {
@@ -59,8 +57,17 @@ extension ArticlePresenter: ArticleOutput {
 
     func readInSourceButtonTapped() {
         if let url = URL(string: state.getArticle().urlString) {
-            view?.goToWebArticle(sourceURL: url)
+            view?.openWebArticle(sourceURL: url)
         }
+    }
+
+    private func getDisplayDataForCurrentState() -> ArticleView.DisplayData {
+        return ArticleView.DisplayData(
+            title: state.getArticle().title,
+            content: state.getArticle().content,
+            publishedAt: state.getArticle().publishedAt.dateFormatted(),
+            sourceName: state.getArticle().source.name,
+            imageStringURL: state.getArticle().imageStringURL)
     }
 
     private func handleError(_ error: NetworkError) {

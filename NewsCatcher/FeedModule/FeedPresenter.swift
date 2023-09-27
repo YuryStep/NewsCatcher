@@ -44,6 +44,7 @@ final class FeedPresenter {
 }
 
 extension FeedPresenter: FeedOutput {
+
     func didReceiveMemoryWarning() {
         dataManager.clearCache()
     }
@@ -64,7 +65,7 @@ extension FeedPresenter: FeedOutput {
         view?.showArticle(state.getArticle(at: indexPath))
     }
 
-    func refreshTableViewData() {
+    func didPullToRefreshTableViewData() {
         displayNews(about: nil, searchCriteria: nil)
         view?.cleanSearchTextField() // TODO: Remove?
     }
@@ -73,12 +74,13 @@ extension FeedPresenter: FeedOutput {
         return state.getNewsCount()
     }
 
-    func getTitle(at indexPath: IndexPath) -> String {
-        return state.getArticle(at: indexPath).title
-    }
-
-    func getDescription(at indexPath: IndexPath) -> String {
-        return state.getArticle(at: indexPath).description
+    func getFeedDisplayData(at indexPath: IndexPath) -> FeedCell.DisplayData {
+        return FeedCell.DisplayData(
+            title: state.getArticle(at: indexPath).title,
+            description: state.getArticle(at: indexPath).description,
+            publishedAt: state.getArticle(at: indexPath).publishedAt.dateFormatted(),
+            sourceName: state.getArticle(at: indexPath).source.name,
+            imageStringURL: state.getArticle(at: indexPath).imageStringURL)
     }
 
     func getImageData(at indexPath: IndexPath, completion: @escaping (Data?) -> Void) {
@@ -93,14 +95,6 @@ extension FeedPresenter: FeedOutput {
                 completion(nil)
             }
         }
-    }
-
-    func getSourceName(at indexPath: IndexPath) -> String {
-        return state.getArticle(at: indexPath).source.name
-    }
-
-    func getPublishingDate(at indexPath: IndexPath) -> String {
-        return state.getArticle(at: indexPath).publishedAt.dateFormatted()
     }
 
     private func loadCurrentNews() {
