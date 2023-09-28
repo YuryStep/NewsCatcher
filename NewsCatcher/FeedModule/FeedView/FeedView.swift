@@ -78,7 +78,7 @@ final class FeedView: UIView {
     }
 
     @objc private func didPullToRefreshTableViewData() {
-            delegate?.didPullToRefreshTableViewData()
+        delegate?.didPullToRefreshTableViewData()
     }
 
     private func setupSubviews() {

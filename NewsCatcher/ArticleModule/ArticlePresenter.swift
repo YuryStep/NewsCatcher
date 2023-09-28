@@ -67,7 +67,8 @@ extension ArticlePresenter: ArticleOutput {
             content: state.getArticle().content,
             publishedAt: state.getArticle().publishedAt.dateFormatted(),
             sourceName: state.getArticle().source.name,
-            imageStringURL: state.getArticle().imageStringURL)
+            imageStringURL: state.getArticle().imageStringURL
+        )
     }
 
     private func handleError(_ error: NetworkError) {

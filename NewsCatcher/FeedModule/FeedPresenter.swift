@@ -38,13 +38,12 @@ final class FeedPresenter {
     init(view: FeedInput, dataManager: AppDataManager) {
         self.view = view
         self.dataManager = dataManager
-        self.state = State()
+        state = State()
         loadCurrentNews()
     }
 }
 
 extension FeedPresenter: FeedOutput {
-
     func didReceiveMemoryWarning() {
         dataManager.clearCache()
     }
@@ -81,7 +80,8 @@ extension FeedPresenter: FeedOutput {
             description: state.getArticle(at: indexPath).description,
             publishedAt: state.getArticle(at: indexPath).publishedAt.dateFormatted(),
             sourceName: state.getArticle(at: indexPath).source.name,
-            imageStringURL: state.getArticle(at: indexPath).imageStringURL)
+            imageStringURL: state.getArticle(at: indexPath).imageStringURL
+        )
     }
 
     func getImageData(at indexPath: IndexPath, completion: @escaping (Data?) -> Void) {

@@ -1,0 +1,53 @@
+//
+//  ArticleSettingsCell.swift
+//  NewsCatcher
+//
+//  Created by Юрий Степанчук on 27.09.2023.
+//
+
+import UIKit
+
+final class ArticleSettingsCell: UITableViewCell {
+    struct DisplayData {
+        let title: String
+        let currentValue: String
+    }
+
+    static let reuseIdentifier = "ArticleSettingsCell"
+
+    private lazy var titleLabel = UILabel(textStyle: .body)
+    private lazy var currentValueLabel = UILabel(textStyle: .body, color: .systemBlue)
+    private lazy var stack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [titleLabel, currentValueLabel])
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.distribution = .equalSpacing
+        return stack
+    }()
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
+        fatalError("This class does not support NSCoder")
+    }
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier _: String?) {
+        super.init(style: style, reuseIdentifier: FeedCell.reuseIdentifier)
+        setupSubviews()
+    }
+
+    func configure(with displayData: DisplayData) {
+        titleLabel.text = displayData.title
+        currentValueLabel.text = displayData.currentValue
+    }
+
+    private func setupSubviews() {
+        contentView.addSubview(stack)
+        let marginGuide = contentView.layoutMarginsGuide
+        NSLayoutConstraint.activate([
+            stack.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
+            stack.topAnchor.constraint(equalTo: marginGuide.topAnchor),
+            stack.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
+            stack.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor)
+        ])
+    }
+}

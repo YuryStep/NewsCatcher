@@ -93,8 +93,7 @@ extension FeedViewController: FeedInput {
     }
 
     func showSettings() {
-        let settingsViewController = SettingsViewController() // TODO: makeModule
-        present(settingsViewController.wrapInNavigationController(), animated: true, completion: nil)
+        present(SettingsAssembly.makeModule(), animated: true, completion: nil)
     }
 
     func getSearchFieldText() -> String? {
@@ -119,7 +118,6 @@ extension FeedViewController: FeedInput {
     func stopFeedDataRefreshing() {
         feedView.tableView.refreshControl?.endRefreshing()
     }
-
 }
 
 extension FeedViewController: UITableViewDataSource {
@@ -133,8 +131,8 @@ extension FeedViewController: UITableViewDataSource {
         }
         cell.configure(with: presenter.getFeedDisplayData(at: indexPath))
         presenter.getImageData(at: indexPath) { imageData in
-                cell.setImage(imageData)
-            }
+            cell.setImage(imageData)
+        }
         return cell
     }
 }

@@ -108,7 +108,6 @@ final class ArticleView: UIView {
         contentLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
         readInSourceButton.setContentHuggingPriority(.defaultHigh, for: .vertical)
         NSLayoutConstraint.activate([
-
             scrollViewFrameGuide.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
             scrollViewFrameGuide.topAnchor.constraint(equalTo: marginGuide.topAnchor),
             scrollViewFrameGuide.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
