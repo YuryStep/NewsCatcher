@@ -8,6 +8,7 @@
 protocol FeedInput: AnyObject {
     func reloadFeedTableView()
     func showArticle(_ article: Article)
+    func showSettings()
     func getSearchFieldText() -> String?
     func cleanSearchTextField()
     func hideKeyboard()
@@ -89,6 +90,11 @@ extension FeedViewController: FeedInput {
     func showArticle(_ article: Article) {
         let articleViewController = ArticleAssembly.makeModule(for: article)
         navigationController?.pushViewController(articleViewController, animated: true)
+    }
+
+    func showSettings() {
+        let settingsViewController = SettingsViewController() // TODO: makeModule
+        present(settingsViewController.wrapInNavigationController(), animated: true, completion: nil)
     }
 
     func getSearchFieldText() -> String? {

@@ -58,6 +58,7 @@ extension FeedPresenter: FeedOutput {
     }
 
     func didTapOnSettingsButton() {
+        view?.showSettings()
         debugPrint("Settings Button Tapped")
     }
 
