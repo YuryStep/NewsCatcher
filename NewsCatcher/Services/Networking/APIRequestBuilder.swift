@@ -8,7 +8,7 @@
 import Foundation
 
 protocol AppRequestBuilder {
-    func getURLRequestString(for keyPhrase: String?, searchCriteria: SearchCriteria?) -> String
+    func getURLRequestString(for keyPhrase: String?, searchCriteria: SearchCriteria) -> String
 }
 
 final class APIRequestBuilder: AppRequestBuilder {
@@ -17,12 +17,9 @@ final class APIRequestBuilder: AppRequestBuilder {
         static let searchEndpoint = "https://gnews.io/api/v4/search"
         static let defaultSearchPlaces = ["title", "description"]
         static let defaultKeyPhrase = "iOS"
-        static let defaultArticleLanguage = "any"
-        static let defaultArticlePublicationCountry = "any"
-        static let defaultSortBy = "publishedAt"
     }
 
-    func getURLRequestString(for keyPhrase: String?, searchCriteria: SearchCriteria?) -> String {
+    func getURLRequestString(for keyPhrase: String?, searchCriteria: SearchCriteria) -> String {
         let keyPhrase = keyPhrase ?? Constants.defaultKeyPhrase
         let queryItems = buildQueryItems(keyPhrase: keyPhrase, searchCriteria: searchCriteria)
         var components = URLComponents(string: Constants.searchEndpoint)!
@@ -36,32 +33,28 @@ final class APIRequestBuilder: AppRequestBuilder {
         }
     }
 
-    private func buildQueryItems(keyPhrase: String, searchCriteria: SearchCriteria?) -> [URLQueryItem] {
+    private func buildQueryItems(keyPhrase: String, searchCriteria: SearchCriteria) -> [URLQueryItem] {
         var queryItems = [
             URLQueryItem(name: "q", value: keyPhrase),
             URLQueryItem(name: "apikey", value: Constants.apiKey)
         ]
 
-        let lang = searchCriteria?.articleLanguage ?? Constants.defaultArticleLanguage
+        let lang = searchCriteria.articleLanguage
         queryItems.append(URLQueryItem(name: "lang", value: lang))
 
-        let country = searchCriteria?.publicationCountry ?? Constants.defaultArticlePublicationCountry
+        let country = searchCriteria.publicationCountry
         queryItems.append(URLQueryItem(name: "country", value: country))
 
         let searchPlaces = getSearchPlacesQueryStringFrom(searchCriteria)
         queryItems.append(URLQueryItem(name: "in", value: searchPlaces))
 
-        let sortBy = searchCriteria?.sortedBy ?? Constants.defaultSortBy
+        let sortBy = searchCriteria.sortedBy
         queryItems.append(URLQueryItem(name: "sortby", value: sortBy))
 
         return queryItems
     }
 
-    private func getSearchPlacesQueryStringFrom(_ searchCriteria: SearchCriteria?) -> String {
-        guard let searchCriteria = searchCriteria else {
-            return Constants.defaultSearchPlaces.joined(separator: ",")
-        }
-
+    private func getSearchPlacesQueryStringFrom(_ searchCriteria: SearchCriteria) -> String {
         var searchPlaces: [String] = []
 
         if searchCriteria.searchInTitlesIsOn {
@@ -75,7 +68,9 @@ final class APIRequestBuilder: AppRequestBuilder {
         if searchCriteria.searchInContentsIsOn {
             searchPlaces.append("content")
         }
-
-        return searchPlaces.joined(separator: ",")
+        
+        return searchPlaces.isEmpty ?
+        Constants.defaultSearchPlaces.joined(separator: ",") :
+        searchPlaces.joined(separator: ",")
     }
 }
