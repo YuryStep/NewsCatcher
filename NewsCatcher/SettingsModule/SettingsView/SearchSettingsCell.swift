@@ -24,7 +24,7 @@ final class SearchSettingsCell: UITableViewCell {
         return switchIndicator
     }()
 
-    @objc private func switchValueChanged () {
+    @objc private func switchValueChanged() {
         switchValueChangedHandler?(switchIndicator.isOn)
     }
 

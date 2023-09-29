@@ -19,6 +19,8 @@ struct RequestSettings: SearchCriteria {
         static let defaultArticleLanguage = "any"
         static let defaultArticlePublicationCountry = "any"
         static let defaultSortBy = "publishedAt"
+        static let titleSortQueryParameter = "title"
+        static let descriptionSortQueryParameter = "description"
     }
 
     let articleLanguage: String
@@ -27,6 +29,7 @@ struct RequestSettings: SearchCriteria {
     let searchInDescriptionsIsOn: Bool
     let searchInContentsIsOn: Bool
     let sortedBy: String
+
     init(articleLanguage: String = Constants.defaultArticleLanguage,
          publicationCountry: String = Constants.defaultArticlePublicationCountry,
          searchInTitlesIsOn: Bool = true,
