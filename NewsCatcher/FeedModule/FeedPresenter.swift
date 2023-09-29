@@ -51,7 +51,7 @@ extension FeedPresenter: FeedOutput {
     func didTapOnSearchButton() {
         guard let searchPhrase = view?.getSearchFieldText() else { return }
         if !searchPhrase.isEmpty {
-            displayNews(about: searchPhrase, searchCriteria: nil)
+            displayNews(about: searchPhrase)
         }
         view?.hideKeyboard()
     }
@@ -66,7 +66,7 @@ extension FeedPresenter: FeedOutput {
     }
 
     func didPullToRefreshTableViewData() {
-        displayNews(about: nil, searchCriteria: nil)
+        displayNews(about: nil)
         view?.cleanSearchTextField() // TODO: Remove?
     }
 
@@ -110,8 +110,8 @@ extension FeedPresenter: FeedOutput {
         }
     }
 
-    private func displayNews(about searchPhrase: String?, searchCriteria: SearchCriteria?) {
-        dataManager.getNews(about: searchPhrase, searchCriteria: searchCriteria) { [weak self] result in
+    private func displayNews(about searchPhrase: String?) {
+        dataManager.getNews(about: searchPhrase) { [weak self] result in
             guard let self else { return }
             view?.stopFeedDataRefreshing()
             switch result {
