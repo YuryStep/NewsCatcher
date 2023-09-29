@@ -11,8 +11,8 @@ protocol SettingsViewDelegate: AnyObject {}
 
 final class SettingsView: UIView {
     struct DisplayData {
-        let articleSettingsCellDisplayData: [ArticleSettingsCell.DisplayData]
-        let searchSettingsCellDisplayData: [SearchSettingsCell.DisplayData]
+        var articleSettingsCellDisplayData: [ArticleSettingsCell.DisplayData]
+        var searchSettingsCellDisplayData: [SearchSettingsCell.DisplayData]
         let numberOfSections: Int
         let sectionHeaders: [String]
         let sectionFooters: [String]

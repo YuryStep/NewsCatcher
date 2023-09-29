@@ -8,6 +8,17 @@
 import Foundation
 
 final class SettingsPresenter: SettingsViewOutput {
+    func didTapOnSaveButton(withCurrentDisplayData newDisplayData: SettingsView.DisplayData) {
+        let userRequestedSearchCriteria = getRequestSettingsFrom(newDisplayData)
+        dataManager.setNewsSearchCriteria(userRequestedSearchCriteria)
+    }
+
+    func getRequestSettingsFrom(_ displayData: SettingsView.DisplayData) -> SearchCriteria {
+        RequestSettings(searchInTitlesIsOn: displayData.searchSettingsCellDisplayData[0].switchIsOn,
+                        searchInDescriptionsIsOn: displayData.searchSettingsCellDisplayData[1].switchIsOn,
+                        searchInContentsIsOn: displayData.searchSettingsCellDisplayData[2].switchIsOn)
+    }
+
     private enum Constants {
         static let numberOfSettingsSections = 2
         static let numbersOfRowsInSettingsSections = [2, 3]
@@ -24,14 +35,31 @@ final class SettingsPresenter: SettingsViewOutput {
     private struct State {
         private let availableCountries = [String]()
         private let availableLanguages = [String]()
-        let currentCountry = "Any"
-        let currentLanguage = "Any"
-        let searchInTitlesIsOn = true
-        let searchInDescriptionsIsOn = true
-        let searchInContentsIsOn = false
+        let currentCountry: String
+        let currentLanguage: String
+        let searchInTitlesIsOn: Bool
+        let searchInDescriptionsIsOn: Bool
+        let searchInContentsIsOn: Bool
     }
 
-    private let state = State()
+    weak var view: SettingsViewInput?
+    private var dataManager: AppDataManager
+    private var state: State!
+
+    init(dataManager: AppDataManager) {
+        self.dataManager = dataManager
+        updateCurrentState()
+    }
+
+    private func updateCurrentState() {
+        let searchCriteria = dataManager.getCurrentSearchCriteria()
+        let updatedState = State(currentCountry: searchCriteria.publicationCountry,
+                                 currentLanguage: searchCriteria.articleLanguage,
+                                 searchInTitlesIsOn: searchCriteria.searchInTitlesIsOn,
+                                 searchInDescriptionsIsOn: searchCriteria.searchInDescriptionsIsOn,
+                                 searchInContentsIsOn: searchCriteria.searchInContentsIsOn)
+        state = updatedState
+    }
 
     func getSettingsDisplayData() -> SettingsView.DisplayData {
         let firstArticleSettingsCellDisplayData = ArticleSettingsCell.DisplayData(
@@ -69,6 +97,15 @@ final class SettingsPresenter: SettingsViewOutput {
             sectionFooters: Constants.sectionFooters,
             numbersOfRowsInSections: Constants.numbersOfRowsInSettingsSections
         )
+    }
+
+    func getCurrentSearchCriteria() -> SearchCriteria {
+        let criteria = dataManager.getCurrentSearchCriteria()
+        return criteria
+    }
+
+    func newSearchCriteriaSelected(_ newSearchCriteria: SearchCriteria) {
+        dataManager.setNewsSearchCriteria(newSearchCriteria)
     }
 
     func didTapOnCell(at _: IndexPath) {

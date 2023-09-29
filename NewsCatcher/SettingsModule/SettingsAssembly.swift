@@ -9,8 +9,9 @@ import UIKit
 
 enum SettingsAssembly {
     static func makeModule() -> UIViewController {
-        let settingsPresenter = SettingsPresenter()
-        let settingsViewController = SettingsViewController(presenter: settingsPresenter).wrapInNavigationController()
-        return settingsViewController
+        let settingsPresenter = SettingsPresenter(dataManager: DataManager.shared)
+        let settingsViewController = SettingsViewController(presenter: settingsPresenter)
+        settingsPresenter.view = settingsViewController
+        return settingsViewController.wrapInNavigationController()
     }
 }

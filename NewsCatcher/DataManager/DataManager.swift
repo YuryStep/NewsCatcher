@@ -8,6 +8,8 @@
 import Foundation
 
 protocol AppDataManager {
+    func getCurrentSearchCriteria() -> SearchCriteria
+    func setNewsSearchCriteria(_: SearchCriteria)
     func getCurrentNews(completion: @escaping ((Result<[Article], NetworkError>) -> Void))
     func getNews(about: String?, completion: @escaping ((Result<[Article], NetworkError>) -> Void))
     func getImageData(from urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void)
@@ -26,12 +28,20 @@ final class DataManager: AppDataManager {
 
     private let networkService: AppNetworkService
     private let cacheService: AppCacheService
-    private var requestSettings: SearchCriteria?
+    private var requestSettings: SearchCriteria!
 
     private init(networkService: AppNetworkService, cacheService: AppCacheService) {
         self.networkService = networkService
         self.cacheService = cacheService
         requestSettings = getInitialRequestSettings()
+    }
+
+    func getCurrentSearchCriteria() -> SearchCriteria {
+        return requestSettings
+    }
+
+    func setNewsSearchCriteria(_ newSearchCriteria: SearchCriteria) {
+        requestSettings = newSearchCriteria
     }
 
     func getCurrentNews(completion: @escaping ((Result<[Article], NetworkError>) -> Void)) {

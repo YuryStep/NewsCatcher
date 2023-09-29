@@ -10,7 +10,7 @@ import UIKit
 final class ArticleSettingsCell: UITableViewCell {
     struct DisplayData {
         let title: String
-        let currentValue: String
+        var currentValue: String
     }
 
     static let reuseIdentifier = "ArticleSettingsCell"

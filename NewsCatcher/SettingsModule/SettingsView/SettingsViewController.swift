@@ -13,6 +13,7 @@ protocol SettingsViewOutput: AnyObject {
     func getSettingsDisplayData() -> SettingsView.DisplayData
     func didTapOnCell(at indexPath: IndexPath)
     func didReceiveMemoryWarning()
+    func didTapOnSaveButton(withCurrentDisplayData: SettingsView.DisplayData) // TODO: Make separate funcs
 }
 
 final class SettingsViewController: UIViewController {
@@ -55,7 +56,8 @@ final class SettingsViewController: UIViewController {
     }
 
     @objc func saveButtonTapped() {
-        // TODO: completion(presenter.requestSettingsHaveBeenChanged(to: RequestSettings))
+        // TODO: Remove to separate calls
+        presenter.didTapOnSaveButton(withCurrentDisplayData: displayData)
         dismiss(animated: true, completion: nil)
     }
 
@@ -106,20 +108,20 @@ extension SettingsViewController: UITableViewDataSource {
         case 0:
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: ArticleSettingsCell.reuseIdentifier,
-                for: indexPath
-            ) as? ArticleSettingsCell else {
-                return UITableViewCell()
-            }
+                for: indexPath) as? ArticleSettingsCell else { return UITableViewCell()}
+
             cell.configure(with: displayData.getArticleSettingsCellDisplayData(forCellAt: indexPath))
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: SearchSettingsCell.reuseIdentifier,
-                for: indexPath
-            ) as? SearchSettingsCell else {
-                return UITableViewCell()
-            }
+                for: indexPath ) as? SearchSettingsCell else { return UITableViewCell() }
+
             cell.configure(with: displayData.getSearchSettingsCellDisplayData(forCellAt: indexPath))
+            cell.switchValueChangedHandler = { [weak self] isOn in
+                guard let self else { return }
+                displayData.searchSettingsCellDisplayData[indexPath.row].switchIsOn = isOn
+            }
             return cell
         default:
             return UITableViewCell()

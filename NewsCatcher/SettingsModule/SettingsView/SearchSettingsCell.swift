@@ -10,17 +10,23 @@ import UIKit
 final class SearchSettingsCell: UITableViewCell {
     struct DisplayData {
         let title: String
-        let switchIsOn: Bool
+        var switchIsOn: Bool
     }
 
     static let reuseIdentifier = "SearchSettingsCell"
 
+    var switchValueChangedHandler: ((Bool) -> Void)?
+
     private lazy var titleLabel = UILabel(textStyle: .body)
     private lazy var switchIndicator: UISwitch = {
         let switchIndicator = UISwitch()
-        switchIndicator.isOn = true
+        switchIndicator.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
         return switchIndicator
     }()
+
+    @objc private func switchValueChanged () {
+        switchValueChangedHandler?(switchIndicator.isOn)
+    }
 
     private lazy var stack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [titleLabel, switchIndicator])

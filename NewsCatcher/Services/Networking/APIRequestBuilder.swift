@@ -12,7 +12,7 @@ protocol AppRequestBuilder {
 }
 
 final class APIRequestBuilder: AppRequestBuilder {
-    private struct Constants {
+    private enum Constants {
         static let apiKey = "05119a9d9eec92db2c653876cf3e015c"
         static let searchEndpoint = "https://gnews.io/api/v4/search"
         static let defaultSearchPlaces = ["title", "description"]
