@@ -55,8 +55,8 @@ final class FeedCell: UITableViewCell {
     }
 
     func configure(with displayData: DisplayData) {
+        clearPreviousConfiguration()
         loadingIndicator.startAnimating()
-
         titleLabel.text = displayData.title
         descriptionLabel.text = displayData.description
         sourceNameLabel.text = Constants.sourceCaptionText + displayData.sourceName
@@ -70,6 +70,14 @@ final class FeedCell: UITableViewCell {
             articleImageView.image = UIImage(named: Constants.placeholderImageName)
         }
         loadingIndicator.stopAnimating()
+    }
+
+    private func clearPreviousConfiguration() {
+        articleImageView.image = nil
+        titleLabel.text = nil
+        descriptionLabel.text = nil
+        sourceNameLabel.text = nil
+        dateLabel.text = nil
     }
 
     private func setupSubviews() {

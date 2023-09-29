@@ -51,6 +51,7 @@ extension FeedPresenter: FeedOutput {
     func didTapOnSearchButton() {
         guard let searchPhrase = view?.getSearchFieldText() else { return }
         if !searchPhrase.isEmpty {
+            view?.showLoadingIndicator()
             displayNews(about: searchPhrase)
         }
         view?.hideKeyboard()
@@ -115,6 +116,7 @@ extension FeedPresenter: FeedOutput {
         dataManager.getNews(about: searchPhrase) { [weak self] result in
             guard let self else { return }
             view?.stopFeedDataRefreshing()
+            view?.hideLoadingIndicator()
             switch result {
             case let .success(news):
                 if news.isEmpty {

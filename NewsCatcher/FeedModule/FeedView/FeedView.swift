@@ -58,6 +58,13 @@ final class FeedView: UIView {
         return tableView
     }()
 
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.hidesWhenStopped = true
+        return activityIndicator
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .systemGray5
@@ -82,7 +89,7 @@ final class FeedView: UIView {
     }
 
     private func setupSubviews() {
-        let subviews = [settingsButton, searchTextField, searchButton, tableView]
+        let subviews = [settingsButton, searchTextField, searchButton, tableView, activityIndicator]
         subviews.forEach { addSubview($0) }
 
         settingsButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -102,7 +109,9 @@ final class FeedView: UIView {
             tableView.topAnchor.constraint(equalToSystemSpacingBelow: searchTextField.bottomAnchor, multiplier: Constants.spacingMultiplier),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 }

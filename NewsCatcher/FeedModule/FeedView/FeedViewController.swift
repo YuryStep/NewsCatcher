@@ -14,6 +14,8 @@ protocol FeedInput: AnyObject {
     func hideKeyboard()
     func showAlertWithTitle(_ title: String, text: String)
     func stopFeedDataRefreshing()
+    func showLoadingIndicator()
+    func hideLoadingIndicator()
 }
 
 protocol FeedOutput: AnyObject {
@@ -118,6 +120,18 @@ extension FeedViewController: FeedInput {
     func stopFeedDataRefreshing() {
         feedView.tableView.refreshControl?.endRefreshing()
     }
+
+    func showLoadingIndicator() {
+        feedView.tableView.isHidden = true
+        feedView.activityIndicator.isHidden = false
+        feedView.activityIndicator.startAnimating()
+    }
+
+    func hideLoadingIndicator() {
+        feedView.activityIndicator.stopAnimating()
+        feedView.activityIndicator.isHidden = true
+        feedView.tableView.isHidden = false
+    }
 }
 
 extension FeedViewController: UITableViewDataSource {
@@ -129,6 +143,7 @@ extension FeedViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.reuseIdentifier, for: indexPath) as? FeedCell else {
             return UITableViewCell()
         }
+        
         cell.configure(with: presenter.getFeedDisplayData(at: indexPath))
         presenter.getImageData(at: indexPath) { imageData in
             cell.setImage(imageData)
