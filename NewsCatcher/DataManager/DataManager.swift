@@ -16,7 +16,7 @@ protocol AppDataManager {
 
 final class DataManager: AppDataManager {
     private enum Constants {
-        static let cachedArticlesKey = "Saved NCArticles"
+        static let cachedArticlesKey = "SavedArticles"
     }
 
     static let shared = DataManager(

@@ -104,6 +104,7 @@ extension FeedPresenter: FeedOutput {
             switch result {
             case let .success(fetchedNews):
                 state.setupNews(with: fetchedNews)
+                view?.reloadFeedTableView()
             case let .failure(error):
                 handleError(error)
             }
