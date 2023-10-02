@@ -8,7 +8,7 @@
 import UIKit
 
 protocol FeedViewDelegate: AnyObject {
-    func searchButtonTapped()
+    func cancelButtonTapped()
     func settingsButtonTapped()
     func didPullToRefreshTableViewData()
 }
@@ -17,41 +17,59 @@ final class FeedView: UIView {
     private enum Constants {
         static let spacingMultiplier: CGFloat = 1
         static let settingsButtonImageSystemName = "gearshape"
-        static let searchButtonImageSystemName = "magnifyingglass"
-        static let searchTextFieldPlaceholder = "iOS"
+        static let searchPlaceholderImageSystemName = "magnifyingglass"
+        static let searchTextFieldPlaceholderText = "Search"
+        static let cancelButtonTitleText = "Cancel"
+    }
+
+    private enum LayoutMode {
+        case normal
+        case search
     }
 
     weak var delegate: FeedViewDelegate?
 
-    lazy var settingsButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: Constants.settingsButtonImageSystemName), for: .normal)
-        button.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
-        return button
-    }()
-
     lazy var searchTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = Constants.searchTextFieldPlaceholder
+
+        textField.backgroundColor = UIColor(red: 219 / 255, green: 219 / 255, blue: 224 / 255, alpha: 1)
         textField.clearButtonMode = .always
-        textField.borderStyle = .roundedRect
+        textField.borderStyle = .none
+        textField.layer.cornerRadius = 8.0
+        textField.clipsToBounds = true
+
+        // TODO: Probably this block needs refactoring
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 32, height: 20))
+        let imageView = UIImageView(image: UIImage(systemName: Constants.searchPlaceholderImageSystemName))
+        imageView.tintColor = .systemGray
+        let imageSize = imageView.image?.size ?? CGSize(width: 20, height: 20)
+        imageView.frame = CGRect(x: 8, y: 0, width: imageSize.width, height: imageSize.height)
+        containerView.addSubview(imageView)
+        textField.leftView = containerView
+        textField.leftViewMode = .always
+        textField.placeholder = Constants.searchTextFieldPlaceholderText
+
         return textField
     }()
 
-    lazy var searchButton: UIButton = {
+    lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: Constants.searchButtonImageSystemName), for: .normal)
-        button.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+        button.setTitle(Constants.cancelButtonTitleText, for: .normal)
+        button.isEnabled = false
+        button.isHidden = true
         return button
     }()
 
     lazy var tableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.cellLayoutMarginsFollowReadableWidth = true
+        tableView.separatorInset = UIEdgeInsets.zero
+        tableView.backgroundColor = UIColor(red: 242 / 255, green: 242 / 255, blue: 242 / 255, alpha: 1) // TODO: Adjust
+
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(didPullToRefreshTableViewData), for: .valueChanged)
         tableView.refreshControl = refreshControl
@@ -67,8 +85,8 @@ final class FeedView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .systemGray5
-        setupSubviews()
+        backgroundColor = UIColor(red: 242 / 255, green: 242 / 255, blue: 242 / 255, alpha: 1)
+        setupSubviews(forLayoutMode: .normal)
     }
 
     @available(*, unavailable)
@@ -80,38 +98,56 @@ final class FeedView: UIView {
         delegate?.settingsButtonTapped()
     }
 
-    @objc private func searchButtonTapped() {
-        delegate?.searchButtonTapped()
+    @objc private func cancelButtonTapped() {
+        delegate?.cancelButtonTapped()
     }
 
     @objc private func didPullToRefreshTableViewData() {
         delegate?.didPullToRefreshTableViewData()
     }
 
-    private func setupSubviews() {
-        let subviews = [settingsButton, searchTextField, searchButton, tableView, activityIndicator]
+    func showCancelButton() {
+        UIView.animate(withDuration: 0.25) {
+            self.searchStack.addArrangedSubview(self.cancelButton)
+            self.cancelButton.isHidden = false
+            self.cancelButton.isEnabled = true
+        }
+    }
+
+    func hideCancelButton() {
+        searchStack.removeArrangedSubview(cancelButton)
+        cancelButton.isHidden = true
+        cancelButton.isEnabled = false
+    }
+
+    private lazy var searchStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [searchTextField])
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.spacing = 8
+        return stack
+    }()
+
+    private func setupSubviews(forLayoutMode _: LayoutMode) {
+        let subviews = [searchStack, tableView, activityIndicator, cancelButton]
         subviews.forEach { addSubview($0) }
 
-        settingsButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        searchTextField.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        searchButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        let constantConstraints = [
+            searchTextField.heightAnchor.constraint(greaterThanOrEqualToConstant: 30),
 
-        NSLayoutConstraint.activate([
-            settingsButton.heightAnchor.constraint(equalTo: searchTextField.heightAnchor),
-            searchButton.heightAnchor.constraint(equalTo: searchTextField.heightAnchor),
-            settingsButton.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: Constants.spacingMultiplier),
-            settingsButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            searchTextField.leadingAnchor.constraint(equalToSystemSpacingAfter: settingsButton.trailingAnchor, multiplier: Constants.spacingMultiplier),
-            searchTextField.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            searchButton.leadingAnchor.constraint(equalToSystemSpacingAfter: searchTextField.trailingAnchor, multiplier: Constants.spacingMultiplier),
-            searchButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            trailingAnchor.constraint(equalToSystemSpacingAfter: searchButton.trailingAnchor, multiplier: Constants.spacingMultiplier),
-            tableView.topAnchor.constraint(equalToSystemSpacingBelow: searchTextField.bottomAnchor, multiplier: Constants.spacingMultiplier),
+            searchStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            searchStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 8),
+            searchStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+
+            tableView.topAnchor.constraint(equalToSystemSpacingBelow: searchStack.bottomAnchor, multiplier: Constants.spacingMultiplier),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
+
             activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
-        ])
+        ]
+
+        NSLayoutConstraint.activate(constantConstraints)
     }
 }

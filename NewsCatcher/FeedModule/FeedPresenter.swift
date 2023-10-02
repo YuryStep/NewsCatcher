@@ -44,17 +44,31 @@ final class FeedPresenter {
 }
 
 extension FeedPresenter: FeedOutput {
-    func didReceiveMemoryWarning() {
-        dataManager.clearCache()
+
+    func textFieldDidBeginEditing() {
+        view?.showCancelButton()
+        view?.hideNavigationBar()
     }
 
-    func didTapOnSearchButton() {
+    func textFieldShouldReturn() {
         guard let searchPhrase = view?.getSearchFieldText() else { return }
         if !searchPhrase.isEmpty {
             view?.showLoadingIndicator()
             displayNews(about: searchPhrase)
         }
-        view?.hideKeyboard()
+        view?.deactivateSearchField()
+        view?.hideCancelButton()
+        view?.showNavigationBar()
+    }
+
+    func didReceiveMemoryWarning() {
+        dataManager.clearCache()
+    }
+
+    func didTapOnCancelButton() {
+        view?.deactivateSearchField()
+        view?.hideCancelButton()
+        view?.showNavigationBar()
     }
 
     func didTapOnSettingsButton() {

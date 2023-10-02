@@ -20,8 +20,7 @@ final class FeedCell: UITableViewCell {
         static let systemSpacingMultiplier: CGFloat = 1
         static let imageViewAspectRatio: CGFloat = 0.6
         static let placeholderImageName: String = "noImageIcon"
-        static let sourceCaptionText = "Source: "
-        static let dateCaptionText = "Published at: "
+        static let dateAndSourceLabelText = " Source: "
     }
 
     static let reuseIdentifier = "FeedCellIdentifier"
@@ -33,8 +32,7 @@ final class FeedCell: UITableViewCell {
         return imageView
     }()
 
-    private lazy var sourceNameLabel = UILabel(textStyle: .footnote)
-    private lazy var dateLabel = UILabel(textStyle: .footnote)
+    private lazy var dateAndSourceLabel = UILabel(textStyle: .footnote)
     private lazy var titleLabel = UILabel(textStyle: .title1)
     private lazy var descriptionLabel = UILabel(textStyle: .body)
     private lazy var loadingIndicator: UIActivityIndicatorView = {
@@ -59,8 +57,14 @@ final class FeedCell: UITableViewCell {
         loadingIndicator.startAnimating()
         titleLabel.text = displayData.title
         descriptionLabel.text = displayData.description
-        sourceNameLabel.text = Constants.sourceCaptionText + displayData.sourceName
-        dateLabel.text = Constants.dateCaptionText + displayData.publishedAt
+        dateAndSourceLabel.text = displayData.publishedAt + Constants.dateAndSourceLabelText + displayData.sourceName
+    }
+
+    private func clearPreviousConfiguration() {
+        articleImageView.image = nil
+        titleLabel.text = nil
+        descriptionLabel.text = nil
+        dateAndSourceLabel.text = nil
     }
 
     func setImage(_ imageData: Data?) {
@@ -72,45 +76,33 @@ final class FeedCell: UITableViewCell {
         loadingIndicator.stopAnimating()
     }
 
-    private func clearPreviousConfiguration() {
-        articleImageView.image = nil
-        titleLabel.text = nil
-        descriptionLabel.text = nil
-        sourceNameLabel.text = nil
-        dateLabel.text = nil
-    }
-
     private func setupSubviews() {
-        let subviews = [loadingIndicator, articleImageView, sourceNameLabel, dateLabel, titleLabel, descriptionLabel]
+        let subviews = [loadingIndicator, articleImageView, dateAndSourceLabel, titleLabel, descriptionLabel]
         subviews.forEach { contentView.addSubview($0) }
-        let marginGuide = contentView.layoutMarginsGuide
+
         NSLayoutConstraint.activate([
-            loadingIndicator.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
-            loadingIndicator.topAnchor.constraint(equalToSystemSpacingBelow: marginGuide.topAnchor, multiplier: Constants.imageViewAspectRatio),
-            loadingIndicator.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
-            loadingIndicator.heightAnchor.constraint(equalTo: marginGuide.widthAnchor, multiplier: Constants.imageViewAspectRatio),
+            loadingIndicator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            loadingIndicator.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: Constants.imageViewAspectRatio),
+            loadingIndicator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            loadingIndicator.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.75),
 
-            articleImageView.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
-            articleImageView.topAnchor.constraint(equalTo: marginGuide.topAnchor),
-            articleImageView.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
-            articleImageView.heightAnchor.constraint(equalTo: articleImageView.widthAnchor, multiplier: Constants.imageViewAspectRatio),
+            articleImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            articleImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            articleImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            articleImageView.heightAnchor.constraint(equalTo: articleImageView.widthAnchor, multiplier: 0.75),
 
-            sourceNameLabel.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
-            sourceNameLabel.topAnchor.constraint(equalToSystemSpacingBelow: articleImageView.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
-            sourceNameLabel.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
+            dateAndSourceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            dateAndSourceLabel.topAnchor.constraint(equalToSystemSpacingBelow: articleImageView.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
+            dateAndSourceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
 
-            dateLabel.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
-            dateLabel.topAnchor.constraint(equalToSystemSpacingBelow: sourceNameLabel.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
-            dateLabel.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            titleLabel.topAnchor.constraint(equalTo: dateAndSourceLabel.bottomAnchor, constant: 8),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
 
-            titleLabel.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
-            titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: dateLabel.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
-            titleLabel.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
-
-            descriptionLabel.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
+            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             descriptionLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
-            descriptionLabel.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
-            descriptionLabel.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor)
+            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
     }
 }

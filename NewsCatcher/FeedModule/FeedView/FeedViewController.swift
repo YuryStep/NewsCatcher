@@ -11,22 +11,28 @@ protocol FeedInput: AnyObject {
     func showSettings()
     func getSearchFieldText() -> String?
     func cleanSearchTextField()
-    func hideKeyboard()
+    func deactivateSearchField()
     func showAlertWithTitle(_ title: String, text: String)
     func stopFeedDataRefreshing()
     func showLoadingIndicator()
     func hideLoadingIndicator()
+    func hideCancelButton()
+    func showCancelButton()
+    func showNavigationBar()
+    func hideNavigationBar()
 }
 
 protocol FeedOutput: AnyObject {
     func didReceiveMemoryWarning()
-    func didTapOnSearchButton()
+    func didTapOnCancelButton()
     func didTapOnSettingsButton()
     func didTapOnCell(at indexPath: IndexPath)
     func didPullToRefreshTableViewData()
     func getNumberOfRowsInSection() -> Int
     func getImageData(at indexPath: IndexPath, completion: @escaping (Data?) -> Void)
     func getFeedDisplayData(at indexPath: IndexPath) -> FeedCell.DisplayData
+    func textFieldDidBeginEditing()
+    func textFieldShouldReturn()
 }
 
 import UIKit
@@ -35,6 +41,7 @@ final class FeedViewController: UIViewController, FeedViewDelegate {
     enum Constants {
         static let navigationItemTitle = "News Catcher"
         static let defaultAlertButtonText = "OK"
+        static let settingsButtonTitle = "Settings"
     }
 
     private var feedView: FeedView!
@@ -52,11 +59,8 @@ final class FeedViewController: UIViewController, FeedViewDelegate {
 
     override func loadView() {
         view = feedView
-        navigationItem.title = Constants.navigationItemTitle
-        feedView.tableView.dataSource = self
-        feedView.tableView.delegate = self
-        feedView.tableView.register(FeedCell.self, forCellReuseIdentifier: FeedCell.reuseIdentifier)
-        feedView.searchTextField.delegate = self
+        setNavigationBar()
+        assignDelegationAndDataSource()
     }
 
     override func didReceiveMemoryWarning() {
@@ -64,16 +68,32 @@ final class FeedViewController: UIViewController, FeedViewDelegate {
         presenter.didReceiveMemoryWarning()
     }
 
-    func searchButtonTapped() {
-        presenter.didTapOnSearchButton()
+    func cancelButtonTapped() {
+        presenter.didTapOnCancelButton()
     }
 
-    func settingsButtonTapped() {
+    @objc func settingsButtonTapped() {
         presenter.didTapOnSettingsButton()
     }
 
     func didPullToRefreshTableViewData() {
         presenter.didPullToRefreshTableViewData()
+    }
+
+    private func setNavigationBar() {
+        navigationItem.title = Constants.navigationItemTitle
+        navigationController?.navigationBar.isTranslucent = false
+        let settingsButton = UIBarButtonItem(title: Constants.settingsButtonTitle,
+                                             style: .plain, target: self,
+                                             action: #selector(settingsButtonTapped))
+        navigationItem.leftBarButtonItem = settingsButton
+    }
+
+    private func assignDelegationAndDataSource() {
+        feedView.tableView.dataSource = self
+        feedView.tableView.delegate = self
+        feedView.tableView.register(FeedCell.self, forCellReuseIdentifier: FeedCell.reuseIdentifier)
+        feedView.searchTextField.delegate = self
     }
 }
 
@@ -106,8 +126,8 @@ extension FeedViewController: FeedInput {
         feedView.searchTextField.text = nil
     }
 
-    func hideKeyboard() {
-        feedView.searchTextField.endEditing(true)
+    func deactivateSearchField() {
+        feedView.searchTextField.resignFirstResponder()
     }
 
     func showAlertWithTitle(_ title: String, text: String) {
@@ -132,6 +152,23 @@ extension FeedViewController: FeedInput {
         feedView.activityIndicator.isHidden = true
         feedView.tableView.isHidden = false
     }
+
+    func hideCancelButton() {
+        feedView.hideCancelButton()
+    }
+
+    func showCancelButton() {
+        feedView.showCancelButton()
+        view.layoutIfNeeded() // TODO: Check Ask
+    }
+
+    func showNavigationBar() {
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+
+    func hideNavigationBar() {
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
 }
 
 extension FeedViewController: UITableViewDataSource {
@@ -143,7 +180,7 @@ extension FeedViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.reuseIdentifier, for: indexPath) as? FeedCell else {
             return UITableViewCell()
         }
-        
+
         cell.configure(with: presenter.getFeedDisplayData(at: indexPath))
         presenter.getImageData(at: indexPath) { imageData in
             cell.setImage(imageData)
@@ -161,7 +198,11 @@ extension FeedViewController: UITableViewDelegate {
 
 extension FeedViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_: UITextField) -> Bool {
-        searchButtonTapped()
+        presenter.textFieldShouldReturn()
         return true
+    }
+
+    func textFieldDidBeginEditing(_: UITextField) {
+        presenter.textFieldDidBeginEditing()
     }
 }
