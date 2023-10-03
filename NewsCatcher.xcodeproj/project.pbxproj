@@ -39,7 +39,7 @@
 		EFB380022AC583EF0046BCF7 /* SearchSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB380012AC583EF0046BCF7 /* SearchSettingsCell.swift */; };
 		EFB380052AC5B2580046BCF7 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB380042AC5B2580046BCF7 /* SettingsPresenter.swift */; };
 		EFB380072AC5B26F0046BCF7 /* SettingsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB380062AC5B26F0046BCF7 /* SettingsAssembly.swift */; };
-		EFB380092AC5E7A40046BCF7 /* RequestSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB380082AC5E7A40046BCF7 /* RequestSettings.swift */; };
+		EFB380092AC5E7A40046BCF7 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB380082AC5E7A40046BCF7 /* Request.swift */; };
 		EFF046B82AB0939F00121D66 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = EFF046B72AB0939F00121D66 /* .swiftlint.yml */; };
 /* End PBXBuildFile section */
 
@@ -78,7 +78,7 @@
 		EFB380012AC583EF0046BCF7 /* SearchSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSettingsCell.swift; sourceTree = "<group>"; };
 		EFB380042AC5B2580046BCF7 /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 		EFB380062AC5B26F0046BCF7 /* SettingsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAssembly.swift; sourceTree = "<group>"; };
-		EFB380082AC5E7A40046BCF7 /* RequestSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSettings.swift; sourceTree = "<group>"; };
+		EFB380082AC5E7A40046BCF7 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		EFF046B72AB0939F00121D66 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -176,7 +176,6 @@
 			isa = PBXGroup;
 			children = (
 				EF4E320B2AB35A5A005C0E04 /* DataManager.swift */,
-				EFB380082AC5E7A40046BCF7 /* RequestSettings.swift */,
 			);
 			path = DataManager;
 			sourceTree = "<group>";
@@ -210,9 +209,9 @@
 		EF85DB952A9F5A2C00CD9295 /* NewsCatcher */ = {
 			isa = PBXGroup;
 			children = (
+				EF9892C12ABCA30C0015D624 /* Model */,
 				EF2E828B2AABA30C0065F4C5 /* DataManager */,
 				EF2897D32AA7717B00B9A335 /* Services */,
-				EF9892C12ABCA30C0015D624 /* Model */,
 				EF28C51C2AA239E700B68649 /* FeedModule */,
 				EFB380002AC4A27F0046BCF7 /* SettingsModule */,
 				EF28C5282AA3442900B68649 /* ArticleModule */,
@@ -228,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				EF28C5142AA1CFFC00B68649 /* News.swift */,
+				EFB380082AC5E7A40046BCF7 /* Request.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -370,7 +370,7 @@
 				EF28C5202AA3432700B68649 /* ArticleViewController.swift in Sources */,
 				EF91997C2AB99888000A6364 /* NetworkError.swift in Sources */,
 				EF85DBAB2A9F7A6700CD9295 /* FeedView.swift in Sources */,
-				EFB380092AC5E7A40046BCF7 /* RequestSettings.swift in Sources */,
+				EFB380092AC5E7A40046BCF7 /* Request.swift in Sources */,
 				EFB380072AC5B26F0046BCF7 /* SettingsAssembly.swift in Sources */,
 				EF28C50C2AA06D9A00B68649 /* FeedCell.swift in Sources */,
 				EF85DB9B2A9F5A2C00CD9295 /* FeedViewController.swift in Sources */,

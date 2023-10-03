@@ -13,10 +13,10 @@ final class SettingsPresenter: SettingsViewOutput {
         dataManager.setNewsSearchCriteria(userRequestedSearchCriteria)
     }
 
-    func getRequestSettingsFrom(_ displayData: SettingsView.DisplayData) -> SearchCriteria {
-        RequestSettings(searchInTitlesIsOn: displayData.searchSettingsCellDisplayData[0].switchIsOn,
-                        searchInDescriptionsIsOn: displayData.searchSettingsCellDisplayData[1].switchIsOn,
-                        searchInContentsIsOn: displayData.searchSettingsCellDisplayData[2].switchIsOn)
+    func getRequestSettingsFrom(_ displayData: SettingsView.DisplayData) -> SearchSettings {
+        SearchSettings(searchInTitlesIsOn: displayData.searchSettingsCellDisplayData[0].switchIsOn,
+                       searchInDescriptionsIsOn: displayData.searchSettingsCellDisplayData[1].switchIsOn,
+                       searchInContentsIsOn: displayData.searchSettingsCellDisplayData[2].switchIsOn)
     }
 
     private enum Constants {
@@ -99,12 +99,12 @@ final class SettingsPresenter: SettingsViewOutput {
         )
     }
 
-    func getCurrentSearchCriteria() -> SearchCriteria {
+    func getCurrentSearchCriteria() -> SearchSettings {
         let criteria = dataManager.getCurrentSearchCriteria()
         return criteria
     }
 
-    func newSearchCriteriaSelected(_ newSearchCriteria: SearchCriteria) {
+    func newSearchCriteriaSelected(_ newSearchCriteria: SearchSettings) {
         dataManager.setNewsSearchCriteria(newSearchCriteria)
     }
 

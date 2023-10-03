@@ -8,7 +8,7 @@
 import Foundation
 
 protocol AppNetworkService {
-    func downloadArticles(about: String?, searchCriteria: SearchCriteria, completion: @escaping ((Result<[Article], NetworkError>) -> Void))
+    func downloadArticles(using: Request, completion: @escaping ((Result<[Article], NetworkError>) -> Void))
     func downloadImageData(from urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void)
 }
 
@@ -19,8 +19,8 @@ final class NetworkService: AppNetworkService {
         self.apiRequestBuilder = apiRequestBuilder
     }
 
-    func downloadArticles(about keyPhrase: String?, searchCriteria: SearchCriteria, completion: @escaping (Result<[Article], NetworkError>) -> Void) {
-        let urlRequestString = apiRequestBuilder.getURLRequestString(for: keyPhrase, searchCriteria: searchCriteria)
+    func downloadArticles(using request: Request, completion: @escaping (Result<[Article], NetworkError>) -> Void) {
+        let urlRequestString = apiRequestBuilder.makeSearchURL(for: request)
         fetchData(from: urlRequestString) { [weak self] dataFetchingResult in
             guard let self else { return }
 
@@ -43,7 +43,12 @@ final class NetworkService: AppNetworkService {
     }
 
     func downloadImageData(from urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        fetchData(from: urlString) { result in
+        guard let url = URL(string: urlString) else {
+            completion(.failure(.invalidURL))
+            return
+        }
+
+        fetchData(from: url) { result in
             DispatchQueue.main.async {
                 switch result {
                 case let .success(imageData):
@@ -55,8 +60,8 @@ final class NetworkService: AppNetworkService {
         }
     }
 
-    private func fetchData(from urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        guard let url = URL(string: urlString) else {
+    private func fetchData(from url: URL?, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+        guard let url = url else {
             completion(.failure(.invalidURL))
             return
         }

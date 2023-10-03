@@ -44,7 +44,6 @@ final class FeedPresenter {
 }
 
 extension FeedPresenter: FeedOutput {
-
     func textFieldDidBeginEditing() {
         view?.showCancelButton()
         view?.hideNavigationBar()

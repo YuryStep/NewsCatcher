@@ -8,8 +8,8 @@
 import Foundation
 
 protocol AppDataManager {
-    func getCurrentSearchCriteria() -> SearchCriteria
-    func setNewsSearchCriteria(_: SearchCriteria)
+    func getCurrentSearchCriteria() -> SearchSettings
+    func setNewsSearchCriteria(_: SearchSettings)
     func getCurrentNews(completion: @escaping ((Result<[Article], NetworkError>) -> Void))
     func getNews(about: String?, completion: @escaping ((Result<[Article], NetworkError>) -> Void))
     func getImageData(from urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void)
@@ -28,34 +28,38 @@ final class DataManager: AppDataManager {
 
     private let networkService: AppNetworkService
     private let cacheService: AppCacheService
-    private var requestSettings: SearchCriteria!
+    private var searchSettings: SearchSettings!
+    private var request: Request!
 
     private init(networkService: AppNetworkService, cacheService: AppCacheService) {
         self.networkService = networkService
         self.cacheService = cacheService
-        requestSettings = getInitialRequestSettings()
+        self.searchSettings = getInitialSearchSettings()
+        self.request = Request(settings: searchSettings)
     }
 
-    func getCurrentSearchCriteria() -> SearchCriteria {
-        return requestSettings
+    func getCurrentSearchCriteria() -> SearchSettings {
+        return searchSettings
     }
 
-    func setNewsSearchCriteria(_ newSearchCriteria: SearchCriteria) {
-        requestSettings = newSearchCriteria
+    func setNewsSearchCriteria(_ newSearchCriteria: SearchSettings) {
+        searchSettings = newSearchCriteria
     }
 
     func getCurrentNews(completion: @escaping ((Result<[Article], NetworkError>) -> Void)) {
         if let cachedArticles = cacheService.getArticles(forKey: Constants.cachedArticlesKey) {
             completion(.success(cachedArticles))
         } else {
-            downloadNews(about: nil) { downloadingResult in
+            let request = makeActualRequest(forKeyword: nil)
+            downloadNews(using: request) { downloadingResult in
                 completion(downloadingResult)
             }
         }
     }
 
     func getNews(about keyword: String?, completion: @escaping ((Result<[Article], NetworkError>) -> Void)) {
-        downloadNews(about: keyword) { result in
+        let request = makeActualRequest(forKeyword: keyword)
+        downloadNews(using: request) { result in
             completion(result)
         }
     }
@@ -72,8 +76,8 @@ final class DataManager: AppDataManager {
 }
 
 extension DataManager {
-    private func downloadNews(about keyword: String?, completion: @escaping ((Result<[Article], NetworkError>) -> Void)) {
-        networkService.downloadArticles(about: keyword, searchCriteria: requestSettings) { [weak self] result in
+    private func downloadNews(using request: Request, completion: @escaping ((Result<[Article], NetworkError>) -> Void)) {
+        networkService.downloadArticles(using: request) { [weak self] result in
             guard let self else { return }
             switch result {
             case let .success(articles):
@@ -103,8 +107,16 @@ extension DataManager {
         completion(.success(imageData))
     }
 
-    private func getInitialRequestSettings() -> SearchCriteria {
+    private func makeActualRequest(forKeyword keyword: String?) -> Request {
+        if let keyword = keyword {
+            return Request(settings: searchSettings, keyword: keyword)
+        } else {
+            return Request(settings: searchSettings)
+        }
+    }
+
+    private func getInitialSearchSettings() -> SearchSettings {
         // TODO: Add loading from user defaults
-        return RequestSettings()
+        return SearchSettings()
     }
 }
