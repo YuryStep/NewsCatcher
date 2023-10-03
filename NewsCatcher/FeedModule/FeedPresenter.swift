@@ -89,13 +89,7 @@ extension FeedPresenter: FeedOutput {
     }
 
     func getFeedDisplayData(at indexPath: IndexPath) -> FeedCell.DisplayData {
-        return FeedCell.DisplayData(
-            title: state.getArticle(at: indexPath).title,
-            description: state.getArticle(at: indexPath).description,
-            publishedAt: state.getArticle(at: indexPath).publishedAt.dateFormatted(),
-            sourceName: state.getArticle(at: indexPath).source.name,
-            imageStringURL: state.getArticle(at: indexPath).imageStringURL
-        )
+        return FeedCell.DisplayData(state.getArticle(at: indexPath))
     }
 
     func getImageData(at indexPath: IndexPath, completion: @escaping (Data?) -> Void) {
@@ -128,8 +122,7 @@ extension FeedPresenter: FeedOutput {
     private func displayNews(about searchPhrase: String?) {
         dataManager.getNews(about: searchPhrase) { [weak self] result in
             guard let self else { return }
-            view?.stopFeedDataRefreshing()
-            view?.hideLoadingIndicator()
+            stopViewLoading()
             switch result {
             case let .success(news):
                 if news.isEmpty {
@@ -145,6 +138,11 @@ extension FeedPresenter: FeedOutput {
         }
     }
 
+    private func stopViewLoading() {
+        view?.stopFeedDataRefreshing()
+        view?.hideLoadingIndicator()
+    }
+
     private func handleError(_ error: NetworkError) {
         switch error {
         case .noInternetConnection:
@@ -154,5 +152,15 @@ extension FeedPresenter: FeedOutput {
         default:
             debugPrint(error.localizedDescription)
         }
+    }
+}
+
+extension FeedCell.DisplayData {
+    init(_ article: Article) {
+        self.title = article.title
+        self.description = article.description
+        self.publishedAt = article.publishedAt.dateFormatted()
+        self.sourceName = article.source.name
+        self.imageStringURL = article.imageStringURL
     }
 }

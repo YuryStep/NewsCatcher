@@ -110,6 +110,7 @@ final class FeedView: UIView {
         UIView.animate(withDuration: 0.25) {
             self.searchStack.addArrangedSubview(self.cancelButton)
             self.cancelButton.isHidden = false
+        } completion: { _ in
             self.cancelButton.isEnabled = true
         }
     }

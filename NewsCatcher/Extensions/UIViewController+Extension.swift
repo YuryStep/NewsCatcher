@@ -9,7 +9,6 @@ import UIKit
 
 extension UIViewController {
     func wrapInNavigationController() -> UINavigationController {
-        let navigationController = UINavigationController(rootViewController: self)
-        return navigationController
+        return UINavigationController(rootViewController: self)
     }
 }

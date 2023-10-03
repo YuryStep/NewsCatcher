@@ -15,7 +15,6 @@ final class APIRequestBuilder: AppRequestBuilder {
     private enum Constants {
         static let apiKey = "05119a9d9eec92db2c653876cf3e015c"
         static let searchEndpoint = "https://gnews.io/api/v4/search"
-//        static let defaultSearchPlaces = "title,description" // TODO: remove but make check in Data Manager
 
         static let searchQueryParameter = "q"
         static let apiKeyQueryParameter = "apikey"

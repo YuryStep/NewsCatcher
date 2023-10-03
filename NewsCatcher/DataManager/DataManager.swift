@@ -8,8 +8,7 @@
 import Foundation
 
 protocol AppDataManager {
-    func getCurrentSearchSettings() -> SearchSettings
-    func setSearchSettings(_: SearchSettings)
+    var searchSettings: SearchSettings { get set }
     func getCurrentNews(completion: @escaping ((Result<[Article], NetworkError>) -> Void))
     func getNews(about: String?, completion: @escaping ((Result<[Article], NetworkError>) -> Void))
     func getImageData(from urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void)
@@ -28,22 +27,13 @@ final class DataManager: AppDataManager {
 
     private let networkService: AppNetworkService
     private let cacheService: AppCacheService
-    private var searchSettings: SearchSettings!
-    private var request: Request!
+    var searchSettings: SearchSettings
 
     private init(networkService: AppNetworkService, cacheService: AppCacheService) {
         self.networkService = networkService
         self.cacheService = cacheService
-        searchSettings = getInitialSearchSettings()
-        request = Request(settings: searchSettings)
-    }
-
-    func getCurrentSearchSettings() -> SearchSettings {
-        return searchSettings
-    }
-
-    func setSearchSettings(_ newSettings: SearchSettings) {
-        searchSettings = newSettings
+        searchSettings = SearchSettings()
+        searchSettings = DataManager.getInitialSearchSettings()
     }
 
     func getCurrentNews(completion: @escaping ((Result<[Article], NetworkError>) -> Void)) {
@@ -108,14 +98,11 @@ extension DataManager {
     }
 
     private func makeActualRequest(forKeyword keyword: String?) -> Request {
-        if let keyword = keyword {
-            return Request(settings: searchSettings, keyword: keyword)
-        } else {
-            return Request(settings: searchSettings)
-        }
+        guard let keyword = keyword else { return Request(settings: searchSettings) }
+        return Request(settings: searchSettings, keyword: keyword)
     }
 
-    private func getInitialSearchSettings() -> SearchSettings {
+    private static func getInitialSearchSettings() -> SearchSettings {
         // TODO: Add loading from user defaults
         return SearchSettings()
     }

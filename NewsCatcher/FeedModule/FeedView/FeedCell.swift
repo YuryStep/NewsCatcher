@@ -68,12 +68,12 @@ final class FeedCell: UITableViewCell {
     }
 
     func setImage(_ imageData: Data?) {
-        if let imageData = imageData, let fetchedImage = UIImage(data: imageData) {
-            articleImageView.image = fetchedImage
-        } else {
-            articleImageView.image = UIImage(named: Constants.placeholderImageName)
-        }
         loadingIndicator.stopAnimating()
+        guard let imageData = imageData, let fetchedImage = UIImage(data: imageData) else {
+            articleImageView.image = UIImage(named: Constants.placeholderImageName)
+            return
+        }
+        articleImageView.image = fetchedImage
     }
 
     private func setupSubviews() {

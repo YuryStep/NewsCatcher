@@ -9,14 +9,10 @@ import Foundation
 
 final class ArticlePresenter {
     private struct State {
-        private let article: Article
+        private(set) var article: Article
 
         init(_ article: Article) {
             self.article = article
-        }
-
-        func getArticle() -> Article {
-            return article
         }
     }
 
@@ -42,9 +38,9 @@ extension ArticlePresenter: ArticleOutput {
     }
 
     func getImageData(completion: @escaping (Data?) -> Void) {
-        let imageStringURL = state.getArticle().imageStringURL
+        let imageStringURL = state.article.imageStringURL
         dataManager.getImageData(from: imageStringURL) { [weak self] result in
-            guard let self, state.getArticle().imageStringURL == imageStringURL else { return }
+            guard let self, state.article.imageStringURL == imageStringURL else { return }
             switch result {
             case let .success(imageData):
                 completion(imageData)
@@ -56,19 +52,13 @@ extension ArticlePresenter: ArticleOutput {
     }
 
     func readInSourceButtonTapped() {
-        if let url = URL(string: state.getArticle().urlString) {
+        if let url = URL(string: state.article.urlString) {
             view?.openWebArticle(sourceURL: url)
         }
     }
 
     private func getDisplayDataForCurrentState() -> ArticleView.DisplayData {
-        return ArticleView.DisplayData(
-            title: state.getArticle().title,
-            content: state.getArticle().content,
-            publishedAt: state.getArticle().publishedAt.dateFormatted(),
-            sourceName: state.getArticle().source.name,
-            imageStringURL: state.getArticle().imageStringURL
-        )
+        return ArticleView.DisplayData(state.article)
     }
 
     private func handleError(_ error: NetworkError) {
@@ -77,5 +67,15 @@ extension ArticlePresenter: ArticleOutput {
         default:
             debugPrint(error.localizedDescription)
         }
+    }
+}
+
+extension ArticleView.DisplayData {
+    init(_ article: Article) {
+        self.title = article.title
+        self.content = article.content
+        self.publishedAt = article.publishedAt.dateFormatted()
+        self.sourceName = article.source.name
+        self.imageStringURL = article.imageStringURL
     }
 }

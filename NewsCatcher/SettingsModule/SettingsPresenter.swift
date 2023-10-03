@@ -48,7 +48,7 @@ final class SettingsPresenter: SettingsOutput {
         let newSettings = SearchSettings(searchInTitlesIsOn: userSettings.searchInTitlesIsOn,
                                          searchInDescriptionsIsOn: userSettings.searchInDescriptionsIsOn,
                                          searchInContentsIsOn: userSettings.searchInContentsIsOn)
-        dataManager.setSearchSettings(newSettings)
+        dataManager.searchSettings = newSettings
         view.closeView()
     }
 
@@ -110,7 +110,7 @@ final class SettingsPresenter: SettingsOutput {
     }
 
     private func updateCurrentState() {
-        let searchSettings = dataManager.getCurrentSearchSettings()
+        let searchSettings = dataManager.searchSettings
         let updatedState = State(currentCountry: searchSettings.publicationCountry,
                                  currentLanguage: searchSettings.articleLanguage,
                                  searchInTitlesIsOn: searchSettings.searchInTitlesIsOn,

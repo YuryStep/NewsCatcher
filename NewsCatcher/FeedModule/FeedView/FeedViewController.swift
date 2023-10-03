@@ -16,8 +16,8 @@ protocol FeedInput: AnyObject {
     func stopFeedDataRefreshing()
     func showLoadingIndicator()
     func hideLoadingIndicator()
-    func hideCancelButton()
     func showCancelButton()
+    func hideCancelButton()
     func showNavigationBar()
     func hideNavigationBar()
 }
