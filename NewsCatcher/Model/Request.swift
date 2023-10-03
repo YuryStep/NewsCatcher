@@ -7,7 +7,7 @@
 
 struct SearchSettings {
     private enum Constants {
-        static let defaultArticleLanguage = "any"
+        static let defaultArticleLanguage = "eng"
         static let defaultArticlePublicationCountry = "any"
         static let defaultSortBy = "publishedAt"
         static let titleSortQueryParameter = "title"
@@ -26,7 +26,8 @@ struct SearchSettings {
          searchInTitlesIsOn: Bool = true,
          searchInDescriptionsIsOn: Bool = true,
          searchInContentsIsOn: Bool = false,
-         sortedBy: String = Constants.defaultSortBy) {
+         sortedBy: String = Constants.defaultSortBy)
+    {
         self.articleLanguage = articleLanguage
         self.publicationCountry = publicationCountry
         self.searchInTitlesIsOn = searchInTitlesIsOn

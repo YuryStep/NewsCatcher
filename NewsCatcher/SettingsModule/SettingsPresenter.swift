@@ -7,24 +7,15 @@
 
 import Foundation
 
-final class SettingsPresenter: SettingsViewOutput {
-    func didTapOnSaveButton(withCurrentDisplayData newDisplayData: SettingsView.DisplayData) {
-        let userRequestedSearchCriteria = getRequestSettingsFrom(newDisplayData)
-        dataManager.setNewsSearchCriteria(userRequestedSearchCriteria)
-    }
-
-    func getRequestSettingsFrom(_ displayData: SettingsView.DisplayData) -> SearchSettings {
-        SearchSettings(searchInTitlesIsOn: displayData.searchSettingsCellDisplayData[0].switchIsOn,
-                       searchInDescriptionsIsOn: displayData.searchSettingsCellDisplayData[1].switchIsOn,
-                       searchInContentsIsOn: displayData.searchSettingsCellDisplayData[2].switchIsOn)
-    }
-
+final class SettingsPresenter: SettingsOutput {
     private enum Constants {
         static let numberOfSettingsSections = 2
         static let numbersOfRowsInSettingsSections = [2, 3]
         static let sectionHeaders = ["Article Parameters", "Where To Search"]
-        static let sectionFooters = ["These parameters allow you to specify the language of news articles and the country in which they were published.",
-                                     "These parameters allow you to specify which sections of articles to search for a keyword phrase."]
+        static let sectionFooters = [
+            "These parameters allow you to specify the language of news articles and the country in which they were published.",
+            "These parameters allow you to specify which sections of articles to search for a keyword phrase."
+        ]
         static let countryCellTitle = "Country"
         static let languageCellTitle = "Language"
         static let titleCaption = "Title"
@@ -42,7 +33,7 @@ final class SettingsPresenter: SettingsViewOutput {
         let searchInContentsIsOn: Bool
     }
 
-    weak var view: SettingsViewInput?
+    weak var view: SettingsInput?
     private var dataManager: AppDataManager
     private var state: State!
 
@@ -51,14 +42,19 @@ final class SettingsPresenter: SettingsViewOutput {
         updateCurrentState()
     }
 
-    private func updateCurrentState() {
-        let searchCriteria = dataManager.getCurrentSearchCriteria()
-        let updatedState = State(currentCountry: searchCriteria.publicationCountry,
-                                 currentLanguage: searchCriteria.articleLanguage,
-                                 searchInTitlesIsOn: searchCriteria.searchInTitlesIsOn,
-                                 searchInDescriptionsIsOn: searchCriteria.searchInDescriptionsIsOn,
-                                 searchInContentsIsOn: searchCriteria.searchInContentsIsOn)
-        state = updatedState
+    func didTapOnSaveButton() {
+        guard let view = view else { return }
+        let userSettings = getSearchSettingsFrom(view.getCurrentDisplayData())
+        let newSettings = SearchSettings(searchInTitlesIsOn: userSettings.searchInTitlesIsOn,
+                                         searchInDescriptionsIsOn: userSettings.searchInDescriptionsIsOn,
+                                         searchInContentsIsOn: userSettings.searchInContentsIsOn)
+        dataManager.setSearchSettings(newSettings)
+        view.closeView()
+    }
+
+    func didTapOnCancelButton() {
+        guard let view = view else { return }
+        view.closeView()
     }
 
     func getSettingsDisplayData() -> SettingsView.DisplayData {
@@ -99,20 +95,27 @@ final class SettingsPresenter: SettingsViewOutput {
         )
     }
 
-    func getCurrentSearchCriteria() -> SearchSettings {
-        let criteria = dataManager.getCurrentSearchCriteria()
-        return criteria
-    }
-
-    func newSearchCriteriaSelected(_ newSearchCriteria: SearchSettings) {
-        dataManager.setNewsSearchCriteria(newSearchCriteria)
-    }
-
     func didTapOnCell(at _: IndexPath) {
-        debugPrint("Tap")
+        debugPrint("Tap") // TODO: Finish with article settings logic
     }
 
     func didReceiveMemoryWarning() {
-        debugPrint("MemoryWarning received")
+        dataManager.clearCache()
+    }
+
+    private func getSearchSettingsFrom(_ displayData: SettingsView.DisplayData) -> SearchSettings {
+        SearchSettings(searchInTitlesIsOn: displayData.searchSettingsCellDisplayData[0].switchIsOn,
+                       searchInDescriptionsIsOn: displayData.searchSettingsCellDisplayData[1].switchIsOn,
+                       searchInContentsIsOn: displayData.searchSettingsCellDisplayData[2].switchIsOn)
+    }
+
+    private func updateCurrentState() {
+        let searchSettings = dataManager.getCurrentSearchSettings()
+        let updatedState = State(currentCountry: searchSettings.publicationCountry,
+                                 currentLanguage: searchSettings.articleLanguage,
+                                 searchInTitlesIsOn: searchSettings.searchInTitlesIsOn,
+                                 searchInDescriptionsIsOn: searchSettings.searchInDescriptionsIsOn,
+                                 searchInContentsIsOn: searchSettings.searchInContentsIsOn)
+        state = updatedState
     }
 }

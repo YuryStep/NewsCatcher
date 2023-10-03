@@ -23,17 +23,14 @@ final class SettingsView: UIView {
         }
 
         func getNumberOfRowsInSection(_ section: Int) -> Int? {
-            guard section >= 0, section < numbersOfRowsInSections.count else { return nil }
             return numbersOfRowsInSections[section]
         }
 
         func getTitleForHeaderForSection(_ section: Int) -> String? {
-            guard section >= 0, section < sectionHeaders.count else { return nil }
             return sectionHeaders[section]
         }
 
         func getTitleForFooterForSection(_ section: Int) -> String? {
-            guard section >= 0, section < sectionFooters.count else { return nil }
             return sectionFooters[section]
         }
 

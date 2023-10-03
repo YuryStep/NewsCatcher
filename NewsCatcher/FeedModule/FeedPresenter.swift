@@ -81,7 +81,7 @@ extension FeedPresenter: FeedOutput {
 
     func didPullToRefreshTableViewData() {
         displayNews(about: nil)
-        view?.cleanSearchTextField() // TODO: Remove?
+        view?.cleanSearchTextField() // TODO: Remove after refreshing logic change
     }
 
     func getNumberOfRowsInSection() -> Int {

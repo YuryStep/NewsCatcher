@@ -7,13 +7,17 @@
 
 import UIKit
 
-protocol SettingsViewInput: AnyObject {}
+protocol SettingsInput: AnyObject {
+    func getCurrentDisplayData() -> SettingsView.DisplayData
+    func closeView()
+}
 
-protocol SettingsViewOutput: AnyObject {
+protocol SettingsOutput: AnyObject {
     func getSettingsDisplayData() -> SettingsView.DisplayData
     func didTapOnCell(at indexPath: IndexPath)
     func didReceiveMemoryWarning()
-    func didTapOnSaveButton(withCurrentDisplayData: SettingsView.DisplayData) // TODO: Make separate funcs
+    func didTapOnSaveButton()
+    func didTapOnCancelButton()
 }
 
 final class SettingsViewController: UIViewController {
@@ -23,9 +27,9 @@ final class SettingsViewController: UIViewController {
 
     private var settingsView: SettingsView!
     private var displayData: SettingsView.DisplayData!
-    var presenter: SettingsViewOutput!
+    var presenter: SettingsOutput!
 
-    init(presenter: SettingsViewOutput) {
+    init(presenter: SettingsOutput) {
         super.init(nibName: nil, bundle: nil)
         self.presenter = presenter
         displayData = presenter.getSettingsDisplayData()
@@ -52,13 +56,11 @@ final class SettingsViewController: UIViewController {
     }
 
     @objc func cancelButtonTapped() {
-        dismiss(animated: true, completion: nil)
+        presenter.didTapOnCancelButton()
     }
 
     @objc func saveButtonTapped() {
-        // TODO: Remove to separate calls
-        presenter.didTapOnSaveButton(withCurrentDisplayData: displayData)
-        dismiss(animated: true, completion: nil)
+        presenter.didTapOnSaveButton()
     }
 
     private func setNavigationBar() {
@@ -70,16 +72,13 @@ final class SettingsViewController: UIViewController {
     }
 }
 
-extension SettingsViewController: SettingsViewInput {
-    func reloadFeedTableView() {
-        settingsView.tableView.reloadData()
-        scrollTableViewBackToTheTop()
+extension SettingsViewController: SettingsInput {
+    func getCurrentDisplayData() -> SettingsView.DisplayData {
+        return displayData
     }
 
-    private func scrollTableViewBackToTheTop() {
-        guard settingsView.tableView.numberOfSections > 0,
-              settingsView.tableView.numberOfRows(inSection: 0) > 0 else { return }
-        settingsView.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+    func closeView() {
+        dismiss(animated: true, completion: nil)
     }
 }
 
