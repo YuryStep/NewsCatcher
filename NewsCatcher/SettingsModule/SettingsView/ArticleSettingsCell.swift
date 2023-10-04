@@ -14,7 +14,7 @@ final class ArticleSettingsCell: UITableViewCell {
     }
 
     private enum Constants {
-        static let currentValueLabelColor = UIColor(named: "NCAccent")
+        static let currentValueLabelColor = UIColor(named: "ncAccent")
     }
 
     static let reuseIdentifier = "ArticleSettingsCell"

@@ -40,7 +40,7 @@ final class SettingsView: UIView {
     }
 
     private enum Constants {
-        static let backgroundColor = UIColor(named: "NCBackground")
+        static let backgroundColor = UIColor(named: "ncBackground")
     }
 
     weak var delegate: SettingsViewDelegate?

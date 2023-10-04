@@ -12,7 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo _: UISceneSession, options _: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-        window?.backgroundColor = UIColor(named: "NCBackground")
+        window?.backgroundColor = UIColor(named: "ncBackground")
         window?.rootViewController = NewsCatcherAssembly.makeModule()
         window?.makeKeyAndVisible()
     }

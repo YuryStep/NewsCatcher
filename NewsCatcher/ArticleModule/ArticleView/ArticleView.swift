@@ -21,7 +21,7 @@ final class ArticleView: UIView {
     }
 
     private enum Constants {
-        static let backgroundColor = UIColor(named: "NCBackground")
+        static let backgroundColor = UIColor(named: "ncBackground")
         static let systemSpacingMultiplier: CGFloat = 1
         static let imageViewAspectRatio: CGFloat = 0.6
         static let goToSourceButtonCornerRadius: CGFloat = 10
