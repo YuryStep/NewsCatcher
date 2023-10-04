@@ -38,7 +38,7 @@ protocol FeedOutput: AnyObject {
 import UIKit
 
 final class FeedViewController: UIViewController, FeedViewDelegate {
-    enum Constants {
+    private enum Constants {
         static let navigationItemTitle = "News Catcher"
         static let defaultAlertButtonText = "OK"
         static let settingsButtonTitle = "Settings"

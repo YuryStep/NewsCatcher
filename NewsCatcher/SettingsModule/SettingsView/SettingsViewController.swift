@@ -136,7 +136,6 @@ extension SettingsViewController: UITableViewDataSource {
         }
         return cell
     }
-
 }
 
 extension SettingsViewController: UITableViewDelegate {

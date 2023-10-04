@@ -25,7 +25,6 @@ final class WebArticleViewController: UIViewController {
     override func loadView() {
         webView.navigationDelegate = self
         view = UIView()
-        view.backgroundColor = .white
         setupView()
     }
 

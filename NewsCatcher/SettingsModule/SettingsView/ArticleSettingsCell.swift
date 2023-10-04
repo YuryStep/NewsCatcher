@@ -13,17 +13,22 @@ final class ArticleSettingsCell: UITableViewCell {
         var currentValue: String
     }
 
+    private enum Constants {
+        static let currentValueLabelColor = UIColor(named: "NCAccent")
+    }
+
     static let reuseIdentifier = "ArticleSettingsCell"
 
     static func make(for tableView: UITableView, indexPath: IndexPath) -> ArticleSettingsCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: self.reuseIdentifier, for: indexPath) as? ArticleSettingsCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? ArticleSettingsCell else {
             fatalError("Failed to make ArticleSettingsCell")
         }
         return cell
     }
 
     private lazy var titleLabel = UILabel(textStyle: .body)
-    private lazy var currentValueLabel = UILabel(textStyle: .body, color: .systemBlue)
+    private lazy var currentValueLabel = UILabel(textStyle: .body,
+                                                 color: Constants.currentValueLabelColor)
     private lazy var stack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false

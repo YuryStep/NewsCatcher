@@ -15,15 +15,13 @@ protocol FeedViewDelegate: AnyObject {
 
 final class FeedView: UIView {
     private enum Constants {
-        static let backgroundColor = UIColor(red: 242 / 255, green: 242 / 255, blue: 242 / 255, alpha: 1)
-
+        static let backgroundColor = UIColor(named: "NCBackground")
         static let spacingMultiplier: CGFloat = 1
         static let cancelButtonTitleText = "Cancel"
-
         static let searchFieldImageSystemName = "magnifyingglass"
         static let searchFieldPlaceholderText = "Search"
-        static let searchFieldImageTintColor = UIColor.systemGray
-        static let searchFieldBackgroundColor = UIColor(red: 219 / 255, green: 219 / 255, blue: 224 / 255, alpha: 1)
+        static let searchFieldImageTintColor = UIColor(named: "NCSearchPlaceholderAccent")
+        static let searchFieldBackgroundColor = UIColor(named: "NCSearchFieldBackground")
         static let searchFieldCornerRadius: CGFloat = 8.0
         static let searchFieldLeftViewContainerWidth: CGFloat = 32
         static let searchFieldLeftViewContainerHeight: CGFloat = 20
@@ -64,7 +62,7 @@ final class FeedView: UIView {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.cellLayoutMarginsFollowReadableWidth = true
         tableView.separatorInset = UIEdgeInsets.zero
-        tableView.backgroundColor = Constants.backgroundColor // TODO: Adjust
+        tableView.backgroundColor = Constants.backgroundColor
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(didPullToRefreshTableViewData), for: .valueChanged)
         tableView.refreshControl = refreshControl

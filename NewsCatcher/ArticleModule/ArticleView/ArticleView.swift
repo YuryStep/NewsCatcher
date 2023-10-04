@@ -21,6 +21,7 @@ final class ArticleView: UIView {
     }
 
     private enum Constants {
+        static let backgroundColor = UIColor(named: "NCBackground")
         static let systemSpacingMultiplier: CGFloat = 1
         static let imageViewAspectRatio: CGFloat = 0.6
         static let goToSourceButtonCornerRadius: CGFloat = 10
@@ -73,7 +74,7 @@ final class ArticleView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
+        backgroundColor = Constants.backgroundColor
         setupSubviews()
     }
 

@@ -39,6 +39,10 @@ final class SettingsView: UIView {
         }
     }
 
+    private enum Constants {
+        static let backgroundColor = UIColor(named: "NCBackground")
+    }
+
     weak var delegate: SettingsViewDelegate?
 
     lazy var tableView: UITableView = {
@@ -50,7 +54,8 @@ final class SettingsView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .systemGray5
+        backgroundColor = Constants.backgroundColor
+        tableView.backgroundColor = Constants.backgroundColor
         setupSubviews()
     }
 
