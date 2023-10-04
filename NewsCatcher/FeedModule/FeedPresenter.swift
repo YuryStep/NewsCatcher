@@ -55,9 +55,7 @@ extension FeedPresenter: FeedOutput {
             view?.showLoadingIndicator()
             displayNews(about: searchPhrase)
         }
-        view?.deactivateSearchField()
-        view?.hideCancelButton()
-        view?.showNavigationBar()
+        switchLayoutBackToInitialState()
     }
 
     func didReceiveMemoryWarning() {
@@ -65,9 +63,7 @@ extension FeedPresenter: FeedOutput {
     }
 
     func didTapOnCancelButton() {
-        view?.deactivateSearchField()
-        view?.hideCancelButton()
-        view?.showNavigationBar()
+        switchLayoutBackToInitialState()
     }
 
     func didTapOnSettingsButton() {
@@ -76,6 +72,7 @@ extension FeedPresenter: FeedOutput {
     }
 
     func didTapOnCell(at indexPath: IndexPath) {
+        switchLayoutBackToInitialState()
         view?.showArticle(state.getArticle(at: indexPath))
     }
 
@@ -141,6 +138,12 @@ extension FeedPresenter: FeedOutput {
     private func stopViewLoading() {
         view?.stopFeedDataRefreshing()
         view?.hideLoadingIndicator()
+    }
+
+    private func switchLayoutBackToInitialState() {
+        view?.deactivateSearchField()
+        view?.hideCancelButton()
+        view?.showNavigationBar()
     }
 
     private func handleError(_ error: NetworkError) {
