@@ -83,6 +83,11 @@ extension SettingsViewController: SettingsInput {
 }
 
 extension SettingsViewController: UITableViewDataSource {
+    private enum Section: Int {
+        case articleSettings
+        case searchSettings
+    }
+
     func numberOfSections(in _: UITableView) -> Int {
         presenter.getSettingsDisplayData().numberOfSections
     }
@@ -103,16 +108,14 @@ extension SettingsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.section {
-        case 0:
-            guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: ArticleSettingsCell.reuseIdentifier,
-                for: indexPath
-            ) as? ArticleSettingsCell else { return UITableViewCell() }
+        guard let section = Section(rawValue: indexPath.section) else { return UITableViewCell() }
 
+        switch section {
+        case .articleSettings:
+            let cell = ArticleSettingsCell.make(for: tableView, indexPath: indexPath)
             cell.configure(with: displayData.getArticleSettingsCellDisplayData(forCellAt: indexPath))
             return cell
-        case 1:
+        case .searchSettings:
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: SearchSettingsCell.reuseIdentifier,
                 for: indexPath
@@ -124,10 +127,16 @@ extension SettingsViewController: UITableViewDataSource {
                 displayData.searchSettingsCellDisplayData[indexPath.row].switchIsOn = isOn
             }
             return cell
-        default:
-            return UITableViewCell()
         }
     }
+
+    func dequeueReusableCell<T: UITableViewCell>(for tableView: UITableView, indexPath: IndexPath, reuseIdentifier: String) -> T {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? T else {
+            fatalError("Failed to dequeue cell with identifier: \(reuseIdentifier)")
+        }
+        return cell
+    }
+
 }
 
 extension SettingsViewController: UITableViewDelegate {
