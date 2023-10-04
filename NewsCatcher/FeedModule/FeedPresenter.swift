@@ -160,10 +160,10 @@ extension FeedPresenter: FeedOutput {
 
 extension FeedCell.DisplayData {
     init(_ article: Article) {
-        self.title = article.title
-        self.description = article.description
-        self.publishedAt = article.publishedAt.dateFormatted()
-        self.sourceName = article.source.name
-        self.imageStringURL = article.imageStringURL
+        title = article.title
+        description = article.description
+        publishedAt = article.publishedAt.dateFormatted()
+        sourceName = article.source.name
+        imageStringURL = article.imageStringURL
     }
 }

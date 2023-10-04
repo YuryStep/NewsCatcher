@@ -93,7 +93,7 @@ final class FeedViewController: UIViewController, FeedViewDelegate {
         feedView.tableView.dataSource = self
         feedView.tableView.delegate = self
         feedView.tableView.register(FeedCell.self, forCellReuseIdentifier: FeedCell.reuseIdentifier)
-        feedView.searchTextField.delegate = self
+        feedView.searchField.delegate = self
     }
 }
 
@@ -119,15 +119,15 @@ extension FeedViewController: FeedInput {
     }
 
     func getSearchFieldText() -> String? {
-        return feedView.searchTextField.text
+        return feedView.searchField.text
     }
 
     func cleanSearchTextField() {
-        feedView.searchTextField.text = nil
+        feedView.searchField.text = nil
     }
 
     func deactivateSearchField() {
-        feedView.searchTextField.resignFirstResponder()
+        feedView.searchField.resignFirstResponder()
     }
 
     func showAlertWithTitle(_ title: String, text: String) {

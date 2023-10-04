@@ -72,10 +72,10 @@ extension ArticlePresenter: ArticleOutput {
 
 extension ArticleView.DisplayData {
     init(_ article: Article) {
-        self.title = article.title
-        self.content = article.content
-        self.publishedAt = article.publishedAt.dateFormatted()
-        self.sourceName = article.source.name
-        self.imageStringURL = article.imageStringURL
+        title = article.title
+        content = article.content
+        publishedAt = article.publishedAt.dateFormatted()
+        sourceName = article.source.name
+        imageStringURL = article.imageStringURL
     }
 }

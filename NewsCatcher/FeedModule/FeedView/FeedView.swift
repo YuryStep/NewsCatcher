@@ -16,10 +16,18 @@ protocol FeedViewDelegate: AnyObject {
 final class FeedView: UIView {
     private enum Constants {
         static let spacingMultiplier: CGFloat = 1
-        static let settingsButtonImageSystemName = "gearshape"
-        static let searchPlaceholderImageSystemName = "magnifyingglass"
-        static let searchTextFieldPlaceholderText = "Search"
         static let cancelButtonTitleText = "Cancel"
+
+        static let searchFieldImageSystemName = "magnifyingglass"
+        static let searchFieldPlaceholderText = "Search"
+        static let searchFieldImageTintColor = UIColor.systemGray
+        static let searchFieldBackgroundColor = UIColor(red: 219 / 255, green: 219 / 255, blue: 224 / 255, alpha: 1)
+        static let searchFieldCornerRadius: CGFloat = 8.0
+        static let searchFieldLeftViewContainerWidth: CGFloat = 32
+        static let searchFieldLeftViewContainerHeight: CGFloat = 20
+        static let searchFieldImageXPosition: CGFloat = 8
+        static let searchFieldImageYPosition: CGFloat = 0
+        static let searchFieldImageSize = CGSize(width: 20, height: 20)
     }
 
     private enum LayoutMode {
@@ -29,29 +37,43 @@ final class FeedView: UIView {
 
     weak var delegate: FeedViewDelegate?
 
-    lazy var searchTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-
-        textField.backgroundColor = UIColor(red: 219 / 255, green: 219 / 255, blue: 224 / 255, alpha: 1)
-        textField.clearButtonMode = .always
-        textField.borderStyle = .none
-        textField.layer.cornerRadius = 8.0
-        textField.clipsToBounds = true
-
-        // TODO: Probably this block needs refactoring
-        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 32, height: 20))
-        let imageView = UIImageView(image: UIImage(systemName: Constants.searchPlaceholderImageSystemName))
-        imageView.tintColor = .systemGray
-        let imageSize = imageView.image?.size ?? CGSize(width: 20, height: 20)
-        imageView.frame = CGRect(x: 8, y: 0, width: imageSize.width, height: imageSize.height)
-        containerView.addSubview(imageView)
+    lazy var searchField: UITextField = {
+        let textField = makeSearchField()
+        let containerView = makeLeftViewSearchFieldContainer()
         textField.leftView = containerView
         textField.leftViewMode = .always
-        textField.placeholder = Constants.searchTextFieldPlaceholderText
-
+        textField.placeholder = Constants.searchFieldPlaceholderText
         return textField
     }()
+
+    private func makeSearchField() -> UITextField {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.backgroundColor = Constants.searchFieldBackgroundColor
+        textField.clearButtonMode = .always
+        textField.borderStyle = .none
+        textField.layer.cornerRadius = Constants.searchFieldCornerRadius
+        textField.clipsToBounds = true
+        return textField
+    }
+
+    private func makeLeftViewSearchFieldContainer() -> UIView {
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.searchFieldLeftViewContainerWidth, height: Constants.searchFieldLeftViewContainerHeight))
+        let imageView = makeSearchPlaceholderImageView()
+        containerView.addSubview(imageView)
+        return containerView
+    }
+
+    private func makeSearchPlaceholderImageView() -> UIImageView {
+        let imageView = UIImageView(image: UIImage(systemName: Constants.searchFieldImageSystemName))
+        imageView.tintColor = Constants.searchFieldImageTintColor
+        let imageSize = imageView.image?.size ?? Constants.searchFieldImageSize
+        imageView.frame = CGRect(x: Constants.searchFieldImageXPosition,
+                                 y: Constants.searchFieldImageYPosition,
+                                 width: imageSize.width,
+                                 height: imageSize.height)
+        return imageView
+    }
 
     lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
@@ -122,7 +144,7 @@ final class FeedView: UIView {
     }
 
     private lazy var searchStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [searchTextField])
+        let stack = UIStackView(arrangedSubviews: [searchField])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
         stack.spacing = 8
@@ -134,7 +156,7 @@ final class FeedView: UIView {
         subviews.forEach { addSubview($0) }
 
         let constantConstraints = [
-            searchTextField.heightAnchor.constraint(greaterThanOrEqualToConstant: 30),
+            searchField.heightAnchor.constraint(greaterThanOrEqualToConstant: 30),
 
             searchStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
             searchStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 8),
