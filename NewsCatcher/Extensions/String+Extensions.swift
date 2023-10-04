@@ -8,10 +8,10 @@
 import Foundation
 
 extension String {
-    func removeExtraSpaces() -> String {
+    func formattedSearchQuery() -> String {
         let trimmedString = trimmingCharacters(in: .whitespacesAndNewlines)
         let components = trimmedString.components(separatedBy: .whitespaces)
-        let joinedString = components.joined(separator: "&")
+        let joinedString = components.joined(separator: "+")
         return joinedString
     }
 }

@@ -37,7 +37,7 @@ final class APIRequestBuilder: AppRequestBuilder {
 
     private func buildQueryItems(for request: Request) -> [URLQueryItem] {
         var queryItems = [
-            URLQueryItem(name: Constants.searchQueryParameter, value: request.keyword.removeExtraSpaces()),
+            URLQueryItem(name: Constants.searchQueryParameter, value: request.keyword.formattedSearchQuery()),
             URLQueryItem(name: Constants.apiKeyQueryParameter, value: Constants.apiKey)
         ]
 
