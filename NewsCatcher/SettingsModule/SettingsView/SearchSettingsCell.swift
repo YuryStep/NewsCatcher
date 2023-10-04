@@ -29,7 +29,7 @@ final class SearchSettingsCell: UITableViewCell {
     }
 
     private lazy var stack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [titleLabel, switchIndicator])
+        let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
         stack.distribution = .equalSpacing
@@ -52,6 +52,7 @@ final class SearchSettingsCell: UITableViewCell {
     }
 
     private func setupSubviews() {
+        [titleLabel, switchIndicator].forEach { stack.addArrangedSubview($0) }
         contentView.addSubview(stack)
         let marginGuide = contentView.layoutMarginsGuide
         NSLayoutConstraint.activate([

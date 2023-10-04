@@ -107,10 +107,8 @@ final class FeedView: UIView {
     }
 
     private func setupSubviews() {
-        let subviews = [searchStack, tableView, activityIndicator, cancelButton]
-        subviews.forEach { addSubview($0) }
-
-        let constantConstraints = [
+        addSubviews([searchStack, tableView, activityIndicator, cancelButton])
+        NSLayoutConstraint.activate([
             searchField.heightAnchor.constraint(greaterThanOrEqualToConstant: 30),
 
             searchStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
@@ -124,9 +122,7 @@ final class FeedView: UIView {
 
             activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
-        ]
-
-        NSLayoutConstraint.activate(constantConstraints)
+        ])
     }
 
     @objc private func settingsButtonTapped() {

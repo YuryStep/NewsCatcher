@@ -18,10 +18,6 @@ final class SettingsView: UIView {
         let sectionFooters: [String]
         let numbersOfRowsInSections: [Int]
 
-        func getNumberOfSections() -> Int {
-            return numberOfSections
-        }
-
         func getNumberOfRowsInSection(_ section: Int) -> Int? {
             return numbersOfRowsInSections[section]
         }
@@ -64,8 +60,7 @@ final class SettingsView: UIView {
     }
 
     private func setupSubviews() {
-        let subviews = [tableView]
-        subviews.forEach { addSubview($0) }
+        addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: topAnchor),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),

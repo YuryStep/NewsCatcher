@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF0138352ACD7E61002B5D78 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0138342ACD7E61002B5D78 /* UIView+Extensions.swift */; };
 		EF0C27E12AB0BD7600F546BF /* .swiftformat in Resources */ = {isa = PBXBuildFile; fileRef = EF0C27E02AB0BD7600F546BF /* .swiftformat */; };
 		EF2897CD2AA7210000B9A335 /* APIRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2897CC2AA7210000B9A335 /* APIRequestBuilder.swift */; };
 		EF2897D12AA770F100B9A335 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2897D02AA770F100B9A335 /* String+Extensions.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EF0138342ACD7E61002B5D78 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		EF0C27E02AB0BD7600F546BF /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
 		EF2897CC2AA7210000B9A335 /* APIRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestBuilder.swift; sourceTree = "<group>"; };
 		EF2897D02AA770F100B9A335 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				EF2897D02AA770F100B9A335 /* String+Extensions.swift */,
 				EF2897D42AA7720C00B9A335 /* Array+Extensions.swift */,
 				EFB37FFE2AC4A2100046BCF7 /* UIViewController+Extension.swift */,
+				EF0138342ACD7E61002B5D78 /* UIView+Extensions.swift */,
 				EF2E82852AAB77FD0065F4C5 /* UILabel+Extensions.swift */,
 			);
 			path = Extensions;
@@ -394,6 +397,7 @@
 				EF28C5222AA3436000B68649 /* ArticleView.swift in Sources */,
 				EF2897D52AA7720C00B9A335 /* Array+Extensions.swift in Sources */,
 				EFB37FFF2AC4A2100046BCF7 /* UIViewController+Extension.swift in Sources */,
+				EF0138352ACD7E61002B5D78 /* UIView+Extensions.swift in Sources */,
 				EF85DB992A9F5A2C00CD9295 /* SceneDelegate.swift in Sources */,
 				EFB380052AC5B2580046BCF7 /* SettingsPresenter.swift in Sources */,
 			);

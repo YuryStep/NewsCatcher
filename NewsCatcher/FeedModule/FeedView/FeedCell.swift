@@ -77,9 +77,8 @@ final class FeedCell: UITableViewCell {
     }
 
     private func setupSubviews() {
-        let subviews = [loadingIndicator, articleImageView, dateAndSourceLabel, titleLabel, descriptionLabel]
-        subviews.forEach { contentView.addSubview($0) }
-
+        contentView.addSubviews([loadingIndicator, articleImageView, dateAndSourceLabel,
+                                 titleLabel, descriptionLabel])
         NSLayoutConstraint.activate([
             loadingIndicator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             loadingIndicator.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: Constants.imageViewAspectRatio),

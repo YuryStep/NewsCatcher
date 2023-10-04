@@ -100,8 +100,8 @@ final class ArticleView: UIView {
 
     private func setupSubviews() {
         addSubview(scrollView)
-        let scrollViewSubviews = [loadingIndicator, articleImageView, sourceNameLabel, dateLabel, titleLabel, contentLabel, readInSourceButton]
-        scrollViewSubviews.forEach { scrollView.addSubview($0) }
+        scrollView.addSubviews([loadingIndicator, articleImageView, sourceNameLabel,
+                                dateLabel, titleLabel, contentLabel, readInSourceButton])
         let marginGuide = layoutMarginsGuide
         let scrollViewFrameGuide = scrollView.frameLayoutGuide
         let scrollViewContentGuide = scrollView.contentLayoutGuide

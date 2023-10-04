@@ -18,7 +18,7 @@ final class ArticleSettingsCell: UITableViewCell {
     private lazy var titleLabel = UILabel(textStyle: .body)
     private lazy var currentValueLabel = UILabel(textStyle: .body, color: .systemBlue)
     private lazy var stack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [titleLabel, currentValueLabel])
+        let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
         stack.distribution = .equalSpacing
@@ -41,6 +41,7 @@ final class ArticleSettingsCell: UITableViewCell {
     }
 
     private func setupSubviews() {
+        [titleLabel, currentValueLabel].forEach { stack.addArrangedSubview($0) }
         contentView.addSubview(stack)
         let marginGuide = contentView.layoutMarginsGuide
         NSLayoutConstraint.activate([
