@@ -15,13 +15,13 @@ protocol FeedViewDelegate: AnyObject {
 
 final class FeedView: UIView {
     private enum Constants {
-        static let backgroundColor = UIColor(named: "ncBackground")
+        static let backgroundColor = UIColor(resource: .ncBackground)
         static let spacingMultiplier: CGFloat = 1
         static let cancelButtonTitleText = "Cancel"
         static let searchFieldImageSystemName = "magnifyingglass"
         static let searchFieldPlaceholderText = "Search"
-        static let searchFieldImageTintColor = UIColor(named: "ncSearchPlaceholderAccent")
-        static let searchFieldBackgroundColor = UIColor(named: "ncSearchFieldBackground")
+        static let searchFieldImageTintColor = UIColor(resource: .ncSearchPlaceholderAccent)
+        static let searchFieldBackgroundColor = UIColor(resource: .ncSearchFieldBackground)
         static let searchFieldCornerRadius: CGFloat = 8.0
         static let searchFieldLeftViewContainerWidth: CGFloat = 32
         static let searchFieldLeftViewContainerHeight: CGFloat = 20

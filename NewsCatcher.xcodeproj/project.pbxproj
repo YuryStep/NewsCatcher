@@ -149,14 +149,14 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		EF28C51C2AA239E700B68649 /* FeedModule */ = {
+		EF28C51C2AA239E700B68649 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
 				EF28C51A2AA233F900B68649 /* FeedAssembly.swift */,
 				EF28C50F2AA0CD4600B68649 /* FeedPresenter.swift */,
 				EF28C5112AA0E40A00B68649 /* FeedView */,
 			);
-			path = FeedModule;
+			path = Feed;
 			sourceTree = "<group>";
 		};
 		EF28C5272AA343FB00B68649 /* ArticleView */ = {
@@ -168,14 +168,14 @@
 			path = ArticleView;
 			sourceTree = "<group>";
 		};
-		EF28C5282AA3442900B68649 /* ArticleModule */ = {
+		EF28C5282AA3442900B68649 /* Article */ = {
 			isa = PBXGroup;
 			children = (
 				EF28C5252AA343DF00B68649 /* ArticleAssembly.swift */,
 				EF28C5232AA343AD00B68649 /* ArticlePresenter.swift */,
 				EF28C5272AA343FB00B68649 /* ArticleView */,
 			);
-			path = ArticleModule;
+			path = Article;
 			sourceTree = "<group>";
 		};
 		EF2E828B2AABA30C0065F4C5 /* DataManager */ = {
@@ -186,12 +186,12 @@
 			path = DataManager;
 			sourceTree = "<group>";
 		};
-		EF4E320D2AB440DB005C0E04 /* WebArticleModule */ = {
+		EF4E320D2AB440DB005C0E04 /* WebArticle */ = {
 			isa = PBXGroup;
 			children = (
 				EF2897D82AA9DA8F00B9A335 /* WebArticleViewController.swift */,
 			);
-			path = WebArticleModule;
+			path = WebArticle;
 			sourceTree = "<group>";
 		};
 		EF85DB8A2A9F5A2C00CD9295 = {
@@ -215,13 +215,10 @@
 		EF85DB952A9F5A2C00CD9295 /* NewsCatcher */ = {
 			isa = PBXGroup;
 			children = (
-				EF9892C12ABCA30C0015D624 /* Model */,
+				EF9892C12ABCA30C0015D624 /* Models */,
 				EF2E828B2AABA30C0065F4C5 /* DataManager */,
 				EF2897D32AA7717B00B9A335 /* Services */,
-				EF28C51C2AA239E700B68649 /* FeedModule */,
-				EFB380002AC4A27F0046BCF7 /* SettingsModule */,
-				EF28C5282AA3442900B68649 /* ArticleModule */,
-				EF4E320D2AB440DB005C0E04 /* WebArticleModule */,
+				EFD4E5E62ACF22890090A53B /* Modules */,
 				EF2897D22AA770FC00B9A335 /* Extensions */,
 				EF9892C32ABCA6860015D624 /* Root */,
 				EF28C5172AA2093600B68649 /* Supporting Files */,
@@ -229,13 +226,13 @@
 			path = NewsCatcher;
 			sourceTree = "<group>";
 		};
-		EF9892C12ABCA30C0015D624 /* Model */ = {
+		EF9892C12ABCA30C0015D624 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				EF28C5142AA1CFFC00B68649 /* News.swift */,
 				EFB380082AC5E7A40046BCF7 /* Request.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		EF9892C22ABCA5D60015D624 /* CacheService */ = {
@@ -256,14 +253,14 @@
 			path = Root;
 			sourceTree = "<group>";
 		};
-		EFB380002AC4A27F0046BCF7 /* SettingsModule */ = {
+		EFB380002AC4A27F0046BCF7 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
 				EFB380062AC5B26F0046BCF7 /* SettingsAssembly.swift */,
 				EFB380042AC5B2580046BCF7 /* SettingsPresenter.swift */,
 				EFB380032AC5B23C0046BCF7 /* SettingsView */,
 			);
-			path = SettingsModule;
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		EFB380032AC5B23C0046BCF7 /* SettingsView */ = {
@@ -275,6 +272,17 @@
 				EFB380012AC583EF0046BCF7 /* SearchSettingsCell.swift */,
 			);
 			path = SettingsView;
+			sourceTree = "<group>";
+		};
+		EFD4E5E62ACF22890090A53B /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				EF28C51C2AA239E700B68649 /* Feed */,
+				EFB380002AC4A27F0046BCF7 /* Settings */,
+				EF28C5282AA3442900B68649 /* Article */,
+				EF4E320D2AB440DB005C0E04 /* WebArticle */,
+			);
+			path = Modules;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -159,7 +159,6 @@ extension FeedViewController: FeedInput {
 
     func showCancelButton() {
         feedView.showCancelButton()
-        view.layoutIfNeeded() // TODO: Check Ask
     }
 
     func showNavigationBar() {
