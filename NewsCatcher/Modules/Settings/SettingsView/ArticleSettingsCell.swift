@@ -19,13 +19,6 @@ final class ArticleSettingsCell: UITableViewCell {
 
     static let reuseIdentifier = "ArticleSettingsCell"
 
-    static func make(for tableView: UITableView, indexPath: IndexPath) -> ArticleSettingsCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? ArticleSettingsCell else {
-            fatalError("Failed to make ArticleSettingsCell")
-        }
-        return cell
-    }
-
     private lazy var titleLabel = UILabel(textStyle: .body)
     private lazy var currentValueLabel = UILabel(textStyle: .body,
                                                  color: Constants.currentValueLabelColor)

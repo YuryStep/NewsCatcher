@@ -112,15 +112,11 @@ extension SettingsViewController: UITableViewDataSource {
 
         switch section {
         case .articleSettings:
-            let cell = ArticleSettingsCell.make(for: tableView, indexPath: indexPath)
+            let cell: ArticleSettingsCell = dequeueReusableCell(for: tableView, indexPath: indexPath, reuseIdentifier: ArticleSettingsCell.reuseIdentifier)
             cell.configure(with: displayData.getArticleSettingsCellDisplayData(forCellAt: indexPath))
             return cell
         case .searchSettings:
-            guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: SearchSettingsCell.reuseIdentifier,
-                for: indexPath
-            ) as? SearchSettingsCell else { return UITableViewCell() }
-
+            let cell: SearchSettingsCell = dequeueReusableCell(for: tableView, indexPath: indexPath, reuseIdentifier: SearchSettingsCell.reuseIdentifier)
             cell.configure(with: displayData.getSearchSettingsCellDisplayData(forCellAt: indexPath))
             cell.switchValueChangedHandler = { [weak self] isOn in
                 guard let self else { return }
