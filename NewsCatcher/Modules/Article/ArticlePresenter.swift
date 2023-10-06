@@ -9,7 +9,11 @@ import Foundation
 
 final class ArticlePresenter {
     private struct State {
-        var article: Article
+        private(set) var article: Article
+
+        init(_ article: Article) {
+            self.article = article
+        }
     }
 
     private weak var view: ArticleInput?
@@ -18,17 +22,15 @@ final class ArticlePresenter {
 
     init(view: ArticleInput, article: Article, dataManager: AppDataManager) {
         self.view = view
-        state = State(article: article)
+        state = State(article)
         self.dataManager = dataManager
     }
 }
 
 extension ArticlePresenter: ArticleOutput {
     func viewDidLoad() {
-        view?.setupArticleView(withTitle: state.article.title,
-                               content: state.article.content,
-                               sourceName: state.article.source.name,
-                               publishingDate: state.article.publishedAt.dateFormatted())
+        let displayData = getDisplayDataForCurrentState()
+        view?.setupArticleView(with: displayData)
     }
 
     func didReceiveMemoryWarning() {
@@ -51,8 +53,12 @@ extension ArticlePresenter: ArticleOutput {
 
     func readInSourceButtonTapped() {
         if let url = URL(string: state.article.urlString) {
-            view?.goToWebArticle(sourceURL: url)
+            view?.openWebArticle(sourceURL: url)
         }
+    }
+
+    private func getDisplayDataForCurrentState() -> ArticleView.DisplayData {
+        return ArticleView.DisplayData(state.article)
     }
 
     private func handleError(_ error: NetworkError) {
@@ -61,5 +67,15 @@ extension ArticlePresenter: ArticleOutput {
         default:
             debugPrint(error.localizedDescription)
         }
+    }
+}
+
+extension ArticleView.DisplayData {
+    init(_ article: Article) {
+        title = article.title
+        content = article.content
+        publishedAt = article.publishedAt.dateFormatted()
+        sourceName = article.source.name
+        imageStringURL = article.imageStringURL
     }
 }

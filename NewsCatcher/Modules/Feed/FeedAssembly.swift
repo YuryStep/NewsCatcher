@@ -8,10 +8,10 @@
 import UIKit
 
 enum FeedAssembly {
-    static func makeModule(with dataManager: AppDataManager) -> UIViewController {
+    static func makeModule() -> UIViewController {
         let feedView = FeedView()
         let feedViewController = FeedViewController(feedView: feedView)
-        let feedPresenter = FeedPresenter(view: feedViewController, dataManager: dataManager)
+        let feedPresenter = FeedPresenter(view: feedViewController, dataManager: DataManager.shared)
         feedView.delegate = feedViewController
         feedViewController.presenter = feedPresenter
         return feedViewController

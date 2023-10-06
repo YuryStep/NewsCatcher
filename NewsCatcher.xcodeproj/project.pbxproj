@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF0138352ACD7E61002B5D78 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0138342ACD7E61002B5D78 /* UIView+Extensions.swift */; };
+		EF0138372ACDA1E1002B5D78 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF0138362ACDA1E1002B5D78 /* Colors.xcassets */; };
 		EF0C27E12AB0BD7600F546BF /* .swiftformat in Resources */ = {isa = PBXBuildFile; fileRef = EF0C27E02AB0BD7600F546BF /* .swiftformat */; };
 		EF2897CD2AA7210000B9A335 /* APIRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2897CC2AA7210000B9A335 /* APIRequestBuilder.swift */; };
 		EF2897D12AA770F100B9A335 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2897D02AA770F100B9A335 /* String+Extensions.swift */; };
@@ -32,10 +34,20 @@
 		EF85DBA32A9F5A2E00CD9295 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF85DBA12A9F5A2E00CD9295 /* LaunchScreen.storyboard */; };
 		EF85DBAB2A9F7A6700CD9295 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF85DBAA2A9F7A6700CD9295 /* FeedView.swift */; };
 		EF91997C2AB99888000A6364 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91997B2AB99888000A6364 /* NetworkError.swift */; };
+		EFB37FF92AC440550046BCF7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB37FF82AC440550046BCF7 /* SettingsViewController.swift */; };
+		EFB37FFB2AC46CF20046BCF7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB37FFA2AC46CF20046BCF7 /* SettingsView.swift */; };
+		EFB37FFD2AC4746B0046BCF7 /* ArticleSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB37FFC2AC4746B0046BCF7 /* ArticleSettingsCell.swift */; };
+		EFB37FFF2AC4A2100046BCF7 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB37FFE2AC4A2100046BCF7 /* UIViewController+Extension.swift */; };
+		EFB380022AC583EF0046BCF7 /* SearchSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB380012AC583EF0046BCF7 /* SearchSettingsCell.swift */; };
+		EFB380052AC5B2580046BCF7 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB380042AC5B2580046BCF7 /* SettingsPresenter.swift */; };
+		EFB380072AC5B26F0046BCF7 /* SettingsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB380062AC5B26F0046BCF7 /* SettingsAssembly.swift */; };
+		EFB380092AC5E7A40046BCF7 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB380082AC5E7A40046BCF7 /* Request.swift */; };
 		EFF046B82AB0939F00121D66 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = EFF046B72AB0939F00121D66 /* .swiftlint.yml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EF0138342ACD7E61002B5D78 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		EF0138362ACDA1E1002B5D78 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		EF0C27E02AB0BD7600F546BF /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
 		EF2897CC2AA7210000B9A335 /* APIRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestBuilder.swift; sourceTree = "<group>"; };
 		EF2897D02AA770F100B9A335 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
@@ -63,6 +75,14 @@
 		EF85DBA42A9F5A2E00CD9295 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF85DBAA2A9F7A6700CD9295 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		EF91997B2AB99888000A6364 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		EFB37FF82AC440550046BCF7 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		EFB37FFA2AC46CF20046BCF7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		EFB37FFC2AC4746B0046BCF7 /* ArticleSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleSettingsCell.swift; sourceTree = "<group>"; };
+		EFB37FFE2AC4A2100046BCF7 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		EFB380012AC583EF0046BCF7 /* SearchSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSettingsCell.swift; sourceTree = "<group>"; };
+		EFB380042AC5B2580046BCF7 /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
+		EFB380062AC5B26F0046BCF7 /* SettingsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAssembly.swift; sourceTree = "<group>"; };
+		EFB380082AC5E7A40046BCF7 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		EFF046B72AB0939F00121D66 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,6 +102,8 @@
 			children = (
 				EF2897D02AA770F100B9A335 /* String+Extensions.swift */,
 				EF2897D42AA7720C00B9A335 /* Array+Extensions.swift */,
+				EFB37FFE2AC4A2100046BCF7 /* UIViewController+Extension.swift */,
+				EF0138342ACD7E61002B5D78 /* UIView+Extensions.swift */,
 				EF2E82852AAB77FD0065F4C5 /* UILabel+Extensions.swift */,
 			);
 			path = Extensions;
@@ -120,20 +142,21 @@
 			isa = PBXGroup;
 			children = (
 				EF85DB9F2A9F5A2E00CD9295 /* Assets.xcassets */,
+				EF0138362ACDA1E1002B5D78 /* Colors.xcassets */,
 				EF85DBA12A9F5A2E00CD9295 /* LaunchScreen.storyboard */,
 				EF85DBA42A9F5A2E00CD9295 /* Info.plist */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		EF28C51C2AA239E700B68649 /* FeedModule */ = {
+		EF28C51C2AA239E700B68649 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
 				EF28C51A2AA233F900B68649 /* FeedAssembly.swift */,
 				EF28C50F2AA0CD4600B68649 /* FeedPresenter.swift */,
 				EF28C5112AA0E40A00B68649 /* FeedView */,
 			);
-			path = FeedModule;
+			path = Feed;
 			sourceTree = "<group>";
 		};
 		EF28C5272AA343FB00B68649 /* ArticleView */ = {
@@ -145,14 +168,14 @@
 			path = ArticleView;
 			sourceTree = "<group>";
 		};
-		EF28C5282AA3442900B68649 /* ArticleModule */ = {
+		EF28C5282AA3442900B68649 /* Article */ = {
 			isa = PBXGroup;
 			children = (
 				EF28C5252AA343DF00B68649 /* ArticleAssembly.swift */,
 				EF28C5232AA343AD00B68649 /* ArticlePresenter.swift */,
 				EF28C5272AA343FB00B68649 /* ArticleView */,
 			);
-			path = ArticleModule;
+			path = Article;
 			sourceTree = "<group>";
 		};
 		EF2E828B2AABA30C0065F4C5 /* DataManager */ = {
@@ -163,12 +186,12 @@
 			path = DataManager;
 			sourceTree = "<group>";
 		};
-		EF4E320D2AB440DB005C0E04 /* WebArticleModule */ = {
+		EF4E320D2AB440DB005C0E04 /* WebArticle */ = {
 			isa = PBXGroup;
 			children = (
 				EF2897D82AA9DA8F00B9A335 /* WebArticleViewController.swift */,
 			);
-			path = WebArticleModule;
+			path = WebArticle;
 			sourceTree = "<group>";
 		};
 		EF85DB8A2A9F5A2C00CD9295 = {
@@ -192,12 +215,10 @@
 		EF85DB952A9F5A2C00CD9295 /* NewsCatcher */ = {
 			isa = PBXGroup;
 			children = (
+				EF9892C12ABCA30C0015D624 /* Models */,
 				EF2E828B2AABA30C0065F4C5 /* DataManager */,
 				EF2897D32AA7717B00B9A335 /* Services */,
-				EF9892C12ABCA30C0015D624 /* Model */,
-				EF28C51C2AA239E700B68649 /* FeedModule */,
-				EF28C5282AA3442900B68649 /* ArticleModule */,
-				EF4E320D2AB440DB005C0E04 /* WebArticleModule */,
+				EFD4E5E62ACF22890090A53B /* Modules */,
 				EF2897D22AA770FC00B9A335 /* Extensions */,
 				EF9892C32ABCA6860015D624 /* Root */,
 				EF28C5172AA2093600B68649 /* Supporting Files */,
@@ -205,12 +226,13 @@
 			path = NewsCatcher;
 			sourceTree = "<group>";
 		};
-		EF9892C12ABCA30C0015D624 /* Model */ = {
+		EF9892C12ABCA30C0015D624 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				EF28C5142AA1CFFC00B68649 /* News.swift */,
+				EFB380082AC5E7A40046BCF7 /* Request.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		EF9892C22ABCA5D60015D624 /* CacheService */ = {
@@ -229,6 +251,38 @@
 				EF2E828C2AABA3280065F4C5 /* NewsCatcherAssembly.swift */,
 			);
 			path = Root;
+			sourceTree = "<group>";
+		};
+		EFB380002AC4A27F0046BCF7 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				EFB380062AC5B26F0046BCF7 /* SettingsAssembly.swift */,
+				EFB380042AC5B2580046BCF7 /* SettingsPresenter.swift */,
+				EFB380032AC5B23C0046BCF7 /* SettingsView */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		EFB380032AC5B23C0046BCF7 /* SettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				EFB37FF82AC440550046BCF7 /* SettingsViewController.swift */,
+				EFB37FFA2AC46CF20046BCF7 /* SettingsView.swift */,
+				EFB37FFC2AC4746B0046BCF7 /* ArticleSettingsCell.swift */,
+				EFB380012AC583EF0046BCF7 /* SearchSettingsCell.swift */,
+			);
+			path = SettingsView;
+			sourceTree = "<group>";
+		};
+		EFD4E5E62ACF22890090A53B /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				EF28C51C2AA239E700B68649 /* Feed */,
+				EFB380002AC4A27F0046BCF7 /* Settings */,
+				EF28C5282AA3442900B68649 /* Article */,
+				EF4E320D2AB440DB005C0E04 /* WebArticle */,
+			);
+			path = Modules;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -290,6 +344,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF0138372ACDA1E1002B5D78 /* Colors.xcassets in Resources */,
 				EF0C27E12AB0BD7600F546BF /* .swiftformat in Resources */,
 				EFF046B82AB0939F00121D66 /* .swiftlint.yml in Resources */,
 				EF85DBA32A9F5A2E00CD9295 /* LaunchScreen.storyboard in Resources */,
@@ -330,24 +385,33 @@
 				EF28C5202AA3432700B68649 /* ArticleViewController.swift in Sources */,
 				EF91997C2AB99888000A6364 /* NetworkError.swift in Sources */,
 				EF85DBAB2A9F7A6700CD9295 /* FeedView.swift in Sources */,
+				EFB380092AC5E7A40046BCF7 /* Request.swift in Sources */,
+				EFB380072AC5B26F0046BCF7 /* SettingsAssembly.swift in Sources */,
 				EF28C50C2AA06D9A00B68649 /* FeedCell.swift in Sources */,
 				EF85DB9B2A9F5A2C00CD9295 /* FeedViewController.swift in Sources */,
 				EF2897D12AA770F100B9A335 /* String+Extensions.swift in Sources */,
 				EF2E82862AAB77FD0065F4C5 /* UILabel+Extensions.swift in Sources */,
 				EF28C5132AA1CF2F00B68649 /* NetworkService.swift in Sources */,
+				EFB37FFB2AC46CF20046BCF7 /* SettingsView.swift in Sources */,
 				EF85DB972A9F5A2C00CD9295 /* AppDelegate.swift in Sources */,
 				EF28C5102AA0CD4600B68649 /* FeedPresenter.swift in Sources */,
 				EF28C51E2AA3146800B68649 /* CacheService.swift in Sources */,
 				EF2897D92AA9DA8F00B9A335 /* WebArticleViewController.swift in Sources */,
+				EFB37FFD2AC4746B0046BCF7 /* ArticleSettingsCell.swift in Sources */,
 				EF28C5152AA1CFFC00B68649 /* News.swift in Sources */,
 				EF28C51B2AA233F900B68649 /* FeedAssembly.swift in Sources */,
+				EFB37FF92AC440550046BCF7 /* SettingsViewController.swift in Sources */,
 				EF4E320C2AB35A5A005C0E04 /* DataManager.swift in Sources */,
 				EF28C5242AA343AD00B68649 /* ArticlePresenter.swift in Sources */,
 				EF2897CD2AA7210000B9A335 /* APIRequestBuilder.swift in Sources */,
+				EFB380022AC583EF0046BCF7 /* SearchSettingsCell.swift in Sources */,
 				EF28C5262AA343DF00B68649 /* ArticleAssembly.swift in Sources */,
 				EF28C5222AA3436000B68649 /* ArticleView.swift in Sources */,
 				EF2897D52AA7720C00B9A335 /* Array+Extensions.swift in Sources */,
+				EFB37FFF2AC4A2100046BCF7 /* UIViewController+Extension.swift in Sources */,
+				EF0138352ACD7E61002B5D78 /* UIView+Extensions.swift in Sources */,
 				EF85DB992A9F5A2C00CD9295 /* SceneDelegate.swift in Sources */,
+				EFB380052AC5B2580046BCF7 /* SettingsPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
