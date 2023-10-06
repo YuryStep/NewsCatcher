@@ -13,15 +13,11 @@ final class ArticleSettingsCell: UITableViewCell {
         var currentValue: String
     }
 
-    private enum Constants {
-        static let currentValueLabelColor = UIColor(resource: .ncAccent)
-    }
-
     static let reuseIdentifier = "ArticleSettingsCell"
 
     private lazy var titleLabel = UILabel(textStyle: .body)
     private lazy var currentValueLabel = UILabel(textStyle: .body,
-                                                 color: Constants.currentValueLabelColor)
+                                                 color: UIColor(resource: .ncAccent))
     private lazy var stack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false

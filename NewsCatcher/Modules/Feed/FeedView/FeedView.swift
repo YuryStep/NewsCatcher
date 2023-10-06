@@ -15,13 +15,10 @@ protocol FeedViewDelegate: AnyObject {
 
 final class FeedView: UIView {
     private enum Constants {
-        static let backgroundColor = UIColor(resource: .ncBackground)
         static let spacingMultiplier: CGFloat = 1
         static let cancelButtonTitleText = "Cancel"
         static let searchFieldImageSystemName = "magnifyingglass"
         static let searchFieldPlaceholderText = "Search"
-        static let searchFieldImageTintColor = UIColor(resource: .ncSearchPlaceholderAccent)
-        static let searchFieldBackgroundColor = UIColor(resource: .ncSearchFieldBackground)
         static let searchFieldCornerRadius: CGFloat = 8.0
         static let searchFieldLeftViewContainerWidth: CGFloat = 32
         static let searchFieldLeftViewContainerHeight: CGFloat = 20
@@ -62,7 +59,7 @@ final class FeedView: UIView {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.cellLayoutMarginsFollowReadableWidth = true
         tableView.separatorInset = UIEdgeInsets.zero
-        tableView.backgroundColor = Constants.backgroundColor
+        tableView.backgroundColor = UIColor(resource: .ncBackground)
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(didPullToRefreshTableViewData), for: .valueChanged)
         tableView.refreshControl = refreshControl
@@ -78,7 +75,7 @@ final class FeedView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = Constants.backgroundColor
+        backgroundColor = UIColor(resource: .ncBackground)
         cancelButton.isEnabled = false
         cancelButton.isHidden = true
         setupSubviews()
@@ -137,7 +134,7 @@ final class FeedView: UIView {
     private func makeSearchField() -> UITextField {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = Constants.searchFieldBackgroundColor
+        textField.backgroundColor = UIColor(resource: .ncSearchFieldBackground)
         textField.clearButtonMode = .always
         textField.borderStyle = .none
         textField.layer.cornerRadius = Constants.searchFieldCornerRadius
@@ -154,7 +151,7 @@ final class FeedView: UIView {
 
     private func makeSearchPlaceholderImageView() -> UIImageView {
         let imageView = UIImageView(image: UIImage(systemName: Constants.searchFieldImageSystemName))
-        imageView.tintColor = Constants.searchFieldImageTintColor
+        imageView.tintColor = UIColor(resource: .ncSearchPlaceholderAccent)
         let imageSize = imageView.image?.size ?? Constants.defaultSearchFieldImageSize
         imageView.frame = CGRect(x: Constants.searchFieldImageXPosition,
                                  y: Constants.searchFieldImageYPosition,

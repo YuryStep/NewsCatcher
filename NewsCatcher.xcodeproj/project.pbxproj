@@ -42,6 +42,7 @@
 		EFB380052AC5B2580046BCF7 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB380042AC5B2580046BCF7 /* SettingsPresenter.swift */; };
 		EFB380072AC5B26F0046BCF7 /* SettingsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB380062AC5B26F0046BCF7 /* SettingsAssembly.swift */; };
 		EFB380092AC5E7A40046BCF7 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB380082AC5E7A40046BCF7 /* Request.swift */; };
+		EFD0AD582AD089A8008A7631 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = EFD0AD572AD089A8008A7631 /* .gitignore */; };
 		EFF046B82AB0939F00121D66 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = EFF046B72AB0939F00121D66 /* .swiftlint.yml */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +84,7 @@
 		EFB380042AC5B2580046BCF7 /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 		EFB380062AC5B26F0046BCF7 /* SettingsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAssembly.swift; sourceTree = "<group>"; };
 		EFB380082AC5E7A40046BCF7 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		EFD0AD572AD089A8008A7631 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		EFF046B72AB0939F00121D66 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -198,8 +200,6 @@
 			isa = PBXGroup;
 			children = (
 				EF85DB952A9F5A2C00CD9295 /* NewsCatcher */,
-				EFF046B72AB0939F00121D66 /* .swiftlint.yml */,
-				EF0C27E02AB0BD7600F546BF /* .swiftformat */,
 				EF85DB942A9F5A2C00CD9295 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -222,6 +222,9 @@
 				EF2897D22AA770FC00B9A335 /* Extensions */,
 				EF9892C32ABCA6860015D624 /* Root */,
 				EF28C5172AA2093600B68649 /* Supporting Files */,
+				EFF046B72AB0939F00121D66 /* .swiftlint.yml */,
+				EF0C27E02AB0BD7600F546BF /* .swiftformat */,
+				EFD0AD572AD089A8008A7631 /* .gitignore */,
 			);
 			path = NewsCatcher;
 			sourceTree = "<group>";
@@ -348,6 +351,7 @@
 				EF0C27E12AB0BD7600F546BF /* .swiftformat in Resources */,
 				EFF046B82AB0939F00121D66 /* .swiftlint.yml in Resources */,
 				EF85DBA32A9F5A2E00CD9295 /* LaunchScreen.storyboard in Resources */,
+				EFD0AD582AD089A8008A7631 /* .gitignore in Resources */,
 				EF85DBA02A9F5A2E00CD9295 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -479,7 +483,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -533,7 +537,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
