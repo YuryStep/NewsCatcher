@@ -35,6 +35,7 @@ final class FeedView: UIView {
         textField.leftView = containerView
         textField.leftViewMode = .always
         textField.placeholder = Constants.searchFieldPlaceholderText
+        textField.returnKeyType = .search
         return textField
     }()
 

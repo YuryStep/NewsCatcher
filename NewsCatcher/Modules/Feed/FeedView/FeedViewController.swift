@@ -5,6 +5,8 @@
 //  Created by Юрий Степанчук on 30.08.2023.
 //
 
+import UIKit
+
 protocol FeedInput: AnyObject {
     func reloadFeedTableView()
     func showArticle(_ article: Article)
@@ -34,8 +36,6 @@ protocol FeedOutput: AnyObject {
     func textFieldDidBeginEditing()
     func textFieldShouldReturn()
 }
-
-import UIKit
 
 final class FeedViewController: UIViewController, FeedViewDelegate {
     private enum Constants {
