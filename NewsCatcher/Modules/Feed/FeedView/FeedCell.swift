@@ -52,19 +52,16 @@ final class FeedCell: UITableViewCell {
         setupSubviews()
     }
 
-    func configure(with displayData: DisplayData) {
+    override func prepareForReuse() {
+        super.prepareForReuse()
         clearPreviousConfiguration()
+    }
+
+    func configure(with displayData: DisplayData) {
         loadingIndicator.startAnimating()
         titleLabel.text = displayData.title
         descriptionLabel.text = displayData.description
         dateAndSourceLabel.text = displayData.publishedAt + Constants.dateAndSourceLabelText + displayData.sourceName
-    }
-
-    private func clearPreviousConfiguration() {
-        articleImageView.image = nil
-        titleLabel.text = nil
-        descriptionLabel.text = nil
-        dateAndSourceLabel.text = nil
     }
 
     func setImage(_ imageData: Data?) {
@@ -74,6 +71,13 @@ final class FeedCell: UITableViewCell {
             return
         }
         articleImageView.image = fetchedImage
+    }
+
+    private func clearPreviousConfiguration() {
+        articleImageView.image = nil
+        titleLabel.text = nil
+        descriptionLabel.text = nil
+        dateAndSourceLabel.text = nil
     }
 
     private func setupSubviews() {
