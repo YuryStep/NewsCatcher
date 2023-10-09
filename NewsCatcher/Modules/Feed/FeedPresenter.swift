@@ -160,10 +160,10 @@ extension FeedPresenter: FeedOutput {
     }
 }
 
-fileprivate extension FeedCell.DisplayData {
+private extension FeedCell.DisplayData {
     init(_ article: Article) {
         title = article.title
-        description = article.description
+        description = article.description + article.description + article.description + article.description
         publishedAt = article.publishedAt.dateFormatted()
         sourceName = article.source.name
         imageStringURL = article.imageStringURL

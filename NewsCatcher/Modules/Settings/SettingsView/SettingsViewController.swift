@@ -43,6 +43,10 @@ final class SettingsViewController: UIViewController {
 
     override func loadView() {
         view = settingsView
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
         setNavigationBar()
         settingsView.tableView.dataSource = self
         settingsView.tableView.delegate = self

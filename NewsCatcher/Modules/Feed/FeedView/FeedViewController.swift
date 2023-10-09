@@ -59,6 +59,10 @@ final class FeedViewController: UIViewController, FeedViewDelegate {
 
     override func loadView() {
         view = feedView
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
         setNavigationBar()
         assignDelegationAndDataSource()
     }

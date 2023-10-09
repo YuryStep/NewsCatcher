@@ -40,11 +40,11 @@ final class ArticleViewController: UIViewController {
 
     override func loadView() {
         view = articleView
-        navigationItem.title = Constants.navigationItemTitle
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = Constants.navigationItemTitle
         presenter.viewDidLoad()
     }
 

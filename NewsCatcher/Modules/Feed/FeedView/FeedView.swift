@@ -15,7 +15,6 @@ protocol FeedViewDelegate: AnyObject {
 
 final class FeedView: UIView {
     private enum Constants {
-        static let spacingMultiplier: CGFloat = 1
         static let cancelButtonTitleText = "Cancel"
         static let searchFieldImageSystemName = "magnifyingglass"
         static let searchFieldPlaceholderText = "Search"
@@ -58,7 +57,6 @@ final class FeedView: UIView {
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.cellLayoutMarginsFollowReadableWidth = true
         tableView.separatorInset = UIEdgeInsets.zero
         tableView.backgroundColor = UIColor(resource: .ncBackground)
         let refreshControl = UIRefreshControl()
@@ -88,7 +86,7 @@ final class FeedView: UIView {
     }
 
     func showCancelButton() {
-        self.cancelButton.isEnabled = true
+        cancelButton.isEnabled = true
         UIView.animate(withDuration: 0.25) {
             self.searchStack.addArrangedSubview(self.cancelButton)
             self.cancelButton.isHidden = false
@@ -110,7 +108,7 @@ final class FeedView: UIView {
             searchStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 8),
             searchStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
 
-            tableView.topAnchor.constraint(equalToSystemSpacingBelow: searchStack.bottomAnchor, multiplier: Constants.spacingMultiplier),
+            tableView.topAnchor.constraint(equalToSystemSpacingBelow: searchStack.bottomAnchor, multiplier: 1),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
