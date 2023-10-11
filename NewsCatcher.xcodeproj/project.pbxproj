@@ -34,6 +34,7 @@
 		EF85DBA32A9F5A2E00CD9295 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF85DBA12A9F5A2E00CD9295 /* LaunchScreen.storyboard */; };
 		EF85DBAB2A9F7A6700CD9295 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF85DBAA2A9F7A6700CD9295 /* FeedView.swift */; };
 		EF91997C2AB99888000A6364 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91997B2AB99888000A6364 /* NetworkError.swift */; };
+		EF9D6CE12AD423CD00A23513 /* PickerSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9D6CE02AD423CD00A23513 /* PickerSettingsCell.swift */; };
 		EFB37FF92AC440550046BCF7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB37FF82AC440550046BCF7 /* SettingsViewController.swift */; };
 		EFB37FFB2AC46CF20046BCF7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB37FFA2AC46CF20046BCF7 /* SettingsView.swift */; };
 		EFB37FFD2AC4746B0046BCF7 /* ArticleSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB37FFC2AC4746B0046BCF7 /* ArticleSettingsCell.swift */; };
@@ -76,6 +77,7 @@
 		EF85DBA42A9F5A2E00CD9295 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF85DBAA2A9F7A6700CD9295 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		EF91997B2AB99888000A6364 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		EF9D6CE02AD423CD00A23513 /* PickerSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerSettingsCell.swift; sourceTree = "<group>"; };
 		EFB37FF82AC440550046BCF7 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		EFB37FFA2AC46CF20046BCF7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		EFB37FFC2AC4746B0046BCF7 /* ArticleSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleSettingsCell.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 				EFB37FF82AC440550046BCF7 /* SettingsViewController.swift */,
 				EFB37FFA2AC46CF20046BCF7 /* SettingsView.swift */,
 				EFB37FFC2AC4746B0046BCF7 /* ArticleSettingsCell.swift */,
+				EF9D6CE02AD423CD00A23513 /* PickerSettingsCell.swift */,
 				EFB380012AC583EF0046BCF7 /* SearchSettingsCell.swift */,
 			);
 			path = SettingsView;
@@ -398,6 +401,7 @@
 				EF28C5132AA1CF2F00B68649 /* NetworkService.swift in Sources */,
 				EFB37FFB2AC46CF20046BCF7 /* SettingsView.swift in Sources */,
 				EF85DB972A9F5A2C00CD9295 /* AppDelegate.swift in Sources */,
+				EF9D6CE12AD423CD00A23513 /* PickerSettingsCell.swift in Sources */,
 				EF28C5102AA0CD4600B68649 /* FeedPresenter.swift in Sources */,
 				EF28C51E2AA3146800B68649 /* CacheService.swift in Sources */,
 				EF2897D92AA9DA8F00B9A335 /* WebArticleViewController.swift in Sources */,

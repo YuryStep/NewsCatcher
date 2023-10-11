@@ -24,10 +24,6 @@ final class SearchSettingsCell: UITableViewCell {
         return switchIndicator
     }()
 
-    @objc private func switchValueChanged() {
-        switchValueChangedHandler?(switchIndicator.isOn)
-    }
-
     private lazy var stack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -49,6 +45,10 @@ final class SearchSettingsCell: UITableViewCell {
     func configure(with displayData: DisplayData) {
         titleLabel.text = displayData.title
         switchIndicator.isOn = displayData.switchIsOn
+    }
+
+    @objc private func switchValueChanged() {
+        switchValueChangedHandler?(switchIndicator.isOn)
     }
 
     private func setupSubviews() {

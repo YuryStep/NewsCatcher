@@ -70,7 +70,6 @@ extension FeedPresenter: FeedOutput {
 
     func didTapOnSettingsButton() {
         view?.showSettings()
-        debugPrint("Settings Button Tapped")
     }
 
     func didTapOnCell(at indexPath: IndexPath) {
@@ -163,7 +162,7 @@ extension FeedPresenter: FeedOutput {
 private extension FeedCell.DisplayData {
     init(_ article: Article) {
         title = article.title
-        description = article.description + article.description + article.description + article.description
+        description = article.description
         publishedAt = article.publishedAt.dateFormatted()
         sourceName = article.source.name
         imageStringURL = article.imageStringURL

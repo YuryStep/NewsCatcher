@@ -9,8 +9,6 @@ import Foundation
 
 final class SettingsPresenter: SettingsOutput {
     private enum Constants {
-        static let numberOfSettingsSections = 2
-        static let numbersOfRowsInSettingsSections = [2, 3]
         static let sectionHeaders = ["Article Parameters", "Where To Search"]
         static let sectionFooters = [
             "These parameters allow you to specify the language of news articles and the country in which they were published.",
@@ -24,8 +22,8 @@ final class SettingsPresenter: SettingsOutput {
     }
 
     private struct State {
-        private let availableCountries = [String]()
-        private let availableLanguages = [String]()
+        let availableCountries: [String]
+        let availableLanguages: [String]
         let currentCountry: String
         let currentLanguage: String
         let searchInTitlesIsOn: Bool
@@ -44,11 +42,8 @@ final class SettingsPresenter: SettingsOutput {
 
     func didTapOnSaveButton() {
         guard let view = view else { return }
-        let userSettings = getSearchSettingsFrom(view.getCurrentDisplayData())
-        let newSettings = SearchSettings(searchInTitlesIsOn: userSettings.searchInTitlesIsOn,
-                                         searchInDescriptionsIsOn: userSettings.searchInDescriptionsIsOn,
-                                         searchInContentsIsOn: userSettings.searchInContentsIsOn)
-        dataManager.searchSettings = newSettings
+        let newSearchSettings = getSearchSettingsFrom(view.getCurrentDisplayData())
+        dataManager.searchSettings = newSearchSettings
         view.closeView()
     }
 
@@ -57,7 +52,7 @@ final class SettingsPresenter: SettingsOutput {
         view.closeView()
     }
 
-    func getSettingsDisplayData() -> SettingsView.DisplayData {
+    func getSettingsDisplayData() -> SettingsViewController.DisplayData {
         let firstArticleSettingsCellDisplayData = ArticleSettingsCell.DisplayData(
             title: Constants.countryCellTitle, currentValue: state.currentCountry
         )
@@ -68,6 +63,17 @@ final class SettingsPresenter: SettingsOutput {
 
         let articleSettingsCellDisplayData = [firstArticleSettingsCellDisplayData,
                                               secondArticleSettingsCellDisplayData]
+
+        let firstPickerSettingsCellDisplayData = PickerSettingsCell.DisplayData(
+            items: state.availableCountries, currentValue: state.currentCountry
+        )
+
+        let secondPickerSettingsCellDisplayData = PickerSettingsCell.DisplayData(
+            items: state.availableLanguages, currentValue: state.currentLanguage
+        )
+
+        let pickerSettingsCellDisplayData = [firstPickerSettingsCellDisplayData,
+                                             secondPickerSettingsCellDisplayData]
 
         let firstSearchSettingsCellDisplayData = SearchSettingsCell.DisplayData(
             title: Constants.titleCaption, switchIsOn: state.searchInTitlesIsOn
@@ -85,34 +91,44 @@ final class SettingsPresenter: SettingsOutput {
                                              secondSearchSettingsCellDisplayData,
                                              thirdSearchSettingsCellDisplayData]
 
-        return SettingsView.DisplayData(
-            articleSettingsCellDisplayData: articleSettingsCellDisplayData,
-            searchSettingsCellDisplayData: searchSettingsCellDisplayData,
-            numberOfSections: Constants.numberOfSettingsSections,
+        return SettingsViewController.DisplayData(
+            articleSettingsDisplayData: articleSettingsCellDisplayData,
+            pickerSettingsDisplayData: pickerSettingsCellDisplayData,
+            searchSettingsDisplayData: searchSettingsCellDisplayData,
             sectionHeaders: Constants.sectionHeaders,
             sectionFooters: Constants.sectionFooters,
-            numbersOfRowsInSections: Constants.numbersOfRowsInSettingsSections
+            currentCountry: state.currentCountry,
+            currentLanguage: state.currentLanguage
         )
     }
 
     func didTapOnCell(at _: IndexPath) {
-        debugPrint("Tap") // TODO: Finish with article settings logic
+         // TODO: Finish with article settings logic
     }
 
     func didReceiveMemoryWarning() {
         dataManager.clearCache()
     }
 
-    private func getSearchSettingsFrom(_ displayData: SettingsView.DisplayData) -> SearchSettings {
-        SearchSettings(searchInTitlesIsOn: displayData.searchSettingsCellDisplayData[0].switchIsOn,
-                       searchInDescriptionsIsOn: displayData.searchSettingsCellDisplayData[1].switchIsOn,
-                       searchInContentsIsOn: displayData.searchSettingsCellDisplayData[2].switchIsOn)
+    private func getSearchSettingsFrom(_ displayData: SettingsViewController.DisplayData) -> SearchSettings {
+        let newLanguageSettings = SearchSettings.Language.fromName(displayData.currentLanguage)
+        let newCountrySettings = SearchSettings.Country.fromName(displayData.currentCountry)
+
+        return SearchSettings(articleLanguage: newLanguageSettings,
+                       publicationCountry: newCountrySettings,
+                       searchInTitlesIsOn: displayData.searchSettingsDisplayData[0].switchIsOn,
+                       searchInDescriptionsIsOn: displayData.searchSettingsDisplayData[1].switchIsOn,
+                       searchInContentsIsOn: displayData.searchSettingsDisplayData[2].switchIsOn)
     }
 
     private func updateCurrentState() {
         let searchSettings = dataManager.searchSettings
-        let updatedState = State(currentCountry: searchSettings.publicationCountry,
-                                 currentLanguage: searchSettings.articleLanguage,
+        let listOfCountries = searchSettings.availableCountries.map { $0.name }
+        let listOfLanguages = searchSettings.availableLanguages.map { $0.name }
+        let updatedState = State(availableCountries: listOfCountries,
+                                 availableLanguages: listOfLanguages,
+                                 currentCountry: searchSettings.publicationCountry.name,
+                                 currentLanguage: searchSettings.articleLanguage.name,
                                  searchInTitlesIsOn: searchSettings.searchInTitlesIsOn,
                                  searchInDescriptionsIsOn: searchSettings.searchInDescriptionsIsOn,
                                  searchInContentsIsOn: searchSettings.searchInContentsIsOn)

@@ -10,35 +10,6 @@ import UIKit
 protocol SettingsViewDelegate: AnyObject {}
 
 final class SettingsView: UIView {
-    struct DisplayData {
-        var articleSettingsCellDisplayData: [ArticleSettingsCell.DisplayData]
-        var searchSettingsCellDisplayData: [SearchSettingsCell.DisplayData]
-        let numberOfSections: Int
-        let sectionHeaders: [String]
-        let sectionFooters: [String]
-        let numbersOfRowsInSections: [Int]
-
-        func getNumberOfRowsInSection(_ section: Int) -> Int? {
-            return numbersOfRowsInSections[section]
-        }
-
-        func getTitleForHeaderForSection(_ section: Int) -> String? {
-            return sectionHeaders[section]
-        }
-
-        func getTitleForFooterForSection(_ section: Int) -> String? {
-            return sectionFooters[section]
-        }
-
-        func getArticleSettingsCellDisplayData(forCellAt indexPath: IndexPath) -> ArticleSettingsCell.DisplayData {
-            return articleSettingsCellDisplayData[indexPath.row]
-        }
-
-        func getSearchSettingsCellDisplayData(forCellAt indexPath: IndexPath) -> SearchSettingsCell.DisplayData {
-            return searchSettingsCellDisplayData[indexPath.row]
-        }
-    }
-
     weak var delegate: SettingsViewDelegate?
 
     lazy var tableView: UITableView = {
