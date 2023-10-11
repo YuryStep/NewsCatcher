@@ -53,27 +53,6 @@ final class SettingsPresenter: SettingsOutput {
     }
 
     func getSettingsDisplayData() -> SettingsViewController.DisplayData {
-        let firstArticleSettingsCellDisplayData = ArticleSettingsCell.DisplayData(
-            title: Constants.countryCellTitle, currentValue: state.currentCountry
-        )
-
-        let secondArticleSettingsCellDisplayData = ArticleSettingsCell.DisplayData(
-            title: Constants.languageCellTitle, currentValue: state.currentLanguage
-        )
-
-        let articleSettingsCellDisplayData = [firstArticleSettingsCellDisplayData,
-                                              secondArticleSettingsCellDisplayData]
-
-        let firstPickerSettingsCellDisplayData = PickerSettingsCell.DisplayData(
-            items: state.availableCountries, currentValue: state.currentCountry
-        )
-
-        let secondPickerSettingsCellDisplayData = PickerSettingsCell.DisplayData(
-            items: state.availableLanguages, currentValue: state.currentLanguage
-        )
-
-        let pickerSettingsCellDisplayData = [firstPickerSettingsCellDisplayData,
-                                             secondPickerSettingsCellDisplayData]
 
         let firstSearchSettingsCellDisplayData = SearchSettingsCell.DisplayData(
             title: Constants.titleCaption, switchIsOn: state.searchInTitlesIsOn
@@ -92,14 +71,15 @@ final class SettingsPresenter: SettingsOutput {
                                              thirdSearchSettingsCellDisplayData]
 
         return SettingsViewController.DisplayData(
-            articleSettingsDisplayData: articleSettingsCellDisplayData,
-            pickerSettingsDisplayData: pickerSettingsCellDisplayData,
-            searchSettingsDisplayData: searchSettingsCellDisplayData,
             sectionHeaders: Constants.sectionHeaders,
             sectionFooters: Constants.sectionFooters,
+            searchSettingsDisplayData: searchSettingsCellDisplayData,
+            countryCellTitle: Constants.countryCellTitle,
+            languageCellTitle: Constants.languageCellTitle,
+            countryPickerItems: state.availableCountries,
+            languagePickerItems: state.availableLanguages,
             currentCountry: state.currentCountry,
-            currentLanguage: state.currentLanguage
-        )
+            currentLanguage: state.currentLanguage)
     }
 
     func didTapOnCell(at _: IndexPath) {
