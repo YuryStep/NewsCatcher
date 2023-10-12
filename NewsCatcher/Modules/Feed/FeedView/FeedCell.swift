@@ -108,27 +108,27 @@ final class FeedCell: UITableViewCell {
             loadingIndicator.centerYAnchor.constraint(equalTo: imageContainer.centerYAnchor)
         ]
 
+        dateAndSourceLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        titleLabel.setContentHuggingPriority(.defaultHigh - 1, for: .vertical)
+
         let generalConstraints = [
             imageContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             imageContainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             imageContainer.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1),
             imageContainer.heightAnchor.constraint(equalTo: imageContainer.widthAnchor, multiplier: imageAspectRatio, constant: 0),
 
-            dateAndSourceLabel.heightAnchor.constraint(lessThanOrEqualToConstant: Constants.maxDataAndSourceHeight),
             dateAndSourceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             dateAndSourceLabel.topAnchor.constraint(equalTo: imageContainer.bottomAnchor, constant: 8),
             dateAndSourceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
 
-            titleLabel.heightAnchor.constraint(lessThanOrEqualToConstant: Constants.maxTitleHeight),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             titleLabel.topAnchor.constraint(equalTo: dateAndSourceLabel.bottomAnchor, constant: 8),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
 
-            descriptionLabel.heightAnchor.constraint(lessThanOrEqualToConstant: Constants.maxDescriptionHeight),
             descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ]
         NSLayoutConstraint.activate(imageContainerConstraints)
         NSLayoutConstraint.activate(generalConstraints)
