@@ -86,11 +86,12 @@ final class FeedViewController: UIViewController, FeedViewDelegate {
 
     private func setNavigationBar() {
         navigationItem.title = Constants.navigationItemTitle
-        navigationController?.navigationBar.isTranslucent = false
+//        navigationController?.navigationBar.isTranslucent = false
         let settingsButton = UIBarButtonItem(title: Constants.settingsButtonTitle,
                                              style: .plain, target: self,
                                              action: #selector(settingsButtonTapped))
         navigationItem.leftBarButtonItem = settingsButton
+//        navigationItem.titleView = 
     }
 
     private func assignDelegationAndDataSource() {

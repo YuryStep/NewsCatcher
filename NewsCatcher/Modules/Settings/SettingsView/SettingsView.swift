@@ -15,6 +15,7 @@ final class SettingsView: UIView {
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.estimatedRowHeight = 800
         return tableView
     }()
 

@@ -57,6 +57,7 @@ final class FeedView: UIView {
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.estimatedRowHeight = 600
         tableView.separatorInset = UIEdgeInsets.zero
         tableView.backgroundColor = UIColor(resource: .ncBackground)
         let refreshControl = UIRefreshControl()

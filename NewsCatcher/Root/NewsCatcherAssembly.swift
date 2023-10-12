@@ -11,8 +11,11 @@ enum NewsCatcherAssembly {
     static func makeModule() -> UINavigationController {
         let firstViewController = FeedAssembly.makeModule()
         let navigationController = UINavigationController(rootViewController: firstViewController)
-        navigationController.navigationBar.backgroundColor = UIColor(resource: .ncBackground)
-
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(resource: .ncBackground)
+        navigationController.navigationBar.standardAppearance = appearance
+        navigationController.navigationBar.scrollEdgeAppearance = appearance
         return navigationController
     }
 }

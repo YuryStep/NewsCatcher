@@ -40,7 +40,7 @@ final class FeedCell: UITableViewCell {
     }()
 
     private lazy var dateAndSourceLabel = UILabel(textStyle: .footnote)
-    private lazy var titleLabel = UILabel(textStyle: .title1)
+    private lazy var titleLabel = UILabel(textStyle: .title2)
     private lazy var descriptionLabel = UILabel(textStyle: .body)
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
@@ -57,6 +57,7 @@ final class FeedCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier _: String?) {
         super.init(style: style, reuseIdentifier: FeedCell.reuseIdentifier)
         setupSubviews()
+        backgroundColor = UIColor(resource: .ncBackground)
     }
 
     override func prepareForReuse() {
@@ -115,7 +116,7 @@ final class FeedCell: UITableViewCell {
             imageContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             imageContainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             imageContainer.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1),
-            imageContainer.heightAnchor.constraint(equalTo: imageContainer.widthAnchor, multiplier: imageAspectRatio, constant: 0),
+            imageContainer.heightAnchor.constraint(equalTo: imageContainer.widthAnchor, multiplier: imageAspectRatio),
 
             dateAndSourceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             dateAndSourceLabel.topAnchor.constraint(equalTo: imageContainer.bottomAnchor, constant: 8),
