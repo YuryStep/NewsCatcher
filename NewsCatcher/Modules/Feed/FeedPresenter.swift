@@ -46,26 +46,13 @@ final class FeedPresenter {
 }
 
 extension FeedPresenter: FeedOutput {
-    func textFieldDidBeginEditing() {
-        view?.showCancelButton()
-        view?.hideNavigationBar()
-    }
-
-    func textFieldShouldReturn() {
-        guard let searchPhrase = view?.getSearchFieldText() else { return }
-        if !searchPhrase.isEmpty {
+    func didTapOnSearchButton(withKeyword searchPhrase: String) {
             view?.showLoadingIndicator()
             displayNews(about: searchPhrase)
-        }
-        switchLayoutBackToInitialState()
     }
 
     func didReceiveMemoryWarning() {
         dataManager.clearCache()
-    }
-
-    func didTapOnCancelButton() {
-        switchLayoutBackToInitialState()
     }
 
     func didTapOnSettingsButton() {
@@ -73,13 +60,11 @@ extension FeedPresenter: FeedOutput {
     }
 
     func didTapOnCell(at indexPath: IndexPath) {
-        switchLayoutBackToInitialState()
         view?.showArticle(state.getArticle(at: indexPath))
     }
 
     func didPullToRefreshTableViewData() {
         displayNews(about: nil)
-        view?.cleanSearchTextField() // TODO: Remove after refreshing logic change
     }
 
     func getNumberOfRowsInSection() -> Int {
@@ -139,12 +124,6 @@ extension FeedPresenter: FeedOutput {
     private func stopViewLoading() {
         view?.stopFeedDataRefreshing()
         view?.hideLoadingIndicator()
-    }
-
-    private func switchLayoutBackToInitialState() {
-        view?.deactivateSearchField()
-        view?.hideCancelButton()
-        view?.showNavigationBar()
     }
 
     private func handleError(_ error: NetworkError) {
