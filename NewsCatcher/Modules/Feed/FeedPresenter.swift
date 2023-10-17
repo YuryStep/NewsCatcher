@@ -47,8 +47,8 @@ final class FeedPresenter {
 
 extension FeedPresenter: FeedOutput {
     func didTapOnSearchButton(withKeyword searchPhrase: String) {
-            view?.showLoadingIndicator()
-            displayNews(about: searchPhrase)
+        view?.showLoadingIndicator()
+        displayNews(about: searchPhrase)
     }
 
     func didReceiveMemoryWarning() {
@@ -122,7 +122,7 @@ extension FeedPresenter: FeedOutput {
     }
 
     private func stopViewLoading() {
-        view?.stopFeedDataRefreshing()
+        view?.stopRefreshControlAnimation()
         view?.hideLoadingIndicator()
     }
 

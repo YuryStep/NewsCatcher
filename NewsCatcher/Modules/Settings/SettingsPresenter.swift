@@ -53,7 +53,6 @@ final class SettingsPresenter: SettingsOutput {
     }
 
     func getSettingsDisplayData() -> SettingsViewController.DisplayData {
-
         let firstSearchSettingsCellDisplayData = SearchSettingsCell.DisplayData(
             title: Constants.titleCaption, switchIsOn: state.searchInTitlesIsOn
         )
@@ -79,11 +78,12 @@ final class SettingsPresenter: SettingsOutput {
             countryPickerItems: state.availableCountries,
             languagePickerItems: state.availableLanguages,
             currentCountry: state.currentCountry,
-            currentLanguage: state.currentLanguage)
+            currentLanguage: state.currentLanguage
+        )
     }
 
     func didTapOnCell(at _: IndexPath) {
-         // TODO: Finish with article settings logic
+        // TODO: Finish with article settings logic
     }
 
     func didReceiveMemoryWarning() {
@@ -95,10 +95,10 @@ final class SettingsPresenter: SettingsOutput {
         let newCountrySettings = SearchSettings.Country.fromName(displayData.currentCountry)
 
         return SearchSettings(articleLanguage: newLanguageSettings,
-                       publicationCountry: newCountrySettings,
-                       searchInTitlesIsOn: displayData.searchSettingsDisplayData[0].switchIsOn,
-                       searchInDescriptionsIsOn: displayData.searchSettingsDisplayData[1].switchIsOn,
-                       searchInContentsIsOn: displayData.searchSettingsDisplayData[2].switchIsOn)
+                              publicationCountry: newCountrySettings,
+                              searchInTitlesIsOn: displayData.searchSettingsDisplayData[0].switchIsOn,
+                              searchInDescriptionsIsOn: displayData.searchSettingsDisplayData[1].switchIsOn,
+                              searchInContentsIsOn: displayData.searchSettingsDisplayData[2].switchIsOn)
     }
 
     private func updateCurrentState() {

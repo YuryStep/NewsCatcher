@@ -3,6 +3,106 @@
 <plist version="1.0">
 <dict>
 	<key>top-level-items</key>
-	<array/>
+	<array>
+		<dict>
+			<key>children</key>
+			<array>
+				<dict>
+					<key>destination</key>
+					<dict>
+						<key>location-parameters</key>
+						<dict>
+							<key>EndingColumnNumber</key>
+							<string>0</string>
+							<key>EndingLineNumber</key>
+							<string>129</string>
+							<key>StartingColumnNumber</key>
+							<string>0</string>
+							<key>StartingLineNumber</key>
+							<string>128</string>
+							<key>Timestamp</key>
+							<string>719241711.466204</string>
+						</dict>
+						<key>rebasable-url</key>
+						<dict>
+							<key>base</key>
+							<string>workspace</string>
+							<key>payload</key>
+							<dict>
+								<key>relative-path</key>
+								<string>NewsCatcher/Modules/Feed/FeedView/FeedViewController.swift</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>text-context</key>
+					<dict>
+						<key>focused</key>
+						<string>            UIView.animate(withDuration: 0.3) { // TODO: Check Probably it's no needed
+</string>
+						<key>leading</key>
+						<string>    func stopRefreshControlAnimation() {
+        if let refreshControl = feedView.tableView.refreshControl, refreshControl.isRefreshing {
+</string>
+						<key>trailing</key>
+						<string>                refreshControl.endRefreshing()
+            }
+        }
+</string>
+					</dict>
+					<key>type</key>
+					<string>bookmark</string>
+				</dict>
+			</array>
+			<key>title</key>
+			<string>TODOs</string>
+			<key>type</key>
+			<string>group</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>32</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>31</string>
+					<key>Timestamp</key>
+					<string>719241840.574374</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>NewsCatcher/Modules/Feed/FeedView/FeedCell.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>            // TODO: Try to trigger resizing
+</string>
+				<key>leading</key>
+				<string>    var imageAspectRatio: CGFloat = 0.562 {
+        didSet {
+</string>
+				<key>trailing</key>
+				<string>        }
+    }
+
+</string>
+			</dict>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+	</array>
 </dict>
 </plist>

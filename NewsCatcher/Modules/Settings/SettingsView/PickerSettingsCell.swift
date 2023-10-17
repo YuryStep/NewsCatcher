@@ -69,7 +69,7 @@ extension PickerSettingsCell: UIPickerViewDataSource {
     }
 
     func pickerView(_: UIPickerView, titleForRow row: Int, forComponent _: Int) -> String? {
-        guard row < displayData.items.count else { return "Row No.\(row)"} // TODO: Remove after Bug Fix
+        guard row < displayData.items.count else { return "Row No.\(row)" } // TODO: Remove after Bug Fix
         return displayData.items[row]
     }
 

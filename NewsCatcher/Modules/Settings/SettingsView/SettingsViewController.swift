@@ -26,7 +26,7 @@ final class SettingsViewController: UIViewController {
         case searchPlacesParameters
     }
 
-    struct ArticleParameters {
+    enum ArticleParameters {
         enum CellPosition: Int, CaseIterable {
             case first
             case second
@@ -295,7 +295,7 @@ extension SettingsViewController: UITableViewDelegate {
         hideLanguagePickerIfNeeded(in: tableView)
         displayData.countryPickerIsOn = true
         let newIndexPath = IndexPath(row: ArticleParameters.CellPosition.second.rawValue,
-                                 section: Section.articleParameters.rawValue)
+                                     section: Section.articleParameters.rawValue)
         tableView.insertRows(at: [newIndexPath], with: .automatic)
     }
 
@@ -303,7 +303,7 @@ extension SettingsViewController: UITableViewDelegate {
         guard displayData.countryPickerIsOn else { return }
         displayData.countryPickerIsOn = false
         let pickerIndexPath = IndexPath(row: ArticleParameters.CellPosition.second.rawValue,
-                                 section: Section.articleParameters.rawValue)
+                                        section: Section.articleParameters.rawValue)
         tableView.deleteRows(at: [pickerIndexPath], with: .automatic)
     }
 
@@ -312,7 +312,7 @@ extension SettingsViewController: UITableViewDelegate {
         guard !displayData.languagePickerIsOn else { return }
         displayData.languagePickerIsOn = true
         let newIndexPath = IndexPath(row: ArticleParameters.CellPosition.third.rawValue,
-                                 section: Section.articleParameters.rawValue)
+                                     section: Section.articleParameters.rawValue)
         tableView.insertRows(at: [newIndexPath], with: .automatic)
     }
 
@@ -320,7 +320,7 @@ extension SettingsViewController: UITableViewDelegate {
         guard displayData.languagePickerIsOn else { return }
         displayData.languagePickerIsOn = false
         let pickerIndexPath = IndexPath(row: ArticleParameters.CellPosition.third.rawValue,
-                                 section: Section.articleParameters.rawValue)
+                                        section: Section.articleParameters.rawValue)
         tableView.deleteRows(at: [pickerIndexPath], with: .automatic)
     }
 }

@@ -9,7 +9,7 @@ import UIKit
 
 protocol FeedInput: AnyObject {
     func reloadFeedTableView()
-    func stopFeedDataRefreshing()
+    func stopRefreshControlAnimation()
     func showLoadingIndicator()
     func hideLoadingIndicator()
     func showArticle(_ article: Article)
@@ -33,15 +33,15 @@ final class FeedViewController: UIViewController, FeedViewDelegate {
         static let navigationItemTitle = "News Catcher"
         static let defaultAlertButtonText = "OK"
         static let settingsButtonTitle = "Settings"
+        static let searchControllerPlaceholder = "Search"
     }
 
     var presenter: FeedOutput!
     private var feedView: FeedView!
     private lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
-        //        searchController.searchResultsUpdater = self // TODO: Check if it is needed in future
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search"
+        searchController.searchBar.placeholder = Constants.searchControllerPlaceholder
         searchController.searchBar.delegate = self
         return searchController
     }()
@@ -108,12 +108,6 @@ extension FeedViewController: FeedInput {
         scrollTableViewBackToTheTop()
     }
 
-    private func scrollTableViewBackToTheTop() {
-        guard feedView.tableView.numberOfSections > 0,
-              feedView.tableView.numberOfRows(inSection: 0) > 0 else { return }
-        feedView.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-    }
-
     func showArticle(_ article: Article) {
         let articleViewController = ArticleAssembly.makeModule(for: article)
         navigationController?.pushViewController(articleViewController, animated: true)
@@ -130,8 +124,12 @@ extension FeedViewController: FeedInput {
         present(alertController, animated: true)
     }
 
-    func stopFeedDataRefreshing() {
-        feedView.tableView.refreshControl?.endRefreshing()
+    func stopRefreshControlAnimation() {
+        if let refreshControl = feedView.tableView.refreshControl, refreshControl.isRefreshing {
+            UIView.animate(withDuration: 0.3) { // TODO: Check Probably it's no needed
+                refreshControl.endRefreshing()
+            }
+        }
     }
 
     func showLoadingIndicator() {
@@ -144,6 +142,12 @@ extension FeedViewController: FeedInput {
         feedView.activityIndicator.stopAnimating()
         feedView.activityIndicator.isHidden = true
         feedView.tableView.isHidden = false
+    }
+
+    private func scrollTableViewBackToTheTop() {
+        guard feedView.tableView.numberOfSections > 0,
+              feedView.tableView.numberOfRows(inSection: 0) > 0 else { return }
+        feedView.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
 }
 

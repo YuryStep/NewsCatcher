@@ -40,7 +40,7 @@ struct SearchSettings {
         case unitedStates = "🇺🇸 United States:us"
 
         static func fromName(_ name: String) -> Country {
-            return Country.allCases.first { $0.name == name } ?? self.any
+            return Country.allCases.first { $0.name == name } ?? any
         }
 
         var name: String {
@@ -50,7 +50,6 @@ struct SearchSettings {
         var code: String {
             return rawValue.components(separatedBy: ":").last ?? ""
         }
-
     }
 
     enum Language: String, CaseIterable {
@@ -79,7 +78,7 @@ struct SearchSettings {
         case ukrainian = "Ukrainian:uk"
 
         static func fromName(_ name: String) -> Language {
-            return Language.allCases.first { $0.name == name } ?? self.any
+            return Language.allCases.first { $0.name == name } ?? any
         }
 
         var name: String {
