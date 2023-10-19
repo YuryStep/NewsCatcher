@@ -21,19 +21,22 @@ protocol SettingsOutput: AnyObject {
 }
 
 final class SettingsViewController: UIViewController {
+    typealias ArticleSettingsDisplayData = ArticleSettingsCell.DisplayData
+    typealias PickerSettingsDisplayData = PickerSettingsCell.DisplayData
+
     enum Section: Int, CaseIterable {
-        case articleParameters
-        case searchPlacesParameters
+        case articleSettings
+        case searchSettings
     }
 
-    enum ArticleParameters {
+    struct ArticleSettings {
         enum CellPosition: Int, CaseIterable {
             case first
             case second
             case third
         }
 
-        enum ParameterType: Int, CaseIterable {
+        enum CellType: Int, CaseIterable {
             case country
             case language
         }
@@ -61,11 +64,11 @@ final class SettingsViewController: UIViewController {
         func getNumberOfRowsInSection(_ section: Int) -> Int? {
             guard let section = Section(rawValue: section) else { return 0 }
             switch section {
-            case .articleParameters:
-                let articleParametersNumber = ArticleParameters.CellPosition.allCases.count
+            case .articleSettings:
+                let articleParametersNumber = ArticleSettings.CellPosition.allCases.count
                 guard countryPickerIsOn || languagePickerIsOn else { return articleParametersNumber - 1 }
                 return articleParametersNumber
-            case .searchPlacesParameters:
+            case .searchSettings:
                 return searchSettingsDisplayData.count
             }
         }
@@ -78,21 +81,17 @@ final class SettingsViewController: UIViewController {
             return sectionFooters[section]
         }
 
-        func getArticleSettingsDisplayData(type: ArticleParameters.ParameterType) -> ArticleSettingsCell.DisplayData {
+        func getArticleSettingsDisplayData(type: ArticleSettings.CellType) -> ArticleSettingsCell.DisplayData {
             switch type {
-            case .country:
-                return ArticleSettingsCell.DisplayData(title: countryCellTitle, currentValue: currentCountry)
-            case .language:
-                return ArticleSettingsCell.DisplayData(title: languageCellTitle, currentValue: currentLanguage)
+            case .country: return ArticleSettingsDisplayData(title: countryCellTitle, currentValue: currentCountry)
+            case .language: return ArticleSettingsDisplayData(title: languageCellTitle, currentValue: currentLanguage)
             }
         }
 
-        func getPickerDisplayData(type: ArticleParameters.ParameterType) -> PickerSettingsCell.DisplayData {
+        func getPickerDisplayData(type: ArticleSettings.CellType) -> PickerSettingsCell.DisplayData {
             switch type {
-            case .country:
-                return PickerSettingsCell.DisplayData(items: countryPickerItems, currentValue: currentCountry)
-            case .language:
-                return PickerSettingsCell.DisplayData(items: languagePickerItems, currentValue: currentLanguage)
+            case .country: return PickerSettingsDisplayData(items: countryPickerItems, currentValue: currentCountry)
+            case .language: return PickerSettingsDisplayData(items: languagePickerItems, currentValue: currentLanguage)
             }
         }
 
@@ -157,6 +156,7 @@ final class SettingsViewController: UIViewController {
     }
 }
 
+// MARK: SettingsInput
 extension SettingsViewController: SettingsInput {
     func getCurrentDisplayData() -> DisplayData {
         return displayData
@@ -167,6 +167,7 @@ extension SettingsViewController: SettingsInput {
     }
 }
 
+// MARK: TableView DataSource
 extension SettingsViewController: UITableViewDataSource {
     func numberOfSections(in _: UITableView) -> Int {
         displayData.numberOfSections
@@ -190,56 +191,56 @@ extension SettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let section = Section(rawValue: indexPath.section) else { return UITableViewCell() }
         switch section {
-        case .articleParameters:
-            guard let parameter = ArticleParameters.CellPosition(rawValue: indexPath.row) else { return UITableViewCell() }
+        case .articleSettings:
+            guard let parameter = ArticleSettings.CellPosition(rawValue: indexPath.row) else { return UITableViewCell() }
             switch parameter {
             case .first:
-                return makeArticleParametersCell(type: .country, in: tableView, cellForRowAt: indexPath)
+                return makeArticleSettingsCell(type: .country, in: tableView, cellForRowAt: indexPath)
             case .second:
                 if displayData.countryPickerIsOn {
                     return makePickerCell(type: .country, in: tableView, cellForRowAt: indexPath)
                 } else {
-                    return makeArticleParametersCell(type: .language, in: tableView, cellForRowAt: indexPath)
+                    return makeArticleSettingsCell(type: .language, in: tableView, cellForRowAt: indexPath)
                 }
             case .third:
                 guard displayData.languagePickerIsOn else { return UITableViewCell() }
                 return makePickerCell(type: .language, in: tableView, cellForRowAt: indexPath)
             }
-        case .searchPlacesParameters:
+        case .searchSettings:
             return makeSearchSettingsCell(tableView, cellForRowAt: indexPath)
         }
     }
 
-    private func makeArticleParametersCell(type: ArticleParameters.ParameterType, in tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let articleSettingsCell: ArticleSettingsCell = dequeueReusableCell(for: tableView, indexPath: indexPath, reuseIdentifier: ArticleSettingsCell.reuseIdentifier)
+    private func makeArticleSettingsCell(type: ArticleSettings.CellType, in tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.reuse(ArticleSettingsCell.self, indexPath)
         switch type {
-        case .country: articleSettingsCell.configure(with: displayData.getArticleSettingsDisplayData(type: .country))
-        case .language: articleSettingsCell.configure(with: displayData.getArticleSettingsDisplayData(type: .language))
+        case .country: cell.configure(with: displayData.getArticleSettingsDisplayData(type: .country))
+        case .language: cell.configure(with: displayData.getArticleSettingsDisplayData(type: .language))
         }
-        return articleSettingsCell
+        return cell
     }
 
-    private func makePickerCell(type: ArticleParameters.ParameterType, in tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let pickerCell: PickerSettingsCell = dequeueReusableCell(for: tableView, indexPath: indexPath, reuseIdentifier: PickerSettingsCell.reuseIdentifier)
+    private func makePickerCell(type: ArticleSettings.CellType, in tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        switch type {
-        case .country: pickerCell.configure(with: displayData.getPickerDisplayData(type: .country))
-        case .language: pickerCell.configure(with: displayData.getPickerDisplayData(type: .language))
-        }
+        let cell = tableView.reuse(PickerSettingsCell.self, indexPath)
+        let pickerDisplayData = displayData.getPickerDisplayData(type: type)
+        cell.configure(with: pickerDisplayData)
 
-        pickerCell.pickerValueChangedHandler = { [weak self] newValue in
-            guard let self else { return }
+        cell.pickerValueChangedHandler = { [weak self] newValue in
+            guard let self = self else { return }
             switch type {
-            case .country: displayData.currentCountry = newValue
-            case .language: displayData.currentLanguage = newValue
+            case .country: self.displayData.currentCountry = newValue
+            case .language: self.displayData.currentLanguage = newValue
             }
-            tableView.reloadRows(at: [IndexPath(row: indexPath.row - 1, section: indexPath.section)], with: .automatic)
+
+            let previousIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
+            tableView.reloadRows(at: [previousIndexPath], with: .automatic)
         }
-        return pickerCell
+        return cell
     }
 
     private func makeSearchSettingsCell(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: SearchSettingsCell = dequeueReusableCell(for: tableView, indexPath: indexPath, reuseIdentifier: SearchSettingsCell.reuseIdentifier)
+        let cell = tableView.reuse(SearchSettingsCell.self, indexPath)
         cell.configure(with: displayData.getSearchSettingsDisplayData(forCellAt: indexPath))
         cell.switchValueChangedHandler = { [weak self] isOn in
             guard let self else { return }
@@ -247,80 +248,74 @@ extension SettingsViewController: UITableViewDataSource {
         }
         return cell
     }
-
-    private func dequeueReusableCell<T: UITableViewCell>(for tableView: UITableView, indexPath: IndexPath, reuseIdentifier: String) -> T {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? T else {
-            fatalError("Failed to dequeue cell with identifier: \(reuseIdentifier)")
-        }
-        return cell
-    }
 }
 
+// MARK: TableView Delegate
 extension SettingsViewController: UITableViewDelegate {
     func tableView(_: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        guard indexPath.section != Section.searchPlacesParameters.rawValue else { return nil }
+        guard indexPath.section != Section.searchSettings.rawValue else { return nil }
         return indexPath
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard Section.articleParameters.rawValue == indexPath.section else { return }
+        guard Section.articleSettings.rawValue == indexPath.section else { return }
         showOrHidePickerAfterTap(tableView, at: indexPath)
         settingsView.tableView.deselectRow(at: indexPath, animated: true)
     }
 
     private func showOrHidePickerAfterTap(_ tableView: UITableView, at indexPath: IndexPath) {
-        guard let parameter = ArticleParameters.CellPosition(rawValue: indexPath.row) else { return }
-        switch parameter {
+        guard let cellPosition = ArticleSettings.CellPosition(rawValue: indexPath.row) else { return }
+        switch cellPosition {
         case .first:
             if displayData.countryPickerIsOn {
                 hideCountryPickerIfNeeded(in: tableView)
             } else {
-                showCountryPicker(in: tableView)
+                showOnlyCountryPicker(in: tableView)
             }
         case .second:
             guard !displayData.countryPickerIsOn else { return }
             if displayData.languagePickerIsOn {
                 hideLanguagePickerIfNeeded(in: tableView)
             } else {
-                showLanguagePicker(in: tableView)
+                showOnlyLanguagePicker(in: tableView)
             }
         case .third:
             guard !displayData.languagePickerIsOn else { return }
-            showLanguagePicker(in: tableView)
+            showOnlyLanguagePicker(in: tableView)
         }
     }
 
-    private func showCountryPicker(in tableView: UITableView) {
+    private func showOnlyCountryPicker(in tableView: UITableView) {
         guard !displayData.countryPickerIsOn else { return }
         hideLanguagePickerIfNeeded(in: tableView)
         displayData.countryPickerIsOn = true
-        let newIndexPath = IndexPath(row: ArticleParameters.CellPosition.second.rawValue,
-                                     section: Section.articleParameters.rawValue)
+        let newIndexPath = IndexPath(row: ArticleSettings.CellPosition.second.rawValue,
+                                     section: Section.articleSettings.rawValue)
         tableView.insertRows(at: [newIndexPath], with: .automatic)
     }
 
     private func hideCountryPickerIfNeeded(in tableView: UITableView) {
         guard displayData.countryPickerIsOn else { return }
         displayData.countryPickerIsOn = false
-        let pickerIndexPath = IndexPath(row: ArticleParameters.CellPosition.second.rawValue,
-                                        section: Section.articleParameters.rawValue)
+        let pickerIndexPath = IndexPath(row: ArticleSettings.CellPosition.second.rawValue,
+                                        section: Section.articleSettings.rawValue)
         tableView.deleteRows(at: [pickerIndexPath], with: .automatic)
     }
 
-    private func showLanguagePicker(in tableView: UITableView) {
-        hideCountryPickerIfNeeded(in: tableView)
+    private func showOnlyLanguagePicker(in tableView: UITableView) {
         guard !displayData.languagePickerIsOn else { return }
+        hideCountryPickerIfNeeded(in: tableView)
         displayData.languagePickerIsOn = true
-        let newIndexPath = IndexPath(row: ArticleParameters.CellPosition.third.rawValue,
-                                     section: Section.articleParameters.rawValue)
+        let newIndexPath = IndexPath(row: ArticleSettings.CellPosition.third.rawValue,
+                                     section: Section.articleSettings.rawValue)
         tableView.insertRows(at: [newIndexPath], with: .automatic)
     }
 
     private func hideLanguagePickerIfNeeded(in tableView: UITableView) {
         guard displayData.languagePickerIsOn else { return }
         displayData.languagePickerIsOn = false
-        let pickerIndexPath = IndexPath(row: ArticleParameters.CellPosition.third.rawValue,
-                                        section: Section.articleParameters.rawValue)
+        let pickerIndexPath = IndexPath(row: ArticleSettings.CellPosition.third.rawValue,
+                                        section: Section.articleSettings.rawValue)
         tableView.deleteRows(at: [pickerIndexPath], with: .automatic)
     }
 }

@@ -19,7 +19,6 @@ final class PickerSettingsCell: UITableViewCell {
     private lazy var picker: UIPickerView = {
         let picker = UIPickerView()
         picker.translatesAutoresizingMaskIntoConstraints = false
-
         return picker
     }()
 
