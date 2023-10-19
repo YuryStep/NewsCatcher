@@ -11,7 +11,6 @@ final class FeedPresenter {
     private enum Constants {
         static let errorAlertTitleNoInternetConnection = "No Internet Connection."
         static let errorAlertTitleDailyLimitReached = "Daily Request Limit Reached."
-        static let errorAlertTitleDefault = "Something went wrong..."
         static let errorAlertTextDefault = "Please try again later"
         static let alertTitleNoArticlesFound = "No articles found."
         static let alertTextNoArticlesFound = "No news articles found. Please try to change your request."
@@ -132,8 +131,7 @@ extension FeedPresenter: FeedOutput {
             view?.showAlertWithTitle(Constants.errorAlertTitleNoInternetConnection, text: error.localizedDescription)
         case .forbidden403:
             view?.showAlertWithTitle(Constants.errorAlertTitleDailyLimitReached, text: error.localizedDescription)
-        default:
-            view?.showAlertWithTitle(Constants.errorAlertTitleDefault, text: Constants.errorAlertTextDefault)
+        default: return
         }
     }
 }
