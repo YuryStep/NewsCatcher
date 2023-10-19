@@ -25,8 +25,6 @@ final class FeedCell: UITableViewCell {
         static let dateAndSourceLabelText = " Source: "
     }
 
-    static let reuseIdentifier = "FeedCellIdentifier"
-
     var imageAspectRatio: CGFloat = 0.562 {
         didSet {
             // TODO: Try to trigger resizing

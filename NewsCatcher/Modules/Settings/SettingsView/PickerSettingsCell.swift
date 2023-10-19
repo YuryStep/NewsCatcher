@@ -13,7 +13,6 @@ final class PickerSettingsCell: UITableViewCell {
         var currentValue: String
     }
 
-    static let reuseIdentifier = "PickerSettingsCell"
     var displayData: DisplayData!
     var pickerValueChangedHandler: ((String) -> Void)?
 

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		EF0138352ACD7E61002B5D78 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0138342ACD7E61002B5D78 /* UIView+Extensions.swift */; };
 		EF0138372ACDA1E1002B5D78 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF0138362ACDA1E1002B5D78 /* Colors.xcassets */; };
+		EF038F272AE1266400C0C37B /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF038F262AE1266400C0C37B /* UITableView+Extension.swift */; };
+		EF038F292AE126A200C0C37B /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF038F282AE126A200C0C37B /* UITableViewCell+Extension.swift */; };
 		EF0C27E12AB0BD7600F546BF /* .swiftformat in Resources */ = {isa = PBXBuildFile; fileRef = EF0C27E02AB0BD7600F546BF /* .swiftformat */; };
 		EF2897CD2AA7210000B9A335 /* APIRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2897CC2AA7210000B9A335 /* APIRequestBuilder.swift */; };
 		EF2897D12AA770F100B9A335 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2897D02AA770F100B9A335 /* String+Extensions.swift */; };
@@ -50,6 +52,8 @@
 /* Begin PBXFileReference section */
 		EF0138342ACD7E61002B5D78 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		EF0138362ACDA1E1002B5D78 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		EF038F262AE1266400C0C37B /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		EF038F282AE126A200C0C37B /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		EF0C27E02AB0BD7600F546BF /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
 		EF2897CC2AA7210000B9A335 /* APIRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestBuilder.swift; sourceTree = "<group>"; };
 		EF2897D02AA770F100B9A335 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
@@ -109,6 +113,8 @@
 				EFB37FFE2AC4A2100046BCF7 /* UIViewController+Extension.swift */,
 				EF0138342ACD7E61002B5D78 /* UIView+Extensions.swift */,
 				EF2E82852AAB77FD0065F4C5 /* UILabel+Extensions.swift */,
+				EF038F262AE1266400C0C37B /* UITableView+Extension.swift */,
+				EF038F282AE126A200C0C37B /* UITableViewCell+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -393,12 +399,14 @@
 				EF91997C2AB99888000A6364 /* NetworkError.swift in Sources */,
 				EF85DBAB2A9F7A6700CD9295 /* FeedView.swift in Sources */,
 				EFB380092AC5E7A40046BCF7 /* Request.swift in Sources */,
+				EF038F292AE126A200C0C37B /* UITableViewCell+Extension.swift in Sources */,
 				EFB380072AC5B26F0046BCF7 /* SettingsAssembly.swift in Sources */,
 				EF28C50C2AA06D9A00B68649 /* FeedCell.swift in Sources */,
 				EF85DB9B2A9F5A2C00CD9295 /* FeedViewController.swift in Sources */,
 				EF2897D12AA770F100B9A335 /* String+Extensions.swift in Sources */,
 				EF2E82862AAB77FD0065F4C5 /* UILabel+Extensions.swift in Sources */,
 				EF28C5132AA1CF2F00B68649 /* NetworkService.swift in Sources */,
+				EF038F272AE1266400C0C37B /* UITableView+Extension.swift in Sources */,
 				EFB37FFB2AC46CF20046BCF7 /* SettingsView.swift in Sources */,
 				EF85DB972A9F5A2C00CD9295 /* AppDelegate.swift in Sources */,
 				EF9D6CE12AD423CD00A23513 /* PickerSettingsCell.swift in Sources */,

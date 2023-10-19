@@ -13,8 +13,6 @@ final class SearchSettingsCell: UITableViewCell {
         var switchIsOn: Bool
     }
 
-    static let reuseIdentifier = "SearchSettingsCell"
-
     var switchValueChangedHandler: ((Bool) -> Void)?
 
     private lazy var titleLabel = UILabel(textStyle: .body)

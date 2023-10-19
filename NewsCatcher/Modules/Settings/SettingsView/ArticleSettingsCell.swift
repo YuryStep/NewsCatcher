@@ -13,8 +13,6 @@ final class ArticleSettingsCell: UITableViewCell {
         var currentValue: String
     }
 
-    static let reuseIdentifier = "ArticleSettingsCell"
-
     private lazy var titleLabel = UILabel(textStyle: .body)
     private lazy var currentValueLabel = UILabel(textStyle: .body,
                                                  color: UIColor(resource: .ncAccent))
