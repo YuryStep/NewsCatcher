@@ -98,7 +98,7 @@ final class FeedViewController: UIViewController, FeedViewDelegate {
     private func assignDelegationAndDataSource() {
         feedView.tableView.dataSource = self
         feedView.tableView.delegate = self
-        feedView.tableView.register(FeedCell.self, forCellReuseIdentifier: FeedCell.reuseIdentifier)
+        feedView.tableView.register(FeedCell.self)
     }
 }
 

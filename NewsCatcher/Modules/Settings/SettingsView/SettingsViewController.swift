@@ -130,9 +130,9 @@ final class SettingsViewController: UIViewController {
         setNavigationBar()
         settingsView.tableView.dataSource = self
         settingsView.tableView.delegate = self
-        settingsView.tableView.register(ArticleSettingsCell.self, forCellReuseIdentifier: ArticleSettingsCell.reuseIdentifier)
-        settingsView.tableView.register(PickerSettingsCell.self, forCellReuseIdentifier: PickerSettingsCell.reuseIdentifier)
-        settingsView.tableView.register(SearchSettingsCell.self, forCellReuseIdentifier: SearchSettingsCell.reuseIdentifier)
+        settingsView.tableView.register(ArticleSettingsCell.self)
+        settingsView.tableView.register(PickerSettingsCell.self)
+        settingsView.tableView.register(SearchSettingsCell.self)
     }
 
     override func didReceiveMemoryWarning() {
