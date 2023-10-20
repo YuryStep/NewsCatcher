@@ -8,6 +8,34 @@
 import Foundation
 
 final class SettingsPresenter: SettingsOutput {
+    typealias SettingsSection = SettingsView.SettingsSection
+    typealias CellPosition = SettingsView.ArticleSettings.CellPosition
+    typealias SearchPlaceParameter = SearchSettingsCell.Parameter
+
+    func getNumberOfSections() -> Int {
+        return SettingsSection.allCases.count
+    }
+
+    func getTitleForHeaderIn(section: Int) -> String {
+        guard let section = SettingsSection(rawValue: section) else { return "" }
+        return Constants.sectionHeaders[section.rawValue]
+    }
+
+    func getTitleForFooterIn(section: Int) -> String {
+        guard let section = SettingsSection(rawValue: section) else { return "" }
+        return Constants.sectionFooters[section.rawValue]
+    }
+
+    func getNumberOfRowsIn(section: Int) -> Int {
+        guard let section = SettingsSection(rawValue: section) else { return 0 }
+        let anyPickerIsOn = view.anyPickerIsOn()
+        let maxNumberOfArticleCells = CellPosition.allCases.count
+        switch section {
+        case .articleParameters: return anyPickerIsOn ? maxNumberOfArticleCells : maxNumberOfArticleCells - 1
+        case .searchParameters: return SearchPlaceParameter.allCases.count
+        }
+    }
+
     private enum Constants {
         static let sectionHeaders = ["Article Parameters", "Where To Search"]
         static let sectionFooters = [
@@ -31,7 +59,7 @@ final class SettingsPresenter: SettingsOutput {
         let searchInContentsIsOn: Bool
     }
 
-    weak var view: SettingsInput?
+    weak var view: SettingsInput!
     private var dataManager: AppDataManager
     private var state: State!
 
@@ -53,33 +81,19 @@ final class SettingsPresenter: SettingsOutput {
     }
 
     func getSettingsDisplayData() -> SettingsViewController.DisplayData {
-        let firstSearchSettingsCellDisplayData = SearchSettingsCell.DisplayData(
-            title: Constants.titleCaption, switchIsOn: state.searchInTitlesIsOn
-        )
-
-        let secondSearchSettingsCellDisplayData = SearchSettingsCell.DisplayData(
-            title: Constants.descriptionCaption, switchIsOn: state.searchInDescriptionsIsOn
-        )
-
-        let thirdSearchSettingsCellDisplayData = SearchSettingsCell.DisplayData(
-            title: Constants.contentCaption, switchIsOn: state.searchInContentsIsOn
-        )
-
-        let searchSettingsCellDisplayData = [firstSearchSettingsCellDisplayData,
-                                             secondSearchSettingsCellDisplayData,
-                                             thirdSearchSettingsCellDisplayData]
-
         return SettingsViewController.DisplayData(
-            sectionHeaders: Constants.sectionHeaders,
-            sectionFooters: Constants.sectionFooters,
-            searchSettingsDisplayData: searchSettingsCellDisplayData,
             countryCellTitle: Constants.countryCellTitle,
             languageCellTitle: Constants.languageCellTitle,
             countryPickerItems: state.availableCountries,
             languagePickerItems: state.availableLanguages,
+            titleCaption: Constants.titleCaption,
+            descriptionCaption: Constants.descriptionCaption,
+            contentCaption: Constants.contentCaption,
             currentCountry: state.currentCountry,
-            currentLanguage: state.currentLanguage
-        )
+            currentLanguage: state.currentLanguage,
+            searchInTitleIsOn: state.searchInTitlesIsOn,
+            searchInDescriptionIsOn: state.searchInDescriptionsIsOn,
+            searchInContentIsOn: state.searchInContentsIsOn)
     }
 
     func didTapOnCell(at _: IndexPath) {
@@ -96,9 +110,9 @@ final class SettingsPresenter: SettingsOutput {
 
         return SearchSettings(articleLanguage: newLanguageSettings,
                               publicationCountry: newCountrySettings,
-                              searchInTitlesIsOn: displayData.searchSettingsDisplayData[0].switchIsOn,
-                              searchInDescriptionsIsOn: displayData.searchSettingsDisplayData[1].switchIsOn,
-                              searchInContentsIsOn: displayData.searchSettingsDisplayData[2].switchIsOn)
+                              searchInTitlesIsOn: displayData.searchInTitleIsOn,
+                              searchInDescriptionsIsOn: displayData.searchInDescriptionIsOn,
+                              searchInContentsIsOn: displayData.searchInContentIsOn)
     }
 
     private func updateCurrentState() {

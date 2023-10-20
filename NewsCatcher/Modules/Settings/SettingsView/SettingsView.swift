@@ -10,6 +10,42 @@ import UIKit
 protocol SettingsViewDelegate: AnyObject {}
 
 final class SettingsView: UIView {
+    enum SettingsSection: Int, CaseIterable {
+        case articleParameters
+        case searchParameters
+    }
+
+    struct ArticleSettings {
+        enum CellPosition: Int, CaseIterable {
+            case first
+            case second
+            case third
+        }
+
+        enum CellType: CaseIterable {
+            case country
+            case language
+        }
+    }
+
+    struct DisplayData {
+        let countryCellTitle: String
+        let languageCellTitle: String
+        let countryPickerItems: [String]
+        let languagePickerItems: [String]
+        let titleCaption: String
+        let descriptionCaption: String
+        let contentCaption: String
+
+        var currentCountry: String
+        var currentLanguage: String
+        var countryPickerIsOn = false
+        var languagePickerIsOn = false
+        var searchInTitleIsOn: Bool
+        var searchInDescriptionIsOn: Bool
+        var searchInContentIsOn: Bool
+    }
+
     weak var delegate: SettingsViewDelegate?
 
     lazy var tableView: UITableView = {

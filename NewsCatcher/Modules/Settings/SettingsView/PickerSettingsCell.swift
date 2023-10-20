@@ -8,12 +8,10 @@
 import UIKit
 
 final class PickerSettingsCell: UITableViewCell {
-    struct DisplayData {
-        let items: [String]
-        var currentValue: String
-    }
+    typealias CellType = SettingsView.ArticleSettings.CellType
 
-    var displayData: DisplayData!
+    var pickerItems: [String]?
+    var pickerCurrentValue: String?
     var pickerValueChangedHandler: ((String) -> Void)?
 
     private lazy var picker: UIPickerView = {
@@ -34,14 +32,16 @@ final class PickerSettingsCell: UITableViewCell {
         setupSubviews()
     }
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
+    func configureWith(pickerItems items: [String], currentValue: String) {
+        pickerItems = items
         picker.reloadAllComponents()
+        pickerCurrentValue = currentValue
+        movePickerToCurrentValueRow()
     }
 
-    func configure(with displayData: DisplayData) {
-        self.displayData = displayData
-        if let currentIndex = displayData.items.firstIndex(of: displayData.currentValue) {
+    private func movePickerToCurrentValueRow() {
+        guard let pickerCurrentValue = pickerCurrentValue else { return }
+        if let currentIndex = pickerItems?.firstIndex(of: pickerCurrentValue) {
             picker.selectRow(currentIndex, inComponent: 0, animated: false)
         }
     }
@@ -63,19 +63,19 @@ extension PickerSettingsCell: UIPickerViewDataSource {
     }
 
     func pickerView(_: UIPickerView, numberOfRowsInComponent _: Int) -> Int {
-        return displayData.items.count
-    }
-
-    func pickerView(_: UIPickerView, titleForRow row: Int, forComponent _: Int) -> String? {
-        guard row < displayData.items.count else { return "Row No.\(row)" } // TODO: Remove after Bug Fix
-        return displayData.items[row]
-    }
-
-    func pickerView(_: UIPickerView, didSelectRow selectedRow: Int, inComponent _: Int) {
-        let selectedValue = displayData.items[selectedRow]
-        displayData.currentValue = selectedValue
-        pickerValueChangedHandler?(selectedValue)
+        return pickerItems?.count ?? 0
     }
 }
 
-extension PickerSettingsCell: UIPickerViewDelegate {}
+extension PickerSettingsCell: UIPickerViewDelegate {
+    func pickerView(_: UIPickerView, titleForRow row: Int, forComponent _: Int) -> String? {
+        return pickerItems?[row]
+    }
+
+    // TODO: Check this method's logic:
+    func pickerView(_: UIPickerView, didSelectRow selectedRow: Int, inComponent _: Int) {
+        let selectedItem = pickerItems?[selectedRow]
+        pickerCurrentValue = selectedItem
+        pickerValueChangedHandler?(selectedItem!) // TODO: FIX force
+    }
+}

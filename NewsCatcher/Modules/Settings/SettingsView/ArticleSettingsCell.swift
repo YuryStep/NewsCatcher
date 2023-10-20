@@ -8,11 +8,6 @@
 import UIKit
 
 final class ArticleSettingsCell: UITableViewCell {
-    struct DisplayData {
-        let title: String
-        var currentValue: String
-    }
-
     private lazy var titleLabel = UILabel(textStyle: .body)
     private lazy var currentValueLabel = UILabel(textStyle: .body,
                                                  color: UIColor(resource: .ncAccent))
@@ -34,9 +29,9 @@ final class ArticleSettingsCell: UITableViewCell {
         setupSubviews()
     }
 
-    func configure(with displayData: DisplayData) {
-        titleLabel.text = displayData.title
-        currentValueLabel.text = displayData.currentValue
+    func configureWith(title: String, currentValue: String) {
+        titleLabel.text = title
+        currentValueLabel.text = currentValue
     }
 
     private func setupSubviews() {
