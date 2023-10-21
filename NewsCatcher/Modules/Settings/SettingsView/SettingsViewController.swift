@@ -247,7 +247,7 @@ extension SettingsViewController: UITableViewDelegate {
         displayData.countryPickerIsOn = true
         let newIndexPath = IndexPath(row: ArticleSettingsCellPosition.second.rawValue,
                                      section: SettingsSection.articleParameters.rawValue)
-        tableView.insertRows(at: [newIndexPath], with: .automatic)
+        tableView.insertRows(at: [newIndexPath], with: .fade)
     }
 
     private func hideCountryPickerIfNeeded(in tableView: UITableView) {
@@ -255,7 +255,7 @@ extension SettingsViewController: UITableViewDelegate {
         displayData.countryPickerIsOn = false
         let pickerIndexPath = IndexPath(row: ArticleSettingsCellPosition.second.rawValue,
                                         section: SettingsSection.articleParameters.rawValue)
-        tableView.deleteRows(at: [pickerIndexPath], with: .automatic)
+        tableView.deleteRows(at: [pickerIndexPath], with: .fade)
     }
 
     private func showOnlyLanguagePicker(in tableView: UITableView) {
@@ -264,7 +264,7 @@ extension SettingsViewController: UITableViewDelegate {
         displayData.languagePickerIsOn = true
         let newIndexPath = IndexPath(row: ArticleSettingsCellPosition.third.rawValue,
                                      section: SettingsSection.articleParameters.rawValue)
-        tableView.insertRows(at: [newIndexPath], with: .automatic)
+        tableView.insertRows(at: [newIndexPath], with: .fade)
     }
 
     private func hideLanguagePickerIfNeeded(in tableView: UITableView) {
@@ -272,6 +272,6 @@ extension SettingsViewController: UITableViewDelegate {
         displayData.languagePickerIsOn = false
         let pickerIndexPath = IndexPath(row: ArticleSettingsCellPosition.third.rawValue,
                                         section: SettingsSection.articleParameters.rawValue)
-        tableView.deleteRows(at: [pickerIndexPath], with: .automatic)
+        tableView.deleteRows(at: [pickerIndexPath], with: .fade)
     }
 }
