@@ -117,8 +117,8 @@ final class SettingsPresenter: SettingsOutput {
 
     private func updateCurrentState() {
         let searchSettings = dataManager.searchSettings
-        let listOfCountries = searchSettings.availableCountries.map { $0.name }
-        let listOfLanguages = searchSettings.availableLanguages.map { $0.name }
+        let listOfCountries = SearchSettings.Country.allCases.compactMap { $0.name }
+        let listOfLanguages = SearchSettings.Language.allCases.compactMap { $0.name }
         let updatedState = State(availableCountries: listOfCountries,
                                  availableLanguages: listOfLanguages,
                                  currentCountry: searchSettings.publicationCountry.name,

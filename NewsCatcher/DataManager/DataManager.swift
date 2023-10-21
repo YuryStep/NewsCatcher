@@ -17,7 +17,8 @@ protocol AppDataManager {
 
 final class DataManager: AppDataManager {
     private enum Constants {
-        static let cachedArticlesKey = "SavedArticles"
+        static let cachedFeedArticlesKey = "cachedFeedArticles"
+        static let cachedSearchSettingsKey = "cachedSearchSettings"
     }
 
     static let shared = DataManager(
@@ -27,17 +28,20 @@ final class DataManager: AppDataManager {
 
     private let networkService: AppNetworkService
     private let cacheService: AppCacheService
-    var searchSettings: SearchSettings
+
+    var searchSettings: SearchSettings  {
+        didSet { cacheService.save(searchSettings, forKey: Constants.cachedSearchSettingsKey) }
+    }
 
     private init(networkService: AppNetworkService, cacheService: AppCacheService) {
         self.networkService = networkService
         self.cacheService = cacheService
         searchSettings = SearchSettings()
-        searchSettings = DataManager.getInitialSearchSettings()
+        setInitialSearchSettings()
     }
 
     func getCurrentNews(completion: @escaping ((Result<[Article], NetworkError>) -> Void)) {
-        if let cachedArticles = cacheService.getArticles(forKey: Constants.cachedArticlesKey) {
+        if let cachedArticles = cacheService.getArticles(forKey: Constants.cachedFeedArticlesKey) {
             completion(.success(cachedArticles))
         } else {
             let request = makeActualRequest(forKeyword: nil)
@@ -72,7 +76,7 @@ extension DataManager {
             switch result {
             case let .success(articles):
                 if !articles.isEmpty {
-                    cacheService.save(articles: articles, forKey: Constants.cachedArticlesKey)
+                    cacheService.save(articles: articles, forKey: Constants.cachedFeedArticlesKey)
                 }
                 completion(.success(articles))
             case let .failure(error):
@@ -102,8 +106,7 @@ extension DataManager {
         return Request(settings: searchSettings, keyword: keyword)
     }
 
-    private static func getInitialSearchSettings() -> SearchSettings {
-        // TODO: Add loading from user defaults
-        return SearchSettings()
+    private  func setInitialSearchSettings() {
+        searchSettings = cacheService.getSearchSettings(forKey: Constants.cachedSearchSettingsKey) ?? SearchSettings()
     }
 }

@@ -8,12 +8,12 @@
 import Foundation
 
 protocol AppCacheService {
-    func getData(forKey: String) -> Data?
     func save(_: Data, forKey: String)
-
-    func getArticles(forKey: String) -> [Article]?
+    func getData(forKey: String) -> Data?
     func save(articles: [Article], forKey: String)
-
+    func getArticles(forKey: String) -> [Article]?
+    func save(_: SearchSettings, forKey: String)
+    func getSearchSettings(forKey: String) -> SearchSettings?
     func clearCache()
 }
 
@@ -45,6 +45,19 @@ final class CacheService: AppCacheService {
         if let encodedArticles = try? JSONEncoder().encode(articles) {
             UserDefaults.standard.set(encodedArticles, forKey: key)
         }
+    }
+
+    func save(_ settings: SearchSettings, forKey key: String) {
+        if let encodedSettings = try? JSONEncoder().encode(settings) {
+            UserDefaults.standard.set(encodedSettings, forKey: key)
+        }
+    }
+
+    func getSearchSettings(forKey key: String) -> SearchSettings? {
+        guard let encodedSettings = UserDefaults.standard.data(forKey: key),
+              let decodedSettings = try? JSONDecoder().decode(SearchSettings.self, from: encodedSettings)
+        else { return nil }
+        return decodedSettings
     }
 
     func clearCache() {

@@ -5,8 +5,8 @@
 //  Created by Юрий Степанчук on 28.09.2023.
 //
 
-struct SearchSettings {
-    enum Country: String, CaseIterable {
+struct SearchSettings: Codable {
+    enum Country: String, CaseIterable, Codable {
         case any = "Any:any"
         case australia = "🇦🇺 Australia:au"
         case brazil = "🇧🇷 Brazil:br"
@@ -52,7 +52,7 @@ struct SearchSettings {
         }
     }
 
-    enum Language: String, CaseIterable {
+    enum Language: String, CaseIterable, Codable {
         case any = "Any:any"
         case arabic = "Arabic:ar"
         case chinese = "Chinese:zh"
@@ -96,8 +96,8 @@ struct SearchSettings {
         static let descriptionSortQueryParameter = "description"
     }
 
-    let availableCountries: [Country] = Country.allCases
-    let availableLanguages: [Language] = Language.allCases
+//    let availableCountries: [Country] = Country.allCases
+//    let availableLanguages: [Language] = Language.allCases
 
     var articleLanguage: Language
     var publicationCountry: Country
