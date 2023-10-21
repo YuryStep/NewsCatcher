@@ -74,7 +74,7 @@ extension ArticleView.DisplayData {
     init(_ article: Article) {
         title = article.title
         content = article.content
-        publishedAt = article.publishedAt.dateFormatted()
+        publishedAt = article.publishedAt.dayAndTimeText()
         sourceName = article.source.name
         imageStringURL = article.imageStringURL
     }

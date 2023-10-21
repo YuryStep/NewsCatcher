@@ -17,13 +17,8 @@ extension String {
 }
 
 extension String {
-    func dateFormatted() -> String {
-        if let date = ISO8601DateFormatter().date(from: self) {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            return dateFormatter.string(from: date)
-        } else {
-            return self
-        }
+    func dayAndTimeText() -> String {
+        guard let date = ISO8601DateFormatter().date(from: self) else { return self }
+        return date.dayAndTimeText
     }
 }

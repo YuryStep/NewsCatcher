@@ -11,6 +11,7 @@
 		EF0138372ACDA1E1002B5D78 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF0138362ACDA1E1002B5D78 /* Colors.xcassets */; };
 		EF038F272AE1266400C0C37B /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF038F262AE1266400C0C37B /* UITableView+Extension.swift */; };
 		EF038F292AE126A200C0C37B /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF038F282AE126A200C0C37B /* UITableViewCell+Extension.swift */; };
+		EF038F2D2AE4177900C0C37B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF038F2C2AE4177900C0C37B /* Date+Extension.swift */; };
 		EF0C27E12AB0BD7600F546BF /* .swiftformat in Resources */ = {isa = PBXBuildFile; fileRef = EF0C27E02AB0BD7600F546BF /* .swiftformat */; };
 		EF2897CD2AA7210000B9A335 /* APIRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2897CC2AA7210000B9A335 /* APIRequestBuilder.swift */; };
 		EF2897D12AA770F100B9A335 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2897D02AA770F100B9A335 /* String+Extensions.swift */; };
@@ -54,6 +55,7 @@
 		EF0138362ACDA1E1002B5D78 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		EF038F262AE1266400C0C37B /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		EF038F282AE126A200C0C37B /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
+		EF038F2C2AE4177900C0C37B /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		EF0C27E02AB0BD7600F546BF /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
 		EF2897CC2AA7210000B9A335 /* APIRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestBuilder.swift; sourceTree = "<group>"; };
 		EF2897D02AA770F100B9A335 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 			children = (
 				EF2897D02AA770F100B9A335 /* String+Extensions.swift */,
 				EF2897D42AA7720C00B9A335 /* Array+Extensions.swift */,
+				EF038F2C2AE4177900C0C37B /* Date+Extension.swift */,
 				EFB37FFE2AC4A2100046BCF7 /* UIViewController+Extension.swift */,
 				EF0138342ACD7E61002B5D78 /* UIView+Extensions.swift */,
 				EF2E82852AAB77FD0065F4C5 /* UILabel+Extensions.swift */,
@@ -419,6 +422,7 @@
 				EFB37FF92AC440550046BCF7 /* SettingsViewController.swift in Sources */,
 				EF4E320C2AB35A5A005C0E04 /* DataManager.swift in Sources */,
 				EF28C5242AA343AD00B68649 /* ArticlePresenter.swift in Sources */,
+				EF038F2D2AE4177900C0C37B /* Date+Extension.swift in Sources */,
 				EF2897CD2AA7210000B9A335 /* APIRequestBuilder.swift in Sources */,
 				EFB380022AC583EF0046BCF7 /* SearchSettingsCell.swift in Sources */,
 				EF28C5262AA343DF00B68649 /* ArticleAssembly.swift in Sources */,

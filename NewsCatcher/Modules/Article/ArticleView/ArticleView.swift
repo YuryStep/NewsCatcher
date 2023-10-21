@@ -27,7 +27,7 @@ final class ArticleView: UIView {
         static let placeholderImageName = "noImageIcon"
         static let readInSourceButtonText = "Read in Source"
         static let sourceCaptionText = "Source: "
-        static let dateCaptionText = "Published at: "
+        static let dateCaptionText = "Published: "
     }
 
     weak var delegate: ArticleViewDelegate?

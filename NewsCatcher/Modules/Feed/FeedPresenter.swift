@@ -140,7 +140,7 @@ private extension FeedCell.DisplayData {
     init(_ article: Article) {
         title = article.title
         description = article.description
-        publishedAt = article.publishedAt.dateFormatted()
+        publishedAt = article.publishedAt.dayAndTimeText()
         sourceName = article.source.name
         imageStringURL = article.imageStringURL
     }
