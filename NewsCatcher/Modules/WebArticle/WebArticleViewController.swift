@@ -8,12 +8,26 @@
 import WebKit
 
 final class WebArticleViewController: UIViewController {
-    var webView: WKWebView!
     var sourceURL: URL!
 
-    init(webView: WKWebView = WKWebView(), sourceURL: URL) {
+    private lazy var webView: WKWebView = {
+        let webView = WKWebView()
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        webView.load(URLRequest(url: sourceURL))
+        webView.allowsBackForwardNavigationGestures = true
+        return webView
+    }()
+
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.startAnimating()
+        return activityIndicator
+    }()
+
+    init(sourceURL: URL) {
         super.init(nibName: nil, bundle: nil)
-        self.webView = webView
         self.sourceURL = sourceURL
     }
 
@@ -22,28 +36,27 @@ final class WebArticleViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func loadView() {
+    override func viewDidLoad() {
+        super.viewDidLoad()
         webView.navigationDelegate = self
-        view = UIView()
         setupView()
     }
 
     private func setupView() {
-        view.addSubview(webView)
-        webView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubviews([webView, activityIndicator])
         NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             webView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        webView.load(URLRequest(url: sourceURL))
-        webView.allowsBackForwardNavigationGestures = true
-    }
 }
 
-extension WebArticleViewController: WKNavigationDelegate {}
+extension WebArticleViewController: WKNavigationDelegate {
+    func webView(_: WKWebView, didCommit _: WKNavigation!) {
+        activityIndicator.stopAnimating()
+    }
+}

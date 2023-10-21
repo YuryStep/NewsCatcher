@@ -15,7 +15,7 @@ final class SettingsView: UIView {
         case searchParameters
     }
 
-    struct ArticleSettings {
+    enum ArticleSettings {
         enum CellPosition: Int, CaseIterable {
             case first
             case second

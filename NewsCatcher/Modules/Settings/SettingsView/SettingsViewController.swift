@@ -90,6 +90,7 @@ final class SettingsViewController: UIViewController {
 }
 
 // MARK: SettingsInput
+
 extension SettingsViewController: SettingsInput {
     func anyPickerIsOn() -> Bool {
         return displayData.countryPickerIsOn || displayData.languagePickerIsOn
@@ -105,6 +106,7 @@ extension SettingsViewController: SettingsInput {
 }
 
 // MARK: TableView DataSource
+
 extension SettingsViewController: UITableViewDataSource {
     func numberOfSections(in _: UITableView) -> Int {
         presenter.getNumberOfSections()
@@ -207,6 +209,7 @@ extension SettingsViewController: UITableViewDataSource {
 }
 
 // MARK: TableView Delegate
+
 extension SettingsViewController: UITableViewDelegate {
     func tableView(_: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         guard indexPath.section != SettingsSection.searchParameters.rawValue else { return nil }

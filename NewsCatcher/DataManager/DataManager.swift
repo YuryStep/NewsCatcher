@@ -29,7 +29,7 @@ final class DataManager: AppDataManager {
     private let networkService: AppNetworkService
     private let cacheService: AppCacheService
 
-    var searchSettings: SearchSettings  {
+    var searchSettings: SearchSettings {
         didSet { cacheService.save(searchSettings, forKey: Constants.cachedSearchSettingsKey) }
     }
 
@@ -106,7 +106,7 @@ extension DataManager {
         return Request(settings: searchSettings, keyword: keyword)
     }
 
-    private  func setInitialSearchSettings() {
+    private func setInitialSearchSettings() {
         searchSettings = cacheService.getSearchSettings(forKey: Constants.cachedSearchSettingsKey) ?? SearchSettings()
     }
 }

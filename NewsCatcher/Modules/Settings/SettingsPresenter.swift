@@ -93,7 +93,8 @@ final class SettingsPresenter: SettingsOutput {
             currentLanguage: state.currentLanguage,
             searchInTitleIsOn: state.searchInTitlesIsOn,
             searchInDescriptionIsOn: state.searchInDescriptionsIsOn,
-            searchInContentIsOn: state.searchInContentsIsOn)
+            searchInContentIsOn: state.searchInContentsIsOn
+        )
     }
 
     func didTapOnCell(at _: IndexPath) {
