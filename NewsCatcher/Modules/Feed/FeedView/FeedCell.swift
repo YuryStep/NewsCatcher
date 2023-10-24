@@ -127,7 +127,7 @@ final class FeedCell: UITableViewCell {
             descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
         ]
         NSLayoutConstraint.activate(imageContainerConstraints)
         NSLayoutConstraint.activate(generalConstraints)
