@@ -12,6 +12,6 @@ enum SettingsAssembly {
         let settingsPresenter = SettingsPresenter(dataManager: DataManager.shared)
         let settingsViewController = SettingsViewController(presenter: settingsPresenter)
         settingsPresenter.view = settingsViewController
-        return settingsViewController.wrapInNavigationController()
+        return settingsViewController.wrappedInNavigationController()
     }
 }
