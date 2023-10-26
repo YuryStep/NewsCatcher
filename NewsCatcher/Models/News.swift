@@ -12,15 +12,7 @@ struct News: Codable {
     let articles: [Article]
 }
 
-struct Article: Codable {
-    let title: String
-    let description: String
-    let content: String
-    let urlString: String
-    let imageStringURL: String
-    let publishedAt: String
-    let source: Source
-
+struct Article: Codable, Hashable, Identifiable {
     private enum CodingKeys: String, CodingKey {
         case title
         case description
@@ -29,6 +21,23 @@ struct Article: Codable {
         case imageStringURL = "image"
         case publishedAt
         case source
+    }
+
+    let id = UUID()
+    let title: String
+    let description: String
+    let content: String
+    let urlString: String
+    let imageStringURL: String
+    let publishedAt: String
+    let source: Source
+
+    static func == (lhs: Article, rhs: Article) -> Bool {
+        lhs.id == rhs.id
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }
 

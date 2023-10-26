@@ -29,6 +29,8 @@
 		EF28C5262AA343DF00B68649 /* ArticleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C5252AA343DF00B68649 /* ArticleAssembly.swift */; };
 		EF2E82862AAB77FD0065F4C5 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2E82852AAB77FD0065F4C5 /* UILabel+Extensions.swift */; };
 		EF2E828D2AABA3280065F4C5 /* NewsCatcherAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2E828C2AABA3280065F4C5 /* NewsCatcherAssembly.swift */; };
+		EF4289372AE7E7160038BFD5 /* SavedNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4289362AE7E7160038BFD5 /* SavedNewsViewController.swift */; };
+		EF42893C2AE807130038BFD5 /* SavedNewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF42893B2AE807130038BFD5 /* SavedNewsCell.swift */; };
 		EF4E320C2AB35A5A005C0E04 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4E320B2AB35A5A005C0E04 /* DataManager.swift */; };
 		EF85DB972A9F5A2C00CD9295 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF85DB962A9F5A2C00CD9295 /* AppDelegate.swift */; };
 		EF85DB992A9F5A2C00CD9295 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF85DB982A9F5A2C00CD9295 /* SceneDelegate.swift */; };
@@ -73,6 +75,8 @@
 		EF28C5252AA343DF00B68649 /* ArticleAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleAssembly.swift; sourceTree = "<group>"; };
 		EF2E82852AAB77FD0065F4C5 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		EF2E828C2AABA3280065F4C5 /* NewsCatcherAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCatcherAssembly.swift; sourceTree = "<group>"; };
+		EF4289362AE7E7160038BFD5 /* SavedNewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedNewsViewController.swift; sourceTree = "<group>"; };
+		EF42893B2AE807130038BFD5 /* SavedNewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedNewsCell.swift; sourceTree = "<group>"; };
 		EF4E320B2AB35A5A005C0E04 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		EF85DB932A9F5A2C00CD9295 /* NewsCatcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsCatcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF85DB962A9F5A2C00CD9295 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -199,6 +203,15 @@
 			path = DataManager;
 			sourceTree = "<group>";
 		};
+		EF4289382AE7E71B0038BFD5 /* Saved */ = {
+			isa = PBXGroup;
+			children = (
+				EF4289362AE7E7160038BFD5 /* SavedNewsViewController.swift */,
+				EF42893B2AE807130038BFD5 /* SavedNewsCell.swift */,
+			);
+			path = Saved;
+			sourceTree = "<group>";
+		};
 		EF4E320D2AB440DB005C0E04 /* WebArticle */ = {
 			isa = PBXGroup;
 			children = (
@@ -296,6 +309,7 @@
 				EFB380002AC4A27F0046BCF7 /* Settings */,
 				EF28C5282AA3442900B68649 /* Article */,
 				EF4E320D2AB440DB005C0E04 /* WebArticle */,
+				EF4289382AE7E71B0038BFD5 /* Saved */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -413,6 +427,7 @@
 				EFB37FFB2AC46CF20046BCF7 /* SettingsView.swift in Sources */,
 				EF85DB972A9F5A2C00CD9295 /* AppDelegate.swift in Sources */,
 				EF9D6CE12AD423CD00A23513 /* PickerSettingsCell.swift in Sources */,
+				EF4289372AE7E7160038BFD5 /* SavedNewsViewController.swift in Sources */,
 				EF28C5102AA0CD4600B68649 /* FeedPresenter.swift in Sources */,
 				EF28C51E2AA3146800B68649 /* CacheService.swift in Sources */,
 				EF2897D92AA9DA8F00B9A335 /* WebArticleViewController.swift in Sources */,
@@ -428,6 +443,7 @@
 				EF28C5262AA343DF00B68649 /* ArticleAssembly.swift in Sources */,
 				EF28C5222AA3436000B68649 /* ArticleView.swift in Sources */,
 				EF2897D52AA7720C00B9A335 /* Array+Extensions.swift in Sources */,
+				EF42893C2AE807130038BFD5 /* SavedNewsCell.swift in Sources */,
 				EFB37FFF2AC4A2100046BCF7 /* UIViewController+Extension.swift in Sources */,
 				EF0138352ACD7E61002B5D78 /* UIView+Extensions.swift in Sources */,
 				EF85DB992A9F5A2C00CD9295 /* SceneDelegate.swift in Sources */,

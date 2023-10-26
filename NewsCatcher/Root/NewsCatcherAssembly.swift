@@ -23,7 +23,7 @@ enum NewsCatcherAssembly {
 
     // TODO: Remove After SavedArticlesController Assembly Implementation
     private static func createSavedArticlesController() -> UIViewController {
-        let savedArticlesController = UIViewController().wrappedInNavigationController()
+        let savedArticlesController = SavedNewsViewController().wrappedInNavigationController()
         let tabImage = UIImage(systemName: Constants.savedImageIconName)
         savedArticlesController.tabBarItem = UITabBarItem(title: Constants.savedIconName, image: tabImage, tag: 0)
         savedArticlesController.view.backgroundColor = .lightGray
