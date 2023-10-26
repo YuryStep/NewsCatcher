@@ -157,10 +157,7 @@ extension FeedViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.reuseIdentifier, for: indexPath) as? FeedCell else {
-            return UITableViewCell()
-        }
-
+        let cell = tableView.reuse(FeedCell.self, indexPath)
         cell.configure(with: presenter.getFeedDisplayData(at: indexPath))
         presenter.getImageData(at: indexPath) { imageData in
             cell.setImage(imageData)

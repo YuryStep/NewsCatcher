@@ -54,13 +54,12 @@ final class SavedNewsViewController: UIViewController {
 
     func setupDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<SavedNewsCell, Article> { cell, _, article in
-            let tempImageData = UIImage(named: "tempImagePlaceholder")?.pngData()
             let cellDisplayData = CellDisplayData(title: article.title,
                                                   description: article.description,
                                                   publishedAt: article.publishedAt,
                                                   sourceName: article.source.name,
                                                   imageStringURL: article.imageStringURL,
-                                                  imageData: tempImageData)
+                                                  imageData: nil)
             cell.configure(with: cellDisplayData)
         }
 

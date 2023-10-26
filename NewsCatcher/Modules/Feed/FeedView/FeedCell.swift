@@ -23,17 +23,13 @@ final class FeedCell: UITableViewCell {
         static let maxDescriptionHeight: CGFloat = 200
         static let placeholderImageName: String = "noImageIcon"
         static let dateAndSourceLabelText = " Source: "
-    }
-
-    var imageAspectRatio: CGFloat = 0.562 {
-        didSet {
-            // TODO: Try to trigger resizing
-        }
+        static let imageHeightRatio: CGFloat = 0.562
     }
 
     private lazy var articleImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
@@ -76,7 +72,6 @@ final class FeedCell: UITableViewCell {
             articleImageView.image = UIImage(named: Constants.placeholderImageName)
             return
         }
-        imageAspectRatio = fetchedImage.size.height / fetchedImage.size.width
         articleImageView.image = fetchedImage
     }
 
@@ -100,8 +95,8 @@ final class FeedCell: UITableViewCell {
         let imageContainerConstraints = [
             articleImageView.centerXAnchor.constraint(equalTo: imageContainer.centerXAnchor),
             articleImageView.centerYAnchor.constraint(equalTo: imageContainer.centerYAnchor),
-            articleImageView.widthAnchor.constraint(equalTo: imageContainer.widthAnchor, multiplier: 1),
-            articleImageView.heightAnchor.constraint(equalTo: imageContainer.heightAnchor, multiplier: 1, constant: 0),
+            articleImageView.widthAnchor.constraint(lessThanOrEqualTo: imageContainer.widthAnchor, multiplier: 1),
+            articleImageView.heightAnchor.constraint(lessThanOrEqualTo: imageContainer.heightAnchor, multiplier: 1),
 
             loadingIndicator.centerXAnchor.constraint(equalTo: imageContainer.centerXAnchor),
             loadingIndicator.centerYAnchor.constraint(equalTo: imageContainer.centerYAnchor)
@@ -113,8 +108,9 @@ final class FeedCell: UITableViewCell {
         let generalConstraints = [
             imageContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             imageContainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+
             imageContainer.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1),
-            imageContainer.heightAnchor.constraint(equalTo: imageContainer.widthAnchor, multiplier: imageAspectRatio),
+            imageContainer.heightAnchor.constraint(equalTo: imageContainer.widthAnchor, multiplier: Constants.imageHeightRatio),
 
             dateAndSourceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             dateAndSourceLabel.topAnchor.constraint(equalTo: imageContainer.bottomAnchor, constant: 8),
@@ -129,6 +125,7 @@ final class FeedCell: UITableViewCell {
             descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
         ]
+
         NSLayoutConstraint.activate(imageContainerConstraints)
         NSLayoutConstraint.activate(generalConstraints)
     }

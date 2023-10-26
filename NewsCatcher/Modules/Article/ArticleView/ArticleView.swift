@@ -62,7 +62,7 @@ final class ArticleView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(Constants.readInSourceButtonText, for: .normal)
         button.layer.cornerRadius = Constants.goToSourceButtonCornerRadius
-        button.addTarget(self, action: #selector(goToSourceButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(readInSourceButtonTapped), for: .touchUpInside)
         return button
     }()
 
@@ -94,7 +94,7 @@ final class ArticleView: UIView {
         loadingIndicator.stopAnimating()
     }
 
-    @objc func goToSourceButtonTapped() {
+    @objc func readInSourceButtonTapped() {
         delegate?.readInSourceButtonTapped()
     }
 

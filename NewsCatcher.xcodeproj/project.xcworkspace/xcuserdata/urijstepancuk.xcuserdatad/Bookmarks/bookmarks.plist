@@ -64,15 +64,15 @@
 				<key>location-parameters</key>
 				<dict>
 					<key>EndingColumnNumber</key>
-					<string>0</string>
+					<string>5</string>
 					<key>EndingLineNumber</key>
-					<string>30</string>
+					<string>26</string>
 					<key>StartingColumnNumber</key>
-					<string>0</string>
+					<string>5</string>
 					<key>StartingLineNumber</key>
-					<string>29</string>
+					<string>26</string>
 					<key>Timestamp</key>
-					<string>719398781.710397</string>
+					<string>720011766.917624</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -88,16 +88,15 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>            // TODO: Try to trigger resizing
-</string>
+				<string></string>
 				<key>leading</key>
-				<string>    var imageAspectRatio: CGFloat = 0.562 {
-        didSet {
-</string>
+				<string>        static let dateAndSourceLabelText = " Source: "
+        static let imageHeightRatio: CGFloat = 0.562
+    }</string>
 				<key>trailing</key>
-				<string>        }
-    }
+				<string>
 
+    private lazy var articleImageView: UIImageView = {
 </string>
 			</dict>
 			<key>type</key>
