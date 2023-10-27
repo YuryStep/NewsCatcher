@@ -23,24 +23,32 @@ final class FeedCell: UITableViewCell {
         static let maxDescriptionHeight: CGFloat = 200
         static let placeholderImageName: String = "noImageIcon"
         static let dateAndSourceLabelText = " Source: "
-        static let imageHeightRatio: CGFloat = 0.562
     }
 
-    private lazy var articleImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
+    var imageHeightRatio: CGFloat = 0.562
 
     private lazy var dateAndSourceLabel = UILabel(textStyle: .footnote)
     private lazy var titleLabel = UILabel(textStyle: .title2)
     private lazy var descriptionLabel = UILabel(textStyle: .body)
+
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.hidesWhenStopped = true
         return indicator
+    }()
+
+    private lazy var imageContainer: UIView = {
+        let container = UIImageView()
+        container.translatesAutoresizingMaskIntoConstraints = false
+        return container
+    }()
+
+    private lazy var articleImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+//        imageView.contentMode = .scaleAspectFit
+        return imageView
     }()
 
     @available(*, unavailable)
@@ -73,13 +81,8 @@ final class FeedCell: UITableViewCell {
             return
         }
         articleImageView.image = fetchedImage
+        imageHeightRatio = fetchedImage.size.height / fetchedImage.size.width
     }
-
-    private lazy var imageContainer: UIView = {
-        let container = UIImageView()
-        container.translatesAutoresizingMaskIntoConstraints = false
-        return container
-    }()
 
     private func clearPreviousConfiguration() {
         articleImageView.image = nil
@@ -87,6 +90,27 @@ final class FeedCell: UITableViewCell {
         descriptionLabel.text = nil
         dateAndSourceLabel.text = nil
     }
+
+    private lazy var generalConstraints = [
+        imageContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+        imageContainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+
+        imageContainer.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1),
+        imageContainer.heightAnchor.constraint(equalTo: imageContainer.widthAnchor, multiplier: imageHeightRatio),
+
+        dateAndSourceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+        dateAndSourceLabel.topAnchor.constraint(equalTo: imageContainer.bottomAnchor, constant: 8),
+        dateAndSourceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+
+        titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+        titleLabel.topAnchor.constraint(equalTo: dateAndSourceLabel.bottomAnchor, constant: 8),
+        titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+
+        descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+        descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+        descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+        descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
+    ]
 
     private func setupSubviews() {
         imageContainer.addSubviews([loadingIndicator, articleImageView])
@@ -104,27 +128,6 @@ final class FeedCell: UITableViewCell {
 
         dateAndSourceLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
         titleLabel.setContentHuggingPriority(.defaultHigh - 1, for: .vertical)
-
-        let generalConstraints = [
-            imageContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            imageContainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-
-            imageContainer.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1),
-            imageContainer.heightAnchor.constraint(equalTo: imageContainer.widthAnchor, multiplier: Constants.imageHeightRatio),
-
-            dateAndSourceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            dateAndSourceLabel.topAnchor.constraint(equalTo: imageContainer.bottomAnchor, constant: 8),
-            dateAndSourceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            titleLabel.topAnchor.constraint(equalTo: dateAndSourceLabel.bottomAnchor, constant: 8),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-
-            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
-        ]
 
         NSLayoutConstraint.activate(imageContainerConstraints)
         NSLayoutConstraint.activate(generalConstraints)

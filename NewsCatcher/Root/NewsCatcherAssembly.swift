@@ -11,7 +11,7 @@ enum NewsCatcherAssembly {
     // TODO: Remove After SavedArticlesController Assembly Implementation
     private enum Constants {
         static let savedIconName = "Saved"
-        static let savedImageIconName = "square.and.arrow.down.on.square"
+        static let savedImageIconName = "square.and.arrow.down"
     }
 
     static func makeModule() -> UIViewController {

@@ -9,8 +9,8 @@ import UIKit
 
 enum FeedAssembly {
     private enum Constants {
-        static let tabIconName = "Feed"
-        static let tabImageName = "newspaper"
+        static let tabIconName = "Search"
+        static let tabImageName = "magnifyingglass"
     }
 
     static func makeModule() -> UIViewController {
