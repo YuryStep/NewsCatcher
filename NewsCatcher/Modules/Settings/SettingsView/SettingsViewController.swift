@@ -83,7 +83,7 @@ final class SettingsViewController: UIViewController {
     private func setNavigationBar() {
         navigationItem.title = Constants.navigationItemTitle
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonTapped))
-        let saveButton = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveButtonTapped))
+        let saveButton = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(readLaterButtonTapped))
         navigationItem.leftBarButtonItem = cancelButton
         navigationItem.rightBarButtonItem = saveButton
     }

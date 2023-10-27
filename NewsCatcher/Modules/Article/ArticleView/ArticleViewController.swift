@@ -54,6 +54,10 @@ final class ArticleViewController: UIViewController {
 }
 
 extension ArticleViewController: ArticleViewDelegate {
+    func readLaterButtonTapped() {
+        print("save Button tapped")
+    }
+
     func readInSourceButtonTapped() {
         presenter.readInSourceButtonTapped()
     }

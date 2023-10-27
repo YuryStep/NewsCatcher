@@ -9,6 +9,7 @@ import UIKit
 
 protocol ArticleViewDelegate: AnyObject {
     func readInSourceButtonTapped()
+    func readLaterButtonTapped()
 }
 
 final class ArticleView: UIView {
@@ -21,10 +22,11 @@ final class ArticleView: UIView {
     }
 
     private enum Constants {
-        static let goToSourceButtonCornerRadius: CGFloat = 10
+        static let buttonCornerRadius: CGFloat = 10
         static let defaultImageRatio: CGFloat = 0.562
         static let placeholderImageName = "noImageIcon"
-        static let readInSourceButtonText = "Read in Source"
+        static let readInSourceButtonTitle = "Read in Source"
+        static let readLaterButtonTitle = "Read Later"
         static let dateAndSourceLabelText = " Source: "
     }
 
@@ -48,16 +50,29 @@ final class ArticleView: UIView {
     private lazy var articleImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
     private lazy var readInSourceButton: UIButton = {
-        let button = UIButton(configuration: .filled())
+        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle(Constants.readInSourceButtonText, for: .normal)
-        button.layer.cornerRadius = Constants.goToSourceButtonCornerRadius
+        button.layer.cornerRadius = Constants.buttonCornerRadius
+        button.backgroundColor = UIColor(resource: .ncAccent)
+        button.setTitleColor(UIColor(resource: .ncBackground), for: .normal)
+        button.setTitle(Constants.readInSourceButtonTitle, for: .normal)
+        button.layer.cornerRadius = Constants.buttonCornerRadius
         button.addTarget(self, action: #selector(readInSourceButtonTapped), for: .touchUpInside)
+        return button
+    }()
+
+    private lazy var saveButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = Constants.buttonCornerRadius
+        button.backgroundColor = UIColor(resource: .ncSaveButtonBackground)
+        button.setTitleColor(UIColor(resource: .ncAccent), for: .normal)
+        button.setTitle(Constants.readLaterButtonTitle, for: .normal)
+        button.addTarget(self, action: #selector(readLaterButtonTapped), for: .touchUpInside)
         return button
     }()
 
@@ -83,6 +98,10 @@ final class ArticleView: UIView {
         delegate?.readInSourceButtonTapped()
     }
 
+    @objc func readLaterButtonTapped() {
+        delegate?.readLaterButtonTapped()
+    }
+
     private func setImage(_ imageData: Data?) {
         if let imageData = imageData, let image = UIImage(data: imageData) {
             articleImageView.image = image
@@ -93,13 +112,10 @@ final class ArticleView: UIView {
 
     private func setupSubviews() {
         addSubview(scrollView)
-        scrollView.addSubviews([dateAndSourceLabel, articleImageView, titleLabel, contentLabel, readInSourceButton])
+        scrollView.addSubviews([dateAndSourceLabel, articleImageView, titleLabel, contentLabel, saveButton, readInSourceButton])
         let marginGuide = layoutMarginsGuide
         let scrollViewFrameGuide = scrollView.frameLayoutGuide
         let scrollViewContentGuide = scrollView.contentLayoutGuide
-
-        contentLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
-        readInSourceButton.setContentHuggingPriority(.defaultHigh, for: .vertical)
 
         NSLayoutConstraint.activate([
             scrollViewFrameGuide.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
@@ -109,26 +125,30 @@ final class ArticleView: UIView {
             scrollViewFrameGuide.widthAnchor.constraint(equalTo: scrollViewContentGuide.widthAnchor),
 
             articleImageView.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
-            articleImageView.topAnchor.constraint(equalToSystemSpacingBelow: scrollViewContentGuide.topAnchor, multiplier: 1),
+            articleImageView.topAnchor.constraint(equalTo: scrollViewContentGuide.topAnchor, constant: 8),
             articleImageView.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
             articleImageView.heightAnchor.constraint(equalTo: articleImageView.widthAnchor, multiplier: imageRatio),
 
             dateAndSourceLabel.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
-            dateAndSourceLabel.topAnchor.constraint(equalToSystemSpacingBelow: articleImageView.bottomAnchor, multiplier: 1),
+            dateAndSourceLabel.topAnchor.constraint(equalTo: articleImageView.bottomAnchor, constant: 8),
             dateAndSourceLabel.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
 
             titleLabel.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
-            titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: dateAndSourceLabel.bottomAnchor, multiplier: 1),
+            titleLabel.topAnchor.constraint(equalTo: dateAndSourceLabel.bottomAnchor, constant: 8),
             titleLabel.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
 
             contentLabel.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
-            contentLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 1),
+            contentLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             contentLabel.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
 
-            readInSourceButton.topAnchor.constraint(equalToSystemSpacingBelow: contentLabel.bottomAnchor, multiplier: 1),
+            saveButton.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 8),
+            saveButton.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
+            saveButton.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
+
+            readInSourceButton.topAnchor.constraint(equalTo: saveButton.bottomAnchor, constant: 8),
             readInSourceButton.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
             readInSourceButton.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
-            readInSourceButton.bottomAnchor.constraint(equalTo: scrollViewContentGuide.bottomAnchor)
+            readInSourceButton.bottomAnchor.constraint(equalTo: scrollViewContentGuide.bottomAnchor, constant: -8)
         ])
     }
 }
