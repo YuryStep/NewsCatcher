@@ -21,6 +21,7 @@ struct Article: Codable, Hashable, Identifiable {
         case imageStringURL = "image"
         case publishedAt
         case source
+        case imageData
     }
 
     let id = UUID()
@@ -31,6 +32,7 @@ struct Article: Codable, Hashable, Identifiable {
     let imageStringURL: String
     let publishedAt: String
     let source: Source
+    var imageData: Data?
 
     static func == (lhs: Article, rhs: Article) -> Bool {
         lhs.id == rhs.id

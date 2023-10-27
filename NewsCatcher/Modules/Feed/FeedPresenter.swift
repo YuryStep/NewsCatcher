@@ -23,6 +23,10 @@ final class FeedPresenter {
             self.news = news
         }
 
+        mutating func setImageDataForArticle(_ data: Data, at indexPath: IndexPath) {
+            news[indexPath.row].imageData = data
+        }
+
         func getArticle(at indexPath: IndexPath) -> Article {
             return news[indexPath.row]
         }
@@ -80,6 +84,7 @@ extension FeedPresenter: FeedOutput {
             guard let self, state.getArticle(at: indexPath).imageStringURL == imageStringURL else { return }
             switch result {
             case let .success(imageData):
+                state.setImageDataForArticle(imageData, at: indexPath)
                 completion(imageData)
             case let .failure(error):
                 handleError(error)

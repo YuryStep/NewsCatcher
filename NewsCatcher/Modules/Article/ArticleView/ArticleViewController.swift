@@ -16,7 +16,6 @@ protocol ArticleOutput: AnyObject {
     func viewDidLoad()
     func didReceiveMemoryWarning()
     func readInSourceButtonTapped()
-    func getImageData(completion: @escaping (Data?) -> Void)
 }
 
 final class ArticleViewController: UIViewController {
@@ -63,9 +62,6 @@ extension ArticleViewController: ArticleViewDelegate {
 extension ArticleViewController: ArticleInput {
     func setupArticleView(with displayData: ArticleView.DisplayData) {
         articleView.configure(with: displayData)
-        presenter.getImageData { imageData in
-            self.articleView.setImage(imageData)
-        }
     }
 
     func openWebArticle(sourceURL url: URL) {

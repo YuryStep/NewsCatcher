@@ -17,10 +17,6 @@ final class FeedCell: UITableViewCell {
     }
 
     private enum Constants {
-        static let systemSpacingMultiplier: CGFloat = 1
-        static let maxDataAndSourceHeight: CGFloat = 32
-        static let maxTitleHeight: CGFloat = 200
-        static let maxDescriptionHeight: CGFloat = 200
         static let placeholderImageName: String = "noImageIcon"
         static let dateAndSourceLabelText = " Source: "
     }
@@ -47,7 +43,7 @@ final class FeedCell: UITableViewCell {
     private lazy var articleImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-//        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 

@@ -37,20 +37,6 @@ extension ArticlePresenter: ArticleOutput {
         dataManager.clearCache()
     }
 
-    func getImageData(completion: @escaping (Data?) -> Void) {
-        let imageStringURL = state.article.imageStringURL
-        dataManager.getImageData(from: imageStringURL) { [weak self] result in
-            guard let self, state.article.imageStringURL == imageStringURL else { return }
-            switch result {
-            case let .success(imageData):
-                completion(imageData)
-            case let .failure(error):
-                handleError(error)
-                completion(nil)
-            }
-        }
-    }
-
     func readInSourceButtonTapped() {
         if let url = URL(string: state.article.urlString) {
             view?.openWebArticle(sourceURL: url)
@@ -76,6 +62,6 @@ extension ArticleView.DisplayData {
         content = article.content
         publishedAt = article.publishedAt.dayAndTimeText()
         sourceName = article.source.name
-        imageStringURL = article.imageStringURL
+        imageData = article.imageData
     }
 }
