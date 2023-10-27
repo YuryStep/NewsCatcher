@@ -16,6 +16,7 @@ protocol ArticleOutput: AnyObject {
     func viewDidLoad()
     func didReceiveMemoryWarning()
     func readInSourceButtonTapped()
+    func readLaterButtonTapped()
 }
 
 final class ArticleViewController: UIViewController {
@@ -55,7 +56,7 @@ final class ArticleViewController: UIViewController {
 
 extension ArticleViewController: ArticleViewDelegate {
     func readLaterButtonTapped() {
-        print("save Button tapped")
+        presenter.readLaterButtonTapped()
     }
 
     func readInSourceButtonTapped() {

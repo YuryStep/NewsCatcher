@@ -12,6 +12,7 @@ protocol FeedInput: AnyObject {
     func stopRefreshControlAnimation()
     func showLoadingIndicator()
     func hideLoadingIndicator()
+    func getImageData(at: IndexPath) -> Data?
     func showArticle(_ article: Article)
     func showSettings()
     func showAlertWithTitle(_ title: String, text: String)
@@ -106,6 +107,11 @@ extension FeedViewController: FeedInput {
     func reloadFeedTableView() {
         feedView.tableView.reloadData()
         scrollTableViewBackToTheTop()
+    }
+
+    func getImageData(at indexPath: IndexPath) -> Data? {
+        guard let cell = feedView.tableView.cellForRow(at: indexPath) as? FeedCell else { return nil }
+        return cell.getImageData()
     }
 
     func showArticle(_ article: Article) {

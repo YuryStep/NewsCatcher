@@ -63,7 +63,10 @@ extension FeedPresenter: FeedOutput {
     }
 
     func didTapOnCell(at indexPath: IndexPath) {
-        view?.showArticle(state.getArticle(at: indexPath))
+        let articleImageData = view?.getImageData(at: indexPath)
+        var article = state.getArticle(at: indexPath)
+        article.imageData = articleImageData
+        view?.showArticle(article)
     }
 
     func didPullToRefreshTableViewData() {
@@ -84,7 +87,6 @@ extension FeedPresenter: FeedOutput {
             guard let self, state.getArticle(at: indexPath).imageStringURL == imageStringURL else { return }
             switch result {
             case let .success(imageData):
-                state.setImageDataForArticle(imageData, at: indexPath)
                 completion(imageData)
             case let .failure(error):
                 handleError(error)

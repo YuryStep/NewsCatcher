@@ -15,13 +15,13 @@
 							<key>EndingColumnNumber</key>
 							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>129</string>
+							<string>135</string>
 							<key>StartingColumnNumber</key>
 							<string>0</string>
 							<key>StartingLineNumber</key>
-							<string>128</string>
+							<string>134</string>
 							<key>Timestamp</key>
-							<string>719851112.645852</string>
+							<string>720129889.462539</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -58,15 +58,15 @@
 						<key>location-parameters</key>
 						<dict>
 							<key>EndingColumnNumber</key>
-							<string>29</string>
+							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>50</string>
+							<string>56</string>
 							<key>StartingColumnNumber</key>
-							<string>24</string>
+							<string>0</string>
 							<key>StartingLineNumber</key>
-							<string>50</string>
+							<string>55</string>
 							<key>Timestamp</key>
-							<string>720110869.554785</string>
+							<string>720130722.857432</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -82,15 +82,16 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>error</string>
+						<string>        // TODO: Create error handling cases
+</string>
 						<key>leading</key>
 						<string>
     private func handleError(_ error: NetworkError) {
-        // TODO: Create </string>
+</string>
 						<key>trailing</key>
-						<string> handling cases
-        switch error {
+						<string>        switch error {
         default:
+            debugPrint(error.localizedDescription)
 </string>
 					</dict>
 					<key>type</key>
@@ -142,6 +143,51 @@
 				<string>    var imageHeightRatio: CGFloat = 0.562
 
     private lazy var dateAndSourceLabel = UILabel(textStyle: .footnote)
+</string>
+			</dict>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>118</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>117</string>
+					<key>Timestamp</key>
+					<string>720129533.494805</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>NewsCatcher/Modules/Feed/FeedPresenter.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>                    // TODO: Optional: Change it from alert to view with text in the center instead of FeedTable
+</string>
+				<key>leading</key>
+				<string>            case let .success(news):
+                if news.isEmpty {
+</string>
+				<key>trailing</key>
+				<string>                    view?.showAlertWithTitle(Constants.alertTitleNoArticlesFound, text: Constants.alertTextNoArticlesFound)
+                } else {
+                    state.setupNews(with: news)
 </string>
 			</dict>
 			<key>type</key>

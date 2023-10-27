@@ -80,6 +80,13 @@ final class FeedCell: UITableViewCell {
         imageHeightRatio = fetchedImage.size.height / fetchedImage.size.width
     }
 
+    func getImageData() -> Data? {
+        if let jpegImage = articleImageView.image?.jpegData(compressionQuality: 1) {
+            return jpegImage
+        }
+        return articleImageView.image?.pngData()
+    }
+
     private func clearPreviousConfiguration() {
         articleImageView.image = nil
         titleLabel.text = nil

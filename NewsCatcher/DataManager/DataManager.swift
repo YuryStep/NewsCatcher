@@ -12,6 +12,8 @@ protocol AppDataManager {
     func getCurrentNews(completion: @escaping ((Result<[Article], NetworkError>) -> Void))
     func getNews(about: String?, completion: @escaping ((Result<[Article], NetworkError>) -> Void))
     func getImageData(from urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void)
+    func saveArticle(_: Article)
+    func deleteArticle(_: Article)
     func clearCache()
 }
 
@@ -62,6 +64,14 @@ final class DataManager: AppDataManager {
         downloadImageData(from: urlString) { result in
             completion(result)
         }
+    }
+
+    func saveArticle(_ article: Article) {
+        print("Article with url \(article.urlString) is saved in Memory")
+    }
+
+    func deleteArticle(_ article: Article) {
+        print("Article with url \(article.urlString) is Removed from Memory")
     }
 
     func clearCache() {

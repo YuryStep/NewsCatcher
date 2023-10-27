@@ -43,6 +43,11 @@ extension ArticlePresenter: ArticleOutput {
         }
     }
 
+    func readLaterButtonTapped() {
+        // TODO: Make switch check weather article is saved or not. And then save it or delete
+        dataManager.saveArticle(state.article)
+    }
+
     private func getDisplayDataForCurrentState() -> ArticleView.DisplayData {
         return ArticleView.DisplayData(state.article)
     }
@@ -56,7 +61,7 @@ extension ArticlePresenter: ArticleOutput {
     }
 }
 
-extension ArticleView.DisplayData {
+fileprivate extension ArticleView.DisplayData {
     init(_ article: Article) {
         title = article.title
         content = article.content
