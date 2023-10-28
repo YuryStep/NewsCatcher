@@ -13,7 +13,8 @@ protocol AppDataManager {
     func getNews(about: String?, completion: @escaping ((Result<[Article], NetworkError>) -> Void))
     func getImageData(from urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void)
     func saveArticle(_: Article)
-    func deleteArticle(_: Article)
+    func removeArticle(_: Article)
+    func getSavedArticles() -> [Article]?
     func clearCache()
 }
 
@@ -21,29 +22,30 @@ final class DataManager: AppDataManager {
     private enum Constants {
         static let cachedFeedArticlesKey = "cachedFeedArticles"
         static let cachedSearchSettingsKey = "cachedSearchSettings"
+        static let savedArticlesKey = "savedArticles"
     }
 
     static let shared = DataManager(
         networkService: NetworkService(apiRequestBuilder: APIRequestBuilder()),
-        cacheService: CacheService()
+        persistenceService: PersistenceService()
     )
 
     private let networkService: AppNetworkService
-    private let cacheService: AppCacheService
+    private let persistenceService: AppPersistenceService
 
     var searchSettings: SearchSettings {
-        didSet { cacheService.save(searchSettings, forKey: Constants.cachedSearchSettingsKey) }
+        didSet { persistenceService.save(searchSettings, forKey: Constants.cachedSearchSettingsKey) }
     }
 
-    private init(networkService: AppNetworkService, cacheService: AppCacheService) {
+    private init(networkService: AppNetworkService, persistenceService: AppPersistenceService) {
         self.networkService = networkService
-        self.cacheService = cacheService
+        self.persistenceService = persistenceService
         searchSettings = SearchSettings()
         setInitialSearchSettings()
     }
 
     func getCurrentNews(completion: @escaping ((Result<[Article], NetworkError>) -> Void)) {
-        if let cachedArticles = cacheService.getArticles(forKey: Constants.cachedFeedArticlesKey) {
+        if let cachedArticles = persistenceService.getFeed(forKey: Constants.cachedFeedArticlesKey) {
             completion(.success(cachedArticles))
         } else {
             let request = makeActualRequest(forKeyword: nil)
@@ -67,15 +69,19 @@ final class DataManager: AppDataManager {
     }
 
     func saveArticle(_ article: Article) {
-        print("Article with url \(article.urlString) is saved in Memory")
+        persistenceService.saveArticle(article, forKey: Constants.savedArticlesKey)
     }
 
-    func deleteArticle(_ article: Article) {
-        print("Article with url \(article.urlString) is Removed from Memory")
+    func removeArticle(_ article: Article) {
+        persistenceService.removeArticle(article, forKey: Constants.savedArticlesKey)
+    }
+
+    func getSavedArticles() -> [Article]? {
+        return persistenceService.getSavedArticles(forKey: Constants.savedArticlesKey)
     }
 
     func clearCache() {
-        cacheService.clearCache()
+        persistenceService.clearCache()
     }
 }
 
@@ -86,7 +92,7 @@ extension DataManager {
             switch result {
             case let .success(articles):
                 if !articles.isEmpty {
-                    cacheService.save(articles: articles, forKey: Constants.cachedFeedArticlesKey)
+                    persistenceService.saveFeed(articles, forKey: Constants.cachedFeedArticlesKey)
                 }
                 completion(.success(articles))
             case let .failure(error):
@@ -96,11 +102,11 @@ extension DataManager {
     }
 
     private func downloadImageData(from urlString: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        guard let imageData = cacheService.getData(forKey: urlString) else {
+        guard let imageData = persistenceService.getData(forKey: urlString) else {
             networkService.downloadImageData(from: urlString) { response in
                 switch response {
                 case let .success(imageData):
-                    self.cacheService.save(imageData, forKey: urlString)
+                    self.persistenceService.save(imageData, forKey: urlString)
                     completion(.success(imageData))
                 case let .failure(error):
                     completion(.failure(error))
@@ -117,6 +123,6 @@ extension DataManager {
     }
 
     private func setInitialSearchSettings() {
-        searchSettings = cacheService.getSearchSettings(forKey: Constants.cachedSearchSettingsKey) ?? SearchSettings()
+        searchSettings = persistenceService.getSearchSettings(forKey: Constants.cachedSearchSettingsKey) ?? SearchSettings()
     }
 }

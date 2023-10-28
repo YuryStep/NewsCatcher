@@ -7,17 +7,20 @@
 
 import Foundation
 
-protocol AppCacheService {
+protocol AppPersistenceService {
     func save(_: Data, forKey: String)
     func getData(forKey: String) -> Data?
-    func save(articles: [Article], forKey: String)
-    func getArticles(forKey: String) -> [Article]?
+    func saveFeed(_ articles: [Article], forKey: String)
+    func getFeed(forKey: String) -> [Article]?
     func save(_: SearchSettings, forKey: String)
     func getSearchSettings(forKey: String) -> SearchSettings?
+    func saveArticle(_ article: Article, forKey: String)
+    func removeArticle(_ article: Article, forKey: String)
+    func getSavedArticles(forKey key: String) -> [Article]?
     func clearCache()
 }
 
-final class CacheService: AppCacheService {
+final class PersistenceService: AppPersistenceService {
     private let cache = NSCache<NSString, NSData>()
 
     func getData(forKey key: String) -> Data? {
@@ -34,14 +37,14 @@ final class CacheService: AppCacheService {
         cache.setObject(data, forKey: key)
     }
 
-    func getArticles(forKey key: String) -> [Article]? {
+    func getFeed(forKey key: String) -> [Article]? {
         guard let encodedArticles = UserDefaults.standard.data(forKey: key),
               let decodedArticles = try? JSONDecoder().decode([Article].self, from: encodedArticles)
         else { return nil }
         return decodedArticles
     }
 
-    func save(articles: [Article], forKey key: String) {
+    func saveFeed(_ articles: [Article], forKey key: String) {
         if let encodedArticles = try? JSONEncoder().encode(articles) {
             UserDefaults.standard.set(encodedArticles, forKey: key)
         }
@@ -58,6 +61,29 @@ final class CacheService: AppCacheService {
               let decodedSettings = try? JSONDecoder().decode(SearchSettings.self, from: encodedSettings)
         else { return nil }
         return decodedSettings
+    }
+
+    func saveArticle(_ article: Article, forKey key: String) {
+        var articles = getSavedArticles(forKey: key) ?? [] // TODO: Load sample Data here if needed
+        articles.append(article)
+        if let encodedArticles = try? JSONEncoder().encode(articles) {
+            UserDefaults.standard.set(encodedArticles, forKey: key)
+        }
+    }
+
+    func removeArticle(_ article: Article, forKey key: String) {
+        var articles = getSavedArticles(forKey: key) ?? []
+        articles = articles.filter { $0.urlString != article.urlString }
+        if let encodedArticles = try? JSONEncoder().encode(articles) {
+            UserDefaults.standard.set(encodedArticles, forKey: key)
+        }
+    }
+
+    func getSavedArticles(forKey key: String) -> [Article]? {
+        guard let encodedArticles = UserDefaults.standard.data(forKey: key),
+              let decodedArticles = try? JSONDecoder().decode([Article].self, from: encodedArticles)
+        else { return nil }
+        return decodedArticles
     }
 
     func clearCache() {

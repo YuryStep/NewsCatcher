@@ -22,7 +22,7 @@
 		EF28C5132AA1CF2F00B68649 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C5122AA1CF2F00B68649 /* NetworkService.swift */; };
 		EF28C5152AA1CFFC00B68649 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C5142AA1CFFC00B68649 /* News.swift */; };
 		EF28C51B2AA233F900B68649 /* FeedAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C51A2AA233F900B68649 /* FeedAssembly.swift */; };
-		EF28C51E2AA3146800B68649 /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C51D2AA3146800B68649 /* CacheService.swift */; };
+		EF28C51E2AA3146800B68649 /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C51D2AA3146800B68649 /* PersistenceService.swift */; };
 		EF28C5202AA3432700B68649 /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C51F2AA3432700B68649 /* ArticleViewController.swift */; };
 		EF28C5222AA3436000B68649 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C5212AA3436000B68649 /* ArticleView.swift */; };
 		EF28C5242AA343AD00B68649 /* ArticlePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C5232AA343AD00B68649 /* ArticlePresenter.swift */; };
@@ -68,7 +68,7 @@
 		EF28C5122AA1CF2F00B68649 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		EF28C5142AA1CFFC00B68649 /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		EF28C51A2AA233F900B68649 /* FeedAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAssembly.swift; sourceTree = "<group>"; };
-		EF28C51D2AA3146800B68649 /* CacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheService.swift; sourceTree = "<group>"; };
+		EF28C51D2AA3146800B68649 /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
 		EF28C51F2AA3432700B68649 /* ArticleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleViewController.swift; sourceTree = "<group>"; };
 		EF28C5212AA3436000B68649 /* ArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleView.swift; sourceTree = "<group>"; };
 		EF28C5232AA343AD00B68649 /* ArticlePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlePresenter.swift; sourceTree = "<group>"; };
@@ -129,7 +129,7 @@
 		EF2897D32AA7717B00B9A335 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				EF9892C22ABCA5D60015D624 /* CacheService */,
+				EF9892C22ABCA5D60015D624 /* Persistence */,
 				EF28C5162AA1D04800B68649 /* Networking */,
 			);
 			path = Services;
@@ -262,12 +262,12 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		EF9892C22ABCA5D60015D624 /* CacheService */ = {
+		EF9892C22ABCA5D60015D624 /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
-				EF28C51D2AA3146800B68649 /* CacheService.swift */,
+				EF28C51D2AA3146800B68649 /* PersistenceService.swift */,
 			);
-			path = CacheService;
+			path = Persistence;
 			sourceTree = "<group>";
 		};
 		EF9892C32ABCA6860015D624 /* Root */ = {
@@ -429,7 +429,7 @@
 				EF9D6CE12AD423CD00A23513 /* PickerSettingsCell.swift in Sources */,
 				EF4289372AE7E7160038BFD5 /* SavedNewsViewController.swift in Sources */,
 				EF28C5102AA0CD4600B68649 /* FeedPresenter.swift in Sources */,
-				EF28C51E2AA3146800B68649 /* CacheService.swift in Sources */,
+				EF28C51E2AA3146800B68649 /* PersistenceService.swift in Sources */,
 				EF2897D92AA9DA8F00B9A335 /* WebArticleViewController.swift in Sources */,
 				EFB37FFD2AC4746B0046BCF7 /* ArticleSettingsCell.swift in Sources */,
 				EF28C5152AA1CFFC00B68649 /* News.swift in Sources */,

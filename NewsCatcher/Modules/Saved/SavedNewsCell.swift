@@ -15,7 +15,6 @@ final class SavedNewsCell: UICollectionViewCell {
         let description: String
         let publishedAt: String
         let sourceName: String
-        let imageStringURL: String // TODO: Can be removed?
         let imageData: Data?
     }
 
@@ -70,13 +69,13 @@ final class SavedNewsCell: UICollectionViewCell {
         setImage(displayData.imageData)
     }
 
-    func setImage(_ imageData: Data?) {
+    private func setImage(_ imageData: Data?) {
         loadingIndicator.stopAnimating()
-        guard let imageData = imageData, let fetchedImage = UIImage(data: imageData) else {
+        guard let imageData = imageData, let image = UIImage(data: imageData) else {
             articleImageView.image = UIImage(named: Constants.placeholderImageName)
             return
         }
-        articleImageView.image = fetchedImage
+        articleImageView.image = image
     }
 
     private lazy var imageContainer: UIView = {

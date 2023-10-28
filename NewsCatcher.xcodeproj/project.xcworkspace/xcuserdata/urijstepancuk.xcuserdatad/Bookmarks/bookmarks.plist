@@ -97,101 +97,190 @@
 					<key>type</key>
 					<string>bookmark</string>
 				</dict>
+				<dict>
+					<key>destination</key>
+					<dict>
+						<key>location-parameters</key>
+						<dict>
+							<key>EndingColumnNumber</key>
+							<string>0</string>
+							<key>EndingLineNumber</key>
+							<string>23</string>
+							<key>StartingColumnNumber</key>
+							<string>0</string>
+							<key>StartingLineNumber</key>
+							<string>22</string>
+							<key>Timestamp</key>
+							<string>720103428.460197</string>
+						</dict>
+						<key>rebasable-url</key>
+						<dict>
+							<key>base</key>
+							<string>workspace</string>
+							<key>payload</key>
+							<dict>
+								<key>relative-path</key>
+								<string>NewsCatcher/Modules/Feed/FeedView/FeedCell.swift</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>text-context</key>
+					<dict>
+						<key>focused</key>
+						<string>
+</string>
+						<key>leading</key>
+						<string>        static let dateAndSourceLabelText = " Source: "
+    }
+</string>
+						<key>trailing</key>
+						<string>    var imageHeightRatio: CGFloat = 0.562
+
+    private lazy var dateAndSourceLabel = UILabel(textStyle: .footnote)
+</string>
+					</dict>
+					<key>type</key>
+					<string>bookmark</string>
+				</dict>
+				<dict>
+					<key>destination</key>
+					<dict>
+						<key>location-parameters</key>
+						<dict>
+							<key>EndingColumnNumber</key>
+							<string>0</string>
+							<key>EndingLineNumber</key>
+							<string>118</string>
+							<key>StartingColumnNumber</key>
+							<string>0</string>
+							<key>StartingLineNumber</key>
+							<string>117</string>
+							<key>Timestamp</key>
+							<string>720129533.494805</string>
+						</dict>
+						<key>rebasable-url</key>
+						<dict>
+							<key>base</key>
+							<string>workspace</string>
+							<key>payload</key>
+							<dict>
+								<key>relative-path</key>
+								<string>NewsCatcher/Modules/Feed/FeedPresenter.swift</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>text-context</key>
+					<dict>
+						<key>focused</key>
+						<string>                    // TODO: Optional: Change it from alert to view with text in the center instead of FeedTable
+</string>
+						<key>leading</key>
+						<string>            case let .success(news):
+                if news.isEmpty {
+</string>
+						<key>trailing</key>
+						<string>                    view?.showAlertWithTitle(Constants.alertTitleNoArticlesFound, text: Constants.alertTextNoArticlesFound)
+                } else {
+                    state.setupNews(with: news)
+</string>
+					</dict>
+					<key>type</key>
+					<string>bookmark</string>
+				</dict>
+				<dict>
+					<key>destination</key>
+					<dict>
+						<key>location-parameters</key>
+						<dict>
+							<key>EndingColumnNumber</key>
+							<string>0</string>
+							<key>EndingLineNumber</key>
+							<string>87</string>
+							<key>StartingColumnNumber</key>
+							<string>0</string>
+							<key>StartingLineNumber</key>
+							<string>86</string>
+							<key>Timestamp</key>
+							<string>720162492.446847</string>
+						</dict>
+						<key>rebasable-url</key>
+						<dict>
+							<key>base</key>
+							<string>workspace</string>
+							<key>payload</key>
+							<dict>
+								<key>relative-path</key>
+								<string>NewsCatcher/Services/Persistence/PersistenceService.swift</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>text-context</key>
+					<dict>
+						<key>focused</key>
+						<string>    }
+</string>
+						<key>leading</key>
+						<string>        else { return nil }
+        return decodedArticles
+</string>
+						<key>trailing</key>
+						<string>
+    func clearCache() {
+        cache.removeAllObjects()
+</string>
+					</dict>
+					<key>type</key>
+					<string>bookmark</string>
+				</dict>
+				<dict>
+					<key>destination</key>
+					<dict>
+						<key>location-parameters</key>
+						<dict>
+							<key>EndingColumnNumber</key>
+							<string>122</string>
+							<key>EndingLineNumber</key>
+							<string>27</string>
+							<key>StartingColumnNumber</key>
+							<string>111</string>
+							<key>StartingLineNumber</key>
+							<string>27</string>
+							<key>Timestamp</key>
+							<string>720163879.334602</string>
+						</dict>
+						<key>rebasable-url</key>
+						<dict>
+							<key>base</key>
+							<string>workspace</string>
+							<key>payload</key>
+							<dict>
+								<key>relative-path</key>
+								<string>NewsCatcher/Modules/Saved/SavedNewsViewController.swift</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>text-context</key>
+					<dict>
+						<key>focused</key>
+						<string>appearances</string>
+						<key>leading</key>
+						<string>
+    private lazy var savedNewsLayout: UICollectionViewCompositionalLayout = {
+        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .grouped) // TODO: Check other </string>
+						<key>trailing</key>
+						<string>
+        listConfiguration.backgroundColor = .white
+        let layout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
+</string>
+					</dict>
+					<key>type</key>
+					<string>bookmark</string>
+				</dict>
 			</array>
 			<key>title</key>
 			<string>TODOs</string>
 			<key>type</key>
 			<string>group</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>location-parameters</key>
-				<dict>
-					<key>EndingColumnNumber</key>
-					<string>0</string>
-					<key>EndingLineNumber</key>
-					<string>23</string>
-					<key>StartingColumnNumber</key>
-					<string>0</string>
-					<key>StartingLineNumber</key>
-					<string>22</string>
-					<key>Timestamp</key>
-					<string>720103428.460197</string>
-				</dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>NewsCatcher/Modules/Feed/FeedView/FeedCell.swift</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>text-context</key>
-			<dict>
-				<key>focused</key>
-				<string>
-</string>
-				<key>leading</key>
-				<string>        static let dateAndSourceLabelText = " Source: "
-    }
-</string>
-				<key>trailing</key>
-				<string>    var imageHeightRatio: CGFloat = 0.562
-
-    private lazy var dateAndSourceLabel = UILabel(textStyle: .footnote)
-</string>
-			</dict>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>location-parameters</key>
-				<dict>
-					<key>EndingColumnNumber</key>
-					<string>0</string>
-					<key>EndingLineNumber</key>
-					<string>118</string>
-					<key>StartingColumnNumber</key>
-					<string>0</string>
-					<key>StartingLineNumber</key>
-					<string>117</string>
-					<key>Timestamp</key>
-					<string>720129533.494805</string>
-				</dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>NewsCatcher/Modules/Feed/FeedPresenter.swift</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>text-context</key>
-			<dict>
-				<key>focused</key>
-				<string>                    // TODO: Optional: Change it from alert to view with text in the center instead of FeedTable
-</string>
-				<key>leading</key>
-				<string>            case let .success(news):
-                if news.isEmpty {
-</string>
-				<key>trailing</key>
-				<string>                    view?.showAlertWithTitle(Constants.alertTitleNoArticlesFound, text: Constants.alertTextNoArticlesFound)
-                } else {
-                    state.setupNews(with: news)
-</string>
-			</dict>
-			<key>type</key>
-			<string>bookmark</string>
 		</dict>
 	</array>
 </dict>

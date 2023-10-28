@@ -63,7 +63,7 @@ extension FeedPresenter: FeedOutput {
     }
 
     func didTapOnCell(at indexPath: IndexPath) {
-        let articleImageData = view?.getImageData(at: indexPath)
+        let articleImageData = view?.getImageData(for: indexPath)
         var article = state.getArticle(at: indexPath)
         article.imageData = articleImageData
         view?.showArticle(article)
