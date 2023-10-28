@@ -38,6 +38,11 @@ final class SavedNewsViewController: UIViewController {
         setupDataSource()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateSnapshot()
+    }
+
     private func setupCollectionView() {
         savedNewsCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: savedNewsLayout)
         savedNewsCollectionView.delegate = self
@@ -52,7 +57,7 @@ final class SavedNewsViewController: UIViewController {
         ])
     }
 
-    func setupDataSource() {
+    private func setupDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<SavedNewsCell, Article> { cell, _, article in
             let cellDisplayData = CellDisplayData(title: article.title,
                                                   description: article.description,
@@ -61,14 +66,16 @@ final class SavedNewsViewController: UIViewController {
                                                   imageData: article.imageData)
             cell.configure(with: cellDisplayData)
         }
-
         dataSource = DataSource(collectionView: savedNewsCollectionView) { collectionView, indexPath, article in
             collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: article)
         }
+        updateSnapshot()
+    }
 
+    private func updateSnapshot() {
         var snapshot = Snapshot()
         snapshot.appendSections([Section.main])
-        snapshot.appendItems(DataManager.shared.getSavedArticles()!)
+        snapshot.appendItems(DataManager.shared.getSavedArticles()?.reversed() ?? [])
         dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
