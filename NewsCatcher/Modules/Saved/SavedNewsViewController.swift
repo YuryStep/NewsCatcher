@@ -25,8 +25,8 @@ final class SavedNewsViewController: UIViewController {
     private var dataSource: DataSource!
 
     private lazy var savedNewsLayout: UICollectionViewCompositionalLayout = {
-        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .grouped) // TODO: Check other appearances
-        listConfiguration.backgroundColor = .white
+        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
+        listConfiguration.backgroundColor = UIColor(resource: .ncBackground)
         let layout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
         return layout
     }()
@@ -34,6 +34,7 @@ final class SavedNewsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = Constants.navigationItemTitle
+        view.backgroundColor = UIColor(resource: .ncBackground)
         setupCollectionView()
         setupDataSource()
     }
@@ -46,8 +47,8 @@ final class SavedNewsViewController: UIViewController {
     private func setupCollectionView() {
         savedNewsCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: savedNewsLayout)
         savedNewsCollectionView.delegate = self
-        view.addSubview(savedNewsCollectionView)
         savedNewsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(savedNewsCollectionView)
 
         NSLayoutConstraint.activate([
             savedNewsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),

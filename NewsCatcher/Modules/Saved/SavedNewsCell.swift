@@ -8,8 +8,6 @@
 import UIKit
 
 final class SavedNewsCell: UICollectionViewCell {
-    var article: Article?
-
     struct DisplayData {
         let title: String
         let description: String
@@ -19,30 +17,30 @@ final class SavedNewsCell: UICollectionViewCell {
     }
 
     private enum Constants {
-        static let systemSpacingMultiplier: CGFloat = 1
-        static let maxDataAndSourceHeight: CGFloat = 32
-        static let maxTitleHeight: CGFloat = 200
-        static let maxDescriptionHeight: CGFloat = 200
+        static let defaultImageRatio: CGFloat = 0.562
         static let placeholderImageName: String = "noImageIcon"
         static let dateAndSourceLabelText = " Source: "
-        static let imageHeightRatio: CGFloat = 0.562
     }
 
-    private lazy var articleImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
+    private var imageRatio: CGFloat {
+        guard let image = articleImageView.image else { return Constants.defaultImageRatio }
+        return image.size.height / image.size.width
+    }
 
     private lazy var dateAndSourceLabel = UILabel(textStyle: .footnote)
     private lazy var titleLabel = UILabel(textStyle: .title2)
     private lazy var descriptionLabel = UILabel(textStyle: .body)
-    private lazy var loadingIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView()
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.hidesWhenStopped = true
-        return indicator
+
+    private lazy var articleImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+
+    private lazy var imageContainer: UIView = {
+        let container = UIView()
+        container.translatesAutoresizingMaskIntoConstraints = false
+        return container
     }()
 
     @available(*, unavailable)
@@ -52,71 +50,51 @@ final class SavedNewsCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupSubviews()
         backgroundColor = UIColor(resource: .ncBackground)
     }
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        clearPreviousConfiguration()
-    }
-
     func configure(with displayData: DisplayData) {
-        loadingIndicator.startAnimating()
         titleLabel.text = displayData.title
         descriptionLabel.text = displayData.description
         dateAndSourceLabel.text = displayData.publishedAt + Constants.dateAndSourceLabelText + displayData.sourceName
         setImage(displayData.imageData)
+        setupSubviews()
     }
 
     private func setImage(_ imageData: Data?) {
-        loadingIndicator.stopAnimating()
-        guard let imageData = imageData, let image = UIImage(data: imageData) else {
+        if let imageData = imageData, let image = UIImage(data: imageData) {
+            articleImageView.image = image
+        } else {
             articleImageView.image = UIImage(named: Constants.placeholderImageName)
-            return
         }
-        articleImageView.image = image
     }
 
-    private lazy var imageContainer: UIView = {
-        let container = UIImageView()
-        container.translatesAutoresizingMaskIntoConstraints = false
-        return container
-    }()
-
-    private func clearPreviousConfiguration() {
-        articleImageView.image = nil
-        titleLabel.text = nil
-        descriptionLabel.text = nil
-        dateAndSourceLabel.text = nil
+    func getImageData() -> Data? {
+        if let jpegImage = articleImageView.image?.jpegData(compressionQuality: 1) {
+            return jpegImage
+        }
+        return articleImageView.image?.pngData()
     }
 
     private func setupSubviews() {
-        imageContainer.addSubviews([loadingIndicator, articleImageView])
+        imageContainer.addSubview(articleImageView)
         contentView.addSubviews([imageContainer, dateAndSourceLabel, titleLabel, descriptionLabel])
 
-        let imageContainerConstraints = [
+        descriptionLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+
+        NSLayoutConstraint.activate([
             articleImageView.centerXAnchor.constraint(equalTo: imageContainer.centerXAnchor),
             articleImageView.centerYAnchor.constraint(equalTo: imageContainer.centerYAnchor),
-            articleImageView.widthAnchor.constraint(lessThanOrEqualTo: imageContainer.widthAnchor, multiplier: 1),
-            articleImageView.heightAnchor.constraint(lessThanOrEqualTo: imageContainer.heightAnchor, multiplier: 1),
+            articleImageView.widthAnchor.constraint(equalTo: imageContainer.widthAnchor, multiplier: 1),
+            articleImageView.heightAnchor.constraint(equalTo: imageContainer.heightAnchor, multiplier: 1),
 
-            loadingIndicator.centerXAnchor.constraint(equalTo: imageContainer.centerXAnchor),
-            loadingIndicator.centerYAnchor.constraint(equalTo: imageContainer.centerYAnchor)
-        ]
-
-        dateAndSourceLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        titleLabel.setContentHuggingPriority(.defaultHigh - 1, for: .vertical)
-
-        let generalConstraints = [
             imageContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             imageContainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-
             imageContainer.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1),
-            imageContainer.heightAnchor.constraint(equalTo: imageContainer.widthAnchor, multiplier: Constants.imageHeightRatio),
+            imageContainer.heightAnchor.constraint(equalTo: imageContainer.widthAnchor, multiplier: imageRatio),
 
             dateAndSourceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            dateAndSourceLabel.topAnchor.constraint(equalTo: imageContainer.bottomAnchor, constant: 8),
+            dateAndSourceLabel.topAnchor.constraint(equalTo: articleImageView.bottomAnchor, constant: 8),
             dateAndSourceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
 
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
@@ -127,9 +105,6 @@ final class SavedNewsCell: UICollectionViewCell {
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
-        ]
-
-        NSLayoutConstraint.activate(imageContainerConstraints)
-        NSLayoutConstraint.activate(generalConstraints)
+        ])
     }
 }

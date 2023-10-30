@@ -134,7 +134,7 @@
     }
 </string>
 						<key>trailing</key>
-						<string>    var imageHeightRatio: CGFloat = 0.562
+						<string>    var imageRatio: CGFloat = 0.562
 
     private lazy var dateAndSourceLabel = UILabel(textStyle: .footnote)
 </string>
@@ -262,14 +262,14 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>appearances</string>
+						<string></string>
 						<key>leading</key>
 						<string>
     private lazy var savedNewsLayout: UICollectionViewCompositionalLayout = {
-        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .grouped) // TODO: Check other </string>
+        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)</string>
 						<key>trailing</key>
 						<string>
-        listConfiguration.backgroundColor = .white
+        listConfiguration.backgroundColor = UIColor(resource: .ncBackground)
         let layout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
 </string>
 					</dict>

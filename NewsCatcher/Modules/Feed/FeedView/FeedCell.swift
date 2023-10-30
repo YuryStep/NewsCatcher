@@ -21,7 +21,7 @@ final class FeedCell: UITableViewCell {
         static let dateAndSourceLabelText = " Source: "
     }
 
-    var imageHeightRatio: CGFloat = 0.562
+    var imageRatio: CGFloat = 0.562
 
     private lazy var dateAndSourceLabel = UILabel(textStyle: .footnote)
     private lazy var titleLabel = UILabel(textStyle: .title2)
@@ -35,7 +35,7 @@ final class FeedCell: UITableViewCell {
     }()
 
     private lazy var imageContainer: UIView = {
-        let container = UIImageView()
+        let container = UIView()
         container.translatesAutoresizingMaskIntoConstraints = false
         return container
     }()
@@ -77,7 +77,7 @@ final class FeedCell: UITableViewCell {
             return
         }
         articleImageView.image = fetchedImage
-        imageHeightRatio = fetchedImage.size.height / fetchedImage.size.width
+        imageRatio = fetchedImage.size.height / fetchedImage.size.width
     }
 
     func getImageData() -> Data? {
@@ -99,7 +99,7 @@ final class FeedCell: UITableViewCell {
         imageContainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
 
         imageContainer.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1),
-        imageContainer.heightAnchor.constraint(equalTo: imageContainer.widthAnchor, multiplier: imageHeightRatio),
+        imageContainer.heightAnchor.constraint(equalTo: imageContainer.widthAnchor, multiplier: imageRatio),
 
         dateAndSourceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
         dateAndSourceLabel.topAnchor.constraint(equalTo: imageContainer.bottomAnchor, constant: 8),
