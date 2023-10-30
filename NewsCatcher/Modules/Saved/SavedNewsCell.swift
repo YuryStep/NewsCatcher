@@ -17,14 +17,7 @@ final class SavedNewsCell: UICollectionViewCell {
     }
 
     private enum Constants {
-        static let defaultImageRatio: CGFloat = 0.562
-        static let placeholderImageName: String = "noImageIcon"
         static let dateAndSourceLabelText = " Source: "
-    }
-
-    private var imageRatio: CGFloat {
-        guard let image = articleImageView.image else { return Constants.defaultImageRatio }
-        return image.size.height / image.size.width
     }
 
     private lazy var dateAndSourceLabel = UILabel(textStyle: .footnote)
@@ -35,12 +28,6 @@ final class SavedNewsCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
-    }()
-
-    private lazy var imageContainer: UIView = {
-        let container = UIView()
-        container.translatesAutoresizingMaskIntoConstraints = false
-        return container
     }()
 
     @available(*, unavailable)
@@ -63,9 +50,10 @@ final class SavedNewsCell: UICollectionViewCell {
 
     private func setImage(_ imageData: Data?) {
         if let imageData = imageData, let image = UIImage(data: imageData) {
-            articleImageView.image = image
+            let resizedImage = image.resizeToScreenWidth()
+            articleImageView.image = resizedImage
         } else {
-            articleImageView.image = UIImage(named: Constants.placeholderImageName)
+            articleImageView.image = UIImage(resource: .noImageIcon)
         }
     }
 
@@ -77,21 +65,12 @@ final class SavedNewsCell: UICollectionViewCell {
     }
 
     private func setupSubviews() {
-        imageContainer.addSubview(articleImageView)
-        contentView.addSubviews([imageContainer, dateAndSourceLabel, titleLabel, descriptionLabel])
-
+        contentView.addSubviews([articleImageView, dateAndSourceLabel, titleLabel, descriptionLabel])
         descriptionLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
 
         NSLayoutConstraint.activate([
-            articleImageView.centerXAnchor.constraint(equalTo: imageContainer.centerXAnchor),
-            articleImageView.centerYAnchor.constraint(equalTo: imageContainer.centerYAnchor),
-            articleImageView.widthAnchor.constraint(equalTo: imageContainer.widthAnchor, multiplier: 1),
-            articleImageView.heightAnchor.constraint(equalTo: imageContainer.heightAnchor, multiplier: 1),
-
-            imageContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            imageContainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            imageContainer.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1),
-            imageContainer.heightAnchor.constraint(equalTo: imageContainer.widthAnchor, multiplier: imageRatio),
+            articleImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            articleImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
 
             dateAndSourceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             dateAndSourceLabel.topAnchor.constraint(equalTo: articleImageView.bottomAnchor, constant: 8),
