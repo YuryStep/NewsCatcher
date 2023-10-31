@@ -19,23 +19,17 @@ final class ArticleView: UIView {
         let publishedAt: String
         let sourceName: String
         let imageData: Data?
+        let isSaved: Bool
     }
 
     private enum Constants {
         static let buttonCornerRadius: CGFloat = 10
-        static let defaultImageRatio: CGFloat = 0.562
-        static let placeholderImageName = "noImageIcon"
         static let readInSourceButtonTitle = "Read in Source"
         static let readLaterButtonTitle = "Read Later"
         static let dateAndSourceLabelText = " Source: "
     }
 
     weak var delegate: ArticleViewDelegate?
-
-    private var imageRatio: CGFloat {
-        guard let image = articleImageView.image else { return Constants.defaultImageRatio }
-        return image.size.height / image.size.width
-    }
 
     private lazy var dateAndSourceLabel = UILabel(textStyle: .footnote)
     private lazy var titleLabel = UILabel(textStyle: .headline)
@@ -70,8 +64,6 @@ final class ArticleView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = Constants.buttonCornerRadius
         button.backgroundColor = UIColor(resource: .ncSaveButtonBackground)
-        button.setTitleColor(UIColor(resource: .ncAccent), for: .normal)
-        button.setTitle(Constants.readLaterButtonTitle, for: .normal)
         button.addTarget(self, action: #selector(readLaterButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -91,11 +83,22 @@ final class ArticleView: UIView {
         dateAndSourceLabel.text = displayData.publishedAt + Constants.dateAndSourceLabelText + displayData.sourceName
         contentLabel.text = displayData.content
         setImage(displayData.imageData)
+        setSaveButtonAppearance(style: displayData.isSaved)
         setupSubviews()
     }
 
     @objc func readInSourceButtonTapped() {
         delegate?.readInSourceButtonTapped()
+    }
+
+    func setSaveButtonAppearance(style isSaved: Bool) {
+        if isSaved {
+            saveButton.setTitleColor(.systemRed, for: .normal)
+            saveButton.setTitle("Delete from Saved", for: .normal)
+        } else {
+            saveButton.setTitleColor(UIColor(resource: .ncAccent), for: .normal)
+            saveButton.setTitle(Constants.readLaterButtonTitle, for: .normal)
+        }
     }
 
     @objc func readLaterButtonTapped() {
@@ -104,9 +107,11 @@ final class ArticleView: UIView {
 
     private func setImage(_ imageData: Data?) {
         if let imageData = imageData, let image = UIImage(data: imageData) {
-            articleImageView.image = image
+            let resizedImage = image.resizeToScreenWidth()
+            articleImageView.image = resizedImage
         } else {
-            articleImageView.image = UIImage(named: Constants.placeholderImageName)
+            let placeholderImage = UIImage(resource: .noImageIcon).resizeToScreenWidth()
+            articleImageView.image = placeholderImage
         }
     }
 
@@ -124,10 +129,8 @@ final class ArticleView: UIView {
             scrollViewFrameGuide.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor),
             scrollViewFrameGuide.widthAnchor.constraint(equalTo: scrollViewContentGuide.widthAnchor),
 
-            articleImageView.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
             articleImageView.topAnchor.constraint(equalTo: scrollViewContentGuide.topAnchor, constant: 8),
-            articleImageView.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
-            articleImageView.heightAnchor.constraint(equalTo: articleImageView.widthAnchor, multiplier: imageRatio),
+            articleImageView.centerXAnchor.constraint(equalTo: scrollViewContentGuide.centerXAnchor),
 
             dateAndSourceLabel.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
             dateAndSourceLabel.topAnchor.constraint(equalTo: articleImageView.bottomAnchor, constant: 8),

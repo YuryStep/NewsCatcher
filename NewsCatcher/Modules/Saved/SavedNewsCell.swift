@@ -53,7 +53,8 @@ final class SavedNewsCell: UICollectionViewCell {
             let resizedImage = image.resizeToScreenWidth()
             articleImageView.image = resizedImage
         } else {
-            articleImageView.image = UIImage(resource: .noImageIcon)
+            let placeholderImage = UIImage(resource: .noImageIcon).resizeToScreenWidth()
+            articleImageView.image = placeholderImage
         }
     }
 

@@ -60,13 +60,13 @@
 							<key>EndingColumnNumber</key>
 							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>56</string>
+							<string>62</string>
 							<key>StartingColumnNumber</key>
 							<string>0</string>
 							<key>StartingLineNumber</key>
-							<string>55</string>
+							<string>61</string>
 							<key>Timestamp</key>
-							<string>720130722.857432</string>
+							<string>720434839.4895999</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -105,13 +105,13 @@
 							<key>EndingColumnNumber</key>
 							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>23</string>
+							<string>22</string>
 							<key>StartingColumnNumber</key>
 							<string>0</string>
 							<key>StartingLineNumber</key>
 							<string>22</string>
 							<key>Timestamp</key>
-							<string>720103428.460197</string>
+							<string>720369661.965894</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -127,16 +127,15 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>
-</string>
+						<string></string>
 						<key>leading</key>
 						<string>        static let dateAndSourceLabelText = " Source: "
     }
 </string>
 						<key>trailing</key>
-						<string>    var imageRatio: CGFloat = 0.562
-
+						<string>
     private lazy var dateAndSourceLabel = UILabel(textStyle: .footnote)
+    private lazy var titleLabel = UILabel(textStyle: .title2)
 </string>
 					</dict>
 					<key>type</key>
@@ -195,13 +194,13 @@
 							<key>EndingColumnNumber</key>
 							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>87</string>
+							<string>88</string>
 							<key>StartingColumnNumber</key>
 							<string>0</string>
 							<key>StartingLineNumber</key>
-							<string>86</string>
+							<string>87</string>
 							<key>Timestamp</key>
-							<string>720162492.446847</string>
+							<string>720431142.610647</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>

@@ -24,7 +24,7 @@ struct Article: Codable, Hashable, Identifiable {
         case imageData
     }
 
-    let id = UUID()
+    var id: String { urlString }
     let title: String
     let description: String
     let content: String
@@ -33,13 +33,14 @@ struct Article: Codable, Hashable, Identifiable {
     let publishedAt: String
     let source: Source
     var imageData: Data?
+    var isSavedInLocalStorage: Bool = false
 
     static func == (lhs: Article, rhs: Article) -> Bool {
-        lhs.id == rhs.id
+        lhs.urlString == rhs.urlString
     }
 
     func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+        hasher.combine(urlString)
     }
 }
 

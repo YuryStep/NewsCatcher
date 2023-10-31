@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ArticleInput: AnyObject {
-    func setupArticleView(with: ArticleView.DisplayData)
+    func configureArticleView(with: ArticleView.DisplayData)
     func openWebArticle(sourceURL: URL)
 }
 
@@ -65,7 +65,7 @@ extension ArticleViewController: ArticleViewDelegate {
 }
 
 extension ArticleViewController: ArticleInput {
-    func setupArticleView(with displayData: ArticleView.DisplayData) {
+    func configureArticleView(with displayData: ArticleView.DisplayData) {
         articleView.configure(with: displayData)
     }
 

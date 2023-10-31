@@ -9,28 +9,28 @@ import Foundation
 
 final class ArticlePresenter {
     private struct State {
-        private(set) var article: Article
-
-        init(_ article: Article) {
-            self.article = article
-        }
+        var article: Article
     }
 
     private weak var view: ArticleInput?
     private var dataManager: AppDataManager
     private var state: State
 
+    private var storageContainsCurrentArticle: Bool {
+        let storedArticles = dataManager.getSavedArticles() ?? []
+        return storedArticles.contains(state.article)
+    }
+
     init(view: ArticleInput, article: Article, dataManager: AppDataManager) {
         self.view = view
-        state = State(article)
+        state = State(article: article)
         self.dataManager = dataManager
     }
 }
 
 extension ArticlePresenter: ArticleOutput {
     func viewDidLoad() {
-        let displayData = getDisplayDataForCurrentState()
-        view?.setupArticleView(with: displayData)
+        updateArticleView()
     }
 
     func didReceiveMemoryWarning() {
@@ -44,12 +44,18 @@ extension ArticlePresenter: ArticleOutput {
     }
 
     func readLaterButtonTapped() {
-        // TODO: Make switch check weather article is saved or not. And then save it or delete
-        dataManager.saveArticle(state.article)
+        if state.article.isSavedInLocalStorage {
+            dataManager.removeArticle(state.article)
+        } else {
+            dataManager.saveArticle(state.article)
+        }
+        updateArticleView()
     }
 
-    private func getDisplayDataForCurrentState() -> ArticleView.DisplayData {
-        return ArticleView.DisplayData(state.article)
+    private func updateArticleView() {
+        state.article.isSavedInLocalStorage = storageContainsCurrentArticle
+        let displayData = ArticleView.DisplayData(state.article)
+        view?.configureArticleView(with: displayData)
     }
 
     private func handleError(_ error: NetworkError) {
@@ -61,12 +67,13 @@ extension ArticlePresenter: ArticleOutput {
     }
 }
 
-fileprivate extension ArticleView.DisplayData {
+private extension ArticleView.DisplayData {
     init(_ article: Article) {
         title = article.title
         content = article.content
         publishedAt = article.publishedAt.dayAndTimeText()
         sourceName = article.source.name
         imageData = article.imageData
+        isSaved = article.isSavedInLocalStorage
     }
 }

@@ -1,5 +1,5 @@
 //
-//  CacheService.swift
+//  PersistenceService.swift
 //  NewsCatcher
 //
 //  Created by Юрий Степанчук on 02.09.2023.
@@ -64,17 +64,18 @@ final class PersistenceService: AppPersistenceService {
     }
 
     func saveArticle(_ article: Article, forKey key: String) {
-        var articles = getSavedArticles(forKey: key) ?? [] // TODO: Load sample Data here if needed
-        articles.append(article)
-        if let encodedArticles = try? JSONEncoder().encode(articles) {
+        var savedArticles = getSavedArticles(forKey: key) ?? []
+        guard !savedArticles.contains(where: { $0.urlString == article.urlString }) else { return }
+        savedArticles.append(article)
+        if let encodedArticles = try? JSONEncoder().encode(savedArticles) {
             UserDefaults.standard.set(encodedArticles, forKey: key)
         }
     }
 
     func removeArticle(_ article: Article, forKey key: String) {
-        var articles = getSavedArticles(forKey: key) ?? []
-        articles = articles.filter { $0.urlString != article.urlString }
-        if let encodedArticles = try? JSONEncoder().encode(articles) {
+        let savedArticles = getSavedArticles(forKey: key) ?? []
+        let filteredArticles = savedArticles.filter { $0.urlString != article.urlString }
+        if let encodedArticles = try? JSONEncoder().encode(filteredArticles) {
             UserDefaults.standard.set(encodedArticles, forKey: key)
         }
     }
