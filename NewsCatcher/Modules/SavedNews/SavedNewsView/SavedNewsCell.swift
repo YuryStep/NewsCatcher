@@ -48,6 +48,13 @@ final class SavedNewsCell: UICollectionViewCell {
         setupSubviews()
     }
 
+    func getImageData() -> Data? {
+        if let jpegImage = articleImageView.image?.jpegData(compressionQuality: 1) {
+            return jpegImage
+        }
+        return articleImageView.image?.pngData()
+    }
+
     private func setImage(_ imageData: Data?) {
         if let imageData = imageData, let image = UIImage(data: imageData) {
             let resizedImage = image.resizeToScreenWidth()
@@ -56,13 +63,6 @@ final class SavedNewsCell: UICollectionViewCell {
             let placeholderImage = UIImage(resource: .noImageIcon).resizeToScreenWidth()
             articleImageView.image = placeholderImage
         }
-    }
-
-    func getImageData() -> Data? {
-        if let jpegImage = articleImageView.image?.jpegData(compressionQuality: 1) {
-            return jpegImage
-        }
-        return articleImageView.image?.pngData()
     }
 
     private func setupSubviews() {

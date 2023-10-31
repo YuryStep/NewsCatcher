@@ -5,21 +5,32 @@
 //  Created by Юрий Степанчук on 24.10.2023.
 //
 
-import Foundation
+protocol SavedNewsInput: AnyObject {
+    func showArticle(_: Article)
+}
+
+protocol SavedNewsOutput: AnyObject {
+    func getSnapshotItems() -> [Article]
+    func didTapOnCell(with: Article)
+    func didReceiveMemoryWarning()
+}
+
 import UIKit
 
 final class SavedNewsViewController: UIViewController {
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, Article>
-    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Article>
-    typealias CellDisplayData = SavedNewsCell.DisplayData
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, Article>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Article>
+    private typealias CellDisplayData = SavedNewsCell.DisplayData
 
     private enum Constants {
         static let navigationItemTitle = "Saved Articles"
     }
 
-    enum Section {
+    private enum Section {
         case main
     }
+
+    var presenter: SavedNewsOutput!
 
     private var savedNewsCollectionView: UICollectionView!
     private var dataSource: DataSource!
@@ -42,6 +53,10 @@ final class SavedNewsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateSnapshot()
+    }
+
+    override func didReceiveMemoryWarning() {
+        presenter.didReceiveMemoryWarning()
     }
 
     private func setupCollectionView() {
@@ -76,9 +91,21 @@ final class SavedNewsViewController: UIViewController {
     private func updateSnapshot() {
         var snapshot = Snapshot()
         snapshot.appendSections([Section.main])
-        snapshot.appendItems(DataManager.shared.getSavedArticles()?.reversed() ?? [])
+        snapshot.appendItems(presenter.getSnapshotItems())
         dataSource.apply(snapshot, animatingDifferences: false)
     }
 }
 
-extension SavedNewsViewController: UICollectionViewDelegate {}
+extension SavedNewsViewController: UICollectionViewDelegate {
+    func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let selectedArticle = dataSource.itemIdentifier(for: indexPath) else { return }
+        presenter.didTapOnCell(with: selectedArticle)
+    }
+}
+
+extension SavedNewsViewController: SavedNewsInput {
+    func showArticle(_ article: Article) {
+        let articleViewController = ArticleAssembly.makeModule(for: article)
+        navigationController?.pushViewController(articleViewController, animated: true)
+    }
+}
