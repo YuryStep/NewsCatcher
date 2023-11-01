@@ -70,7 +70,7 @@ final class SavedNewsCell: UICollectionViewCell {
         descriptionLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
 
         NSLayoutConstraint.activate([
-            articleImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            articleImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             articleImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
 
             dateAndSourceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),

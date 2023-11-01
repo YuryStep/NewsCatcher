@@ -95,7 +95,7 @@ final class FeedCell: UITableViewCell {
     }
 
     private lazy var generalConstraints = [
-        imageContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+        imageContainer.topAnchor.constraint(equalTo: contentView.topAnchor),
         imageContainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
 
         imageContainer.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1),

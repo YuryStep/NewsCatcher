@@ -28,6 +28,10 @@ final class SavedNewsPresenter: SavedNewsOutput {
         dataManager.getSavedArticles()?.reversed() ?? []
     }
 
+    func delete(_ articleToDelete: Article) {
+        dataManager.removeArticle(articleToDelete)
+    }
+
     func didTapOnCell(with article: Article) {
         view?.showArticle(article)
     }

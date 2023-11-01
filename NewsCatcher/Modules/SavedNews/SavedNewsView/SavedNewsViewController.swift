@@ -12,6 +12,7 @@ protocol SavedNewsInput: AnyObject {
 protocol SavedNewsOutput: AnyObject {
     func getCellDisplayData(for: Article) -> SavedNewsCell.DisplayData
     func getSnapshotItems() -> [Article]
+    func delete(_: Article)
     func didTapOnCell(with: Article)
     func didReceiveMemoryWarning()
 }
@@ -38,6 +39,7 @@ final class SavedNewsViewController: UIViewController {
 
     private lazy var savedNewsLayout: UICollectionViewCompositionalLayout = {
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
+        listConfiguration.trailingSwipeActionsConfigurationProvider = makeSwipeActions
         listConfiguration.backgroundColor = UIColor(resource: .ncBackground)
         let layout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
         return layout
@@ -45,8 +47,8 @@ final class SavedNewsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = Constants.navigationItemTitle
         view.backgroundColor = UIColor(resource: .ncBackground)
+        setupNavigationBar()
         setupCollectionView()
         setupDataSource()
     }
@@ -58,6 +60,10 @@ final class SavedNewsViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         presenter.didReceiveMemoryWarning()
+    }
+
+    private func setupNavigationBar() {
+        navigationItem.title = Constants.navigationItemTitle
     }
 
     private func setupCollectionView() {
@@ -90,6 +96,18 @@ final class SavedNewsViewController: UIViewController {
         snapshot.appendSections([Section.main])
         snapshot.appendItems(presenter.getSnapshotItems())
         dataSource.apply(snapshot, animatingDifferences: false)
+    }
+
+    private func makeSwipeActions(for indexPath: IndexPath?) -> UISwipeActionsConfiguration? {
+        guard let indexPath = indexPath, let article = dataSource.itemIdentifier(for: indexPath) else {
+            return nil
+        }
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, completion in
+            self?.presenter.delete(_: article)
+            self?.updateSnapshot()
+            completion(false)
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 }
 
