@@ -10,6 +10,7 @@ protocol SavedNewsInput: AnyObject {
 }
 
 protocol SavedNewsOutput: AnyObject {
+    func getCellDisplayData(for: Article) -> SavedNewsCell.DisplayData
     func getSnapshotItems() -> [Article]
     func didTapOnCell(with: Article)
     func didReceiveMemoryWarning()
@@ -75,12 +76,8 @@ final class SavedNewsViewController: UIViewController {
 
     private func setupDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<SavedNewsCell, Article> { cell, _, article in
-            let cellDisplayData = CellDisplayData(title: article.title,
-                                                  description: article.description,
-                                                  publishedAt: article.publishedAt,
-                                                  sourceName: article.source.name,
-                                                  imageData: article.imageData)
-            cell.configure(with: cellDisplayData)
+            let displayData = self.presenter.getCellDisplayData(for: article)
+            cell.configure(with: displayData)
         }
         dataSource = DataSource(collectionView: savedNewsCollectionView) { collectionView, indexPath, article in
             collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: article)

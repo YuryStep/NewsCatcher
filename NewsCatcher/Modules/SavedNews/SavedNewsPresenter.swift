@@ -16,8 +16,16 @@ final class SavedNewsPresenter: SavedNewsOutput {
         self.dataManager = dataManager
     }
 
+    func getCellDisplayData(for article: Article) -> SavedNewsCell.DisplayData {
+        SavedNewsCell.DisplayData(title: article.title,
+                                  description: article.description,
+                                  publishedAt: article.publishedAt.dayAndTimeText(),
+                                  sourceName: article.source.name,
+                                  imageData: article.imageData)
+    }
+
     func getSnapshotItems() -> [Article] {
-        dataManager.getSavedArticles() ?? []
+        dataManager.getSavedArticles()?.reversed() ?? []
     }
 
     func didTapOnCell(with article: Article) {
