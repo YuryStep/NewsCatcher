@@ -29,7 +29,7 @@ protocol FeedOutput: AnyObject {
     func didTapOnSearchButton(withKeyword: String)
 }
 
-final class FeedViewController: UIViewController, FeedViewDelegate {
+final class FeedViewController: UIViewController {
     private enum Constants {
         static let navigationItemTitle = "News Catcher"
         static let defaultAlertButtonText = "OK"
@@ -81,10 +81,6 @@ final class FeedViewController: UIViewController, FeedViewDelegate {
         presenter.didTapOnSettingsButton()
     }
 
-    func didPullToRefreshTableViewData() {
-        presenter.didPullToRefreshTableViewData()
-    }
-
     private func setNavigationBar() {
         navigationItem.title = Constants.navigationItemTitle
         let settingsButton = UIBarButtonItem(title: Constants.settingsButtonTitle,
@@ -100,6 +96,12 @@ final class FeedViewController: UIViewController, FeedViewDelegate {
         feedView.tableView.dataSource = self
         feedView.tableView.delegate = self
         feedView.tableView.register(FeedCell.self)
+    }
+}
+
+extension FeedViewController: FeedViewDelegate {
+    func didPullToRefreshTableViewData() {
+        presenter.didPullToRefreshTableViewData()
     }
 }
 
@@ -132,9 +134,7 @@ extension FeedViewController: FeedInput {
 
     func stopRefreshControlAnimation() {
         if let refreshControl = feedView.tableView.refreshControl, refreshControl.isRefreshing {
-            UIView.animate(withDuration: 0.3) { // TODO: Check Probably it's no needed
-                refreshControl.endRefreshing()
-            }
+            refreshControl.endRefreshing()
         }
     }
 

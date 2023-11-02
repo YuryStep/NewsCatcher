@@ -12,30 +12,6 @@ final class SettingsPresenter: SettingsOutput {
     typealias CellPosition = SettingsView.ArticleSettings.CellPosition
     typealias SearchPlaceParameter = SearchSettingsCell.Parameter
 
-    func getNumberOfSections() -> Int {
-        return SettingsSection.allCases.count
-    }
-
-    func getTitleForHeaderIn(section: Int) -> String {
-        guard let section = SettingsSection(rawValue: section) else { return "" }
-        return Constants.sectionHeaders[section.rawValue]
-    }
-
-    func getTitleForFooterIn(section: Int) -> String {
-        guard let section = SettingsSection(rawValue: section) else { return "" }
-        return Constants.sectionFooters[section.rawValue]
-    }
-
-    func getNumberOfRowsIn(section: Int) -> Int {
-        guard let section = SettingsSection(rawValue: section) else { return 0 }
-        let anyPickerIsOn = view.anyPickerIsOn()
-        let maxNumberOfArticleCells = CellPosition.allCases.count
-        switch section {
-        case .articleParameters: return anyPickerIsOn ? maxNumberOfArticleCells : maxNumberOfArticleCells - 1
-        case .searchParameters: return SearchPlaceParameter.allCases.count
-        }
-    }
-
     private enum Constants {
         static let sectionHeaders = ["Article Parameters", "Where To Search"]
         static let sectionFooters = [
@@ -97,8 +73,28 @@ final class SettingsPresenter: SettingsOutput {
         )
     }
 
-    func didTapOnCell(at _: IndexPath) {
-        // TODO: Finish with article settings logic
+    func getNumberOfSections() -> Int {
+        return SettingsSection.allCases.count
+    }
+
+    func getTitleForHeaderIn(section: Int) -> String {
+        guard let section = SettingsSection(rawValue: section) else { return "" }
+        return Constants.sectionHeaders[section.rawValue]
+    }
+
+    func getTitleForFooterIn(section: Int) -> String {
+        guard let section = SettingsSection(rawValue: section) else { return "" }
+        return Constants.sectionFooters[section.rawValue]
+    }
+
+    func getNumberOfRowsIn(section: Int) -> Int {
+        guard let section = SettingsSection(rawValue: section) else { return 0 }
+        let anyPickerIsOn = view.anyPickerIsOn()
+        let maxNumberOfArticleCells = CellPosition.allCases.count
+        switch section {
+        case .articleParameters: return anyPickerIsOn ? maxNumberOfArticleCells : maxNumberOfArticleCells - 1
+        case .searchParameters: return SearchPlaceParameter.allCases.count
+        }
     }
 
     func didReceiveMemoryWarning() {

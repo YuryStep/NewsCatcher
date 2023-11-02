@@ -18,9 +18,8 @@ final class FeedCell: UITableViewCell {
 
     private enum Constants {
         static let dateAndSourceLabelText = " Source: "
+        static let imageRatio: CGFloat = 0.562
     }
-
-    var imageRatio: CGFloat = 0.562
 
     private lazy var dateAndSourceLabel = UILabel(textStyle: .footnote)
     private lazy var titleLabel = UILabel(textStyle: .title2)
@@ -76,7 +75,6 @@ final class FeedCell: UITableViewCell {
             return
         }
         articleImageView.image = fetchedImage
-        imageRatio = fetchedImage.size.height / fetchedImage.size.width
     }
 
     func getImageData() -> Data? {
@@ -93,45 +91,39 @@ final class FeedCell: UITableViewCell {
         dateAndSourceLabel.text = nil
     }
 
-    private lazy var generalConstraints = [
-        imageContainer.topAnchor.constraint(equalTo: contentView.topAnchor),
-        imageContainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-
-        imageContainer.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1),
-        imageContainer.heightAnchor.constraint(equalTo: imageContainer.widthAnchor, multiplier: imageRatio),
-
-        dateAndSourceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-        dateAndSourceLabel.topAnchor.constraint(equalTo: imageContainer.bottomAnchor, constant: 8),
-        dateAndSourceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-
-        titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-        titleLabel.topAnchor.constraint(equalTo: dateAndSourceLabel.bottomAnchor, constant: 8),
-        titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-
-        descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-        descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-        descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-        descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
-    ]
-
     private func setupSubviews() {
         imageContainer.addSubviews([loadingIndicator, articleImageView])
         contentView.addSubviews([imageContainer, dateAndSourceLabel, titleLabel, descriptionLabel])
 
-        let imageContainerConstraints = [
+        NSLayoutConstraint.activate([
             articleImageView.centerXAnchor.constraint(equalTo: imageContainer.centerXAnchor),
             articleImageView.centerYAnchor.constraint(equalTo: imageContainer.centerYAnchor),
             articleImageView.widthAnchor.constraint(lessThanOrEqualTo: imageContainer.widthAnchor, multiplier: 1),
             articleImageView.heightAnchor.constraint(lessThanOrEqualTo: imageContainer.heightAnchor, multiplier: 1),
 
             loadingIndicator.centerXAnchor.constraint(equalTo: imageContainer.centerXAnchor),
-            loadingIndicator.centerYAnchor.constraint(equalTo: imageContainer.centerYAnchor)
-        ]
+            loadingIndicator.centerYAnchor.constraint(equalTo: imageContainer.centerYAnchor),
+
+            imageContainer.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageContainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            imageContainer.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1),
+            imageContainer.heightAnchor.constraint(equalTo: imageContainer.widthAnchor, multiplier: Constants.imageRatio),
+
+            dateAndSourceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            dateAndSourceLabel.topAnchor.constraint(equalTo: imageContainer.bottomAnchor, constant: 8),
+            dateAndSourceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            titleLabel.topAnchor.constraint(equalTo: dateAndSourceLabel.bottomAnchor, constant: 8),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+
+            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
+        ])
 
         dateAndSourceLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
         titleLabel.setContentHuggingPriority(.defaultHigh - 1, for: .vertical)
-
-        NSLayoutConstraint.activate(imageContainerConstraints)
-        NSLayoutConstraint.activate(generalConstraints)
     }
 }

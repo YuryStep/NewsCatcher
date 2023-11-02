@@ -15,7 +15,6 @@ protocol SettingsInput: AnyObject {
 
 protocol SettingsOutput: AnyObject {
     func getSettingsDisplayData() -> SettingsView.DisplayData
-    func didTapOnCell(at indexPath: IndexPath)
     func didReceiveMemoryWarning()
     func didTapOnSaveButton()
     func didTapOnCancelButton()
@@ -35,11 +34,13 @@ final class SettingsViewController: UIViewController {
 
     private enum Constants {
         static let navigationItemTitle = "Request Settings"
+        static let cancelButtonTitle = "Cancel"
+        static let saveButtonTitle = "Save"
     }
 
     private var settingsView: SettingsView!
+    private var presenter: SettingsOutput!
     var displayData: DisplayData!
-    var presenter: SettingsOutput!
 
     init(presenter: SettingsOutput) {
         super.init(nibName: nil, bundle: nil)
@@ -82,14 +83,14 @@ final class SettingsViewController: UIViewController {
 
     private func setNavigationBar() {
         navigationItem.title = Constants.navigationItemTitle
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonTapped))
-        let saveButton = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveButtonTapped))
+        let cancelButton = UIBarButtonItem(title: Constants.cancelButtonTitle,
+                                           style: .plain, target: self, action: #selector(cancelButtonTapped))
+        let saveButton = UIBarButtonItem(title: Constants.saveButtonTitle,
+                                         style: .done, target: self, action: #selector(saveButtonTapped))
         navigationItem.leftBarButtonItem = cancelButton
         navigationItem.rightBarButtonItem = saveButton
     }
 }
-
-// MARK: SettingsInput
 
 extension SettingsViewController: SettingsInput {
     func anyPickerIsOn() -> Bool {
@@ -104,8 +105,6 @@ extension SettingsViewController: SettingsInput {
         dismiss(animated: true, completion: nil)
     }
 }
-
-// MARK: TableView DataSource
 
 extension SettingsViewController: UITableViewDataSource {
     func numberOfSections(in _: UITableView) -> Int {
@@ -207,8 +206,6 @@ extension SettingsViewController: UITableViewDataSource {
         return cell
     }
 }
-
-// MARK: TableView Delegate
 
 extension SettingsViewController: UITableViewDelegate {
     func tableView(_: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {

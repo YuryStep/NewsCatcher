@@ -96,9 +96,6 @@ struct SearchSettings: Codable {
         static let descriptionSortQueryParameter = "description"
     }
 
-//    let availableCountries: [Country] = Country.allCases
-//    let availableLanguages: [Language] = Language.allCases
-
     var articleLanguage: Language
     var publicationCountry: Country
     var searchInTitlesIsOn: Bool

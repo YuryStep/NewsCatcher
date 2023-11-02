@@ -57,14 +57,6 @@ extension ArticlePresenter: ArticleOutput {
         let displayData = ArticleView.DisplayData(state.article)
         view?.configureArticleView(with: displayData)
     }
-
-    private func handleError(_ error: NetworkError) {
-        // TODO: Create error handling cases
-        switch error {
-        default:
-            debugPrint(error.localizedDescription)
-        }
-    }
 }
 
 private extension ArticleView.DisplayData {

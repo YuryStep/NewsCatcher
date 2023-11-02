@@ -115,7 +115,6 @@ extension FeedPresenter: FeedOutput {
             switch result {
             case let .success(news):
                 if news.isEmpty {
-                    // TODO: Optional: Change it from alert to view with text in the center instead of FeedTable
                     view?.showAlertWithTitle(Constants.alertTitleNoArticlesFound, text: Constants.alertTextNoArticlesFound)
                 } else {
                     state.setupNews(with: news)
