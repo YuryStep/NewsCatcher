@@ -22,7 +22,7 @@ final class FeedCell: UITableViewCell {
     }
 
     private lazy var dateAndSourceLabel = UILabel(textStyle: .footnote)
-    private lazy var titleLabel = UILabel(textStyle: .title2)
+    private lazy var titleLabel: UILabel = .init(textStyle: .title2)
     private lazy var descriptionLabel = UILabel(textStyle: .body)
 
     private lazy var loadingIndicator: UIActivityIndicatorView = {
@@ -118,9 +118,9 @@ final class FeedCell: UITableViewCell {
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
 
             descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
             descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
+            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24)
         ])
 
         dateAndSourceLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
