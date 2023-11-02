@@ -40,14 +40,14 @@ final class SavedNewsViewController: UIViewController {
     private lazy var savedNewsLayout: UICollectionViewCompositionalLayout = {
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
         listConfiguration.trailingSwipeActionsConfigurationProvider = makeSwipeActions
-        listConfiguration.backgroundColor = UIColor(resource: .ncBackground)
+        listConfiguration.backgroundColor = .appBackground
         let layout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
         return layout
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(resource: .ncBackground)
+        view.backgroundColor = .appBackground
         setupNavigationBar()
         setupCollectionView()
         setupDataSource()

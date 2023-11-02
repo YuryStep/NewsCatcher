@@ -39,7 +39,7 @@ final class WebArticleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         webView.navigationDelegate = self
-        view.backgroundColor = UIColor(resource: .ncBackground)
+        view.backgroundColor = .appBackground
         setupView()
     }
 

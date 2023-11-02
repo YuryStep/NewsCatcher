@@ -57,8 +57,8 @@ final class SettingsView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor(resource: .ncBackground)
-        tableView.backgroundColor = UIColor(resource: .ncBackground)
+        backgroundColor = .appBackground
+        tableView.backgroundColor = .appBackground
         setupSubviews()
     }
 

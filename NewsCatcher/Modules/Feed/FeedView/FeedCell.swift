@@ -17,7 +17,6 @@ final class FeedCell: UITableViewCell {
     }
 
     private enum Constants {
-        static let placeholderImageName: String = "noImageIcon"
         static let dateAndSourceLabelText = " Source: "
     }
 
@@ -55,7 +54,7 @@ final class FeedCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier _: String?) {
         super.init(style: style, reuseIdentifier: FeedCell.reuseIdentifier)
         setupSubviews()
-        backgroundColor = UIColor(resource: .ncBackground)
+        backgroundColor = .appBackground
     }
 
     override func prepareForReuse() {
@@ -73,7 +72,7 @@ final class FeedCell: UITableViewCell {
     func setImage(_ imageData: Data?) {
         loadingIndicator.stopAnimating()
         guard let imageData = imageData, let fetchedImage = UIImage(data: imageData) else {
-            articleImageView.image = UIImage(named: Constants.placeholderImageName)
+            articleImageView.image = .noImageIcon
             return
         }
         articleImageView.image = fetchedImage

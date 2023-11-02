@@ -20,7 +20,7 @@ final class FeedView: UIView {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.estimatedRowHeight = 600
         tableView.separatorInset = UIEdgeInsets.zero
-        tableView.backgroundColor = UIColor(resource: .ncBackground)
+        tableView.backgroundColor = .appBackground
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(didPullToRefreshTableViewData), for: .valueChanged)
         tableView.refreshControl = refreshControl
@@ -36,7 +36,7 @@ final class FeedView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor(resource: .ncBackground)
+        backgroundColor = .appBackground
         setupSubviews()
     }
 

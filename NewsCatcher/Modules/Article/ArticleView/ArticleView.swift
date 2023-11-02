@@ -25,7 +25,8 @@ final class ArticleView: UIView {
     private enum Constants {
         static let buttonCornerRadius: CGFloat = 10
         static let readInSourceButtonTitle = "Read in Source"
-        static let readLaterButtonTitle = "Read Later"
+        static let saveButtonTitleNormal = "Read Later"
+        static let saveButtonTitleDestructive = "Delete from Saved"
         static let dateAndSourceLabelText = " Source: "
     }
 
@@ -51,8 +52,8 @@ final class ArticleView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = Constants.buttonCornerRadius
-        button.backgroundColor = UIColor(resource: .ncAccent)
-        button.setTitleColor(UIColor(resource: .ncBackground), for: .normal)
+        button.backgroundColor = .appAccent
+        button.setTitleColor(.appBackground, for: .normal)
         button.setTitle(Constants.readInSourceButtonTitle, for: .normal)
         button.layer.cornerRadius = Constants.buttonCornerRadius
         button.addTarget(self, action: #selector(readInSourceButtonTapped), for: .touchUpInside)
@@ -63,7 +64,7 @@ final class ArticleView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = Constants.buttonCornerRadius
-        button.backgroundColor = UIColor(resource: .ncSaveButtonBackground)
+        button.backgroundColor = .appSaveButtonBackground
         button.addTarget(self, action: #selector(readLaterButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -75,7 +76,7 @@ final class ArticleView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor(resource: .ncBackground)
+        backgroundColor = .appBackground
     }
 
     func configure(with displayData: DisplayData) {
@@ -93,11 +94,11 @@ final class ArticleView: UIView {
 
     func setSaveButtonAppearance(style isSaved: Bool) {
         if isSaved {
-            saveButton.setTitleColor(.systemRed, for: .normal)
-            saveButton.setTitle("Delete from Saved", for: .normal)
+            saveButton.setTitleColor(.appDestructiveAction, for: .normal)
+            saveButton.setTitle(Constants.saveButtonTitleDestructive, for: .normal)
         } else {
-            saveButton.setTitleColor(UIColor(resource: .ncAccent), for: .normal)
-            saveButton.setTitle(Constants.readLaterButtonTitle, for: .normal)
+            saveButton.setTitleColor(.appAccent, for: .normal)
+            saveButton.setTitle(Constants.saveButtonTitleNormal, for: .normal)
         }
     }
 
@@ -107,11 +108,9 @@ final class ArticleView: UIView {
 
     private func setImage(_ imageData: Data?) {
         if let imageData = imageData, let image = UIImage(data: imageData) {
-            let resizedImage = image.resizeToScreenWidth()
-            articleImageView.image = resizedImage
+            articleImageView.image = image.resizeToScreenWidth()
         } else {
-            let placeholderImage = UIImage(resource: .noImageIcon).resizeToScreenWidth()
-            articleImageView.image = placeholderImage
+            articleImageView.image = .noImageIcon.resizeToScreenWidth()
         }
     }
 

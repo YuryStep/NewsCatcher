@@ -9,8 +9,7 @@ import UIKit
 
 final class ArticleSettingsCell: UITableViewCell {
     private lazy var titleLabel = UILabel(textStyle: .body)
-    private lazy var currentValueLabel = UILabel(textStyle: .body,
-                                                 color: UIColor(resource: .ncAccent))
+    private lazy var currentValueLabel = UILabel(textStyle: .body, color: .appAccent)
     private lazy var stack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false

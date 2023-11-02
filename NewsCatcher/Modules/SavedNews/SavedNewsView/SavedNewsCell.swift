@@ -37,7 +37,7 @@ final class SavedNewsCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor(resource: .ncBackground)
+        backgroundColor = .appBackground
     }
 
     func configure(with displayData: DisplayData) {
@@ -57,11 +57,9 @@ final class SavedNewsCell: UICollectionViewCell {
 
     private func setImage(_ imageData: Data?) {
         if let imageData = imageData, let image = UIImage(data: imageData) {
-            let resizedImage = image.resizeToScreenWidth()
-            articleImageView.image = resizedImage
+            articleImageView.image = image.resizeToScreenWidth()
         } else {
-            let placeholderImage = UIImage(resource: .noImageIcon).resizeToScreenWidth()
-            articleImageView.image = placeholderImage
+            articleImageView.image = .noImageIcon.resizeToScreenWidth()
         }
     }
 
