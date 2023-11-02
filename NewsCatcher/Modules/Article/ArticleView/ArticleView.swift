@@ -32,9 +32,9 @@ final class ArticleView: UIView {
 
     weak var delegate: ArticleViewDelegate?
 
-    private lazy var dateAndSourceLabel = UILabel(textStyle: .footnote)
-    private lazy var titleLabel = UILabel(textStyle: .headline)
-    private lazy var contentLabel = UILabel(textStyle: .body)
+    private lazy var dateAndSourceView = UITextView(textStyle: .footnote)
+    private lazy var titleView = UITextView(textStyle: .headline)
+    private lazy var contentView = UITextView(textStyle: .body)
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -80,9 +80,9 @@ final class ArticleView: UIView {
     }
 
     func configure(with displayData: DisplayData) {
-        titleLabel.text = displayData.title
-        dateAndSourceLabel.text = displayData.publishedAt + Constants.dateAndSourceLabelText + displayData.sourceName
-        contentLabel.text = displayData.content
+        titleView.text = displayData.title
+        dateAndSourceView.text = displayData.publishedAt + Constants.dateAndSourceLabelText + displayData.sourceName
+        contentView.text = displayData.content
         setImage(displayData.imageData)
         setSaveButtonAppearance(style: displayData.isSaved)
         setupSubviews()
@@ -116,40 +116,40 @@ final class ArticleView: UIView {
 
     private func setupSubviews() {
         addSubview(scrollView)
-        scrollView.addSubviews([dateAndSourceLabel, articleImageView, titleLabel, contentLabel, saveButton, readInSourceButton])
+        scrollView.addSubviews([dateAndSourceView, articleImageView, titleView, contentView, saveButton, readInSourceButton])
         let marginGuide = layoutMarginsGuide
         let scrollViewFrameGuide = scrollView.frameLayoutGuide
         let scrollViewContentGuide = scrollView.contentLayoutGuide
 
         NSLayoutConstraint.activate([
-            scrollViewFrameGuide.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
-            scrollViewFrameGuide.topAnchor.constraint(equalTo: marginGuide.topAnchor),
-            scrollViewFrameGuide.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
-            scrollViewFrameGuide.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor),
+            scrollViewFrameGuide.leadingAnchor.constraint(equalTo: leadingAnchor),
+            scrollViewFrameGuide.topAnchor.constraint(equalTo: topAnchor),
+            scrollViewFrameGuide.trailingAnchor.constraint(equalTo: trailingAnchor),
+            scrollViewFrameGuide.bottomAnchor.constraint(equalTo: bottomAnchor),
             scrollViewFrameGuide.widthAnchor.constraint(equalTo: scrollViewContentGuide.widthAnchor),
 
-            articleImageView.topAnchor.constraint(equalTo: scrollViewContentGuide.topAnchor, constant: 8),
+            articleImageView.topAnchor.constraint(equalTo: scrollViewContentGuide.topAnchor),
             articleImageView.centerXAnchor.constraint(equalTo: scrollViewContentGuide.centerXAnchor),
 
-            dateAndSourceLabel.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
-            dateAndSourceLabel.topAnchor.constraint(equalTo: articleImageView.bottomAnchor, constant: 8),
-            dateAndSourceLabel.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
+            dateAndSourceView.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor, constant: 8),
+            dateAndSourceView.topAnchor.constraint(equalTo: articleImageView.bottomAnchor),
+            dateAndSourceView.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor, constant: -8),
 
-            titleLabel.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
-            titleLabel.topAnchor.constraint(equalTo: dateAndSourceLabel.bottomAnchor, constant: 8),
-            titleLabel.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
+            titleView.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor, constant: 8),
+            titleView.topAnchor.constraint(equalTo: dateAndSourceView.bottomAnchor),
+            titleView.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor, constant: -8),
 
-            contentLabel.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
-            contentLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            contentLabel.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor, constant: 8),
+            contentView.topAnchor.constraint(equalTo: titleView.bottomAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor, constant: -8),
 
-            saveButton.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 8),
-            saveButton.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
-            saveButton.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
+            saveButton.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 8),
+            saveButton.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor, constant: 8),
+            saveButton.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor, constant: -8),
 
             readInSourceButton.topAnchor.constraint(equalTo: saveButton.bottomAnchor, constant: 8),
-            readInSourceButton.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
-            readInSourceButton.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
+            readInSourceButton.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor, constant: 8),
+            readInSourceButton.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor, constant: -8),
             readInSourceButton.bottomAnchor.constraint(equalTo: scrollViewContentGuide.bottomAnchor, constant: -8)
         ])
     }

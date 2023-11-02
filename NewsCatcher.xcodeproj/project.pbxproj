@@ -31,6 +31,7 @@
 		EF28C5262AA343DF00B68649 /* ArticleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C5252AA343DF00B68649 /* ArticleAssembly.swift */; };
 		EF2E82862AAB77FD0065F4C5 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2E82852AAB77FD0065F4C5 /* UILabel+Extensions.swift */; };
 		EF2E828D2AABA3280065F4C5 /* NewsCatcherAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2E828C2AABA3280065F4C5 /* NewsCatcherAssembly.swift */; };
+		EF3F83A92AF3C10B008A6D16 /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3F83A82AF3C10B008A6D16 /* UITextView+Extension.swift */; };
 		EF4289372AE7E7160038BFD5 /* SavedNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4289362AE7E7160038BFD5 /* SavedNewsViewController.swift */; };
 		EF42893C2AE807130038BFD5 /* SavedNewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF42893B2AE807130038BFD5 /* SavedNewsCell.swift */; };
 		EF4E320C2AB35A5A005C0E04 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4E320B2AB35A5A005C0E04 /* DataManager.swift */; };
@@ -80,6 +81,7 @@
 		EF28C5252AA343DF00B68649 /* ArticleAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleAssembly.swift; sourceTree = "<group>"; };
 		EF2E82852AAB77FD0065F4C5 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		EF2E828C2AABA3280065F4C5 /* NewsCatcherAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCatcherAssembly.swift; sourceTree = "<group>"; };
+		EF3F83A82AF3C10B008A6D16 /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
 		EF4289362AE7E7160038BFD5 /* SavedNewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedNewsViewController.swift; sourceTree = "<group>"; };
 		EF42893B2AE807130038BFD5 /* SavedNewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedNewsCell.swift; sourceTree = "<group>"; };
 		EF4E320B2AB35A5A005C0E04 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				EFB37FFE2AC4A2100046BCF7 /* UIViewController+Extension.swift */,
 				EF0138342ACD7E61002B5D78 /* UIView+Extensions.swift */,
 				EF2E82852AAB77FD0065F4C5 /* UILabel+Extensions.swift */,
+				EF3F83A82AF3C10B008A6D16 /* UITextView+Extension.swift */,
 				EF038F262AE1266400C0C37B /* UITableView+Extension.swift */,
 				EF038F282AE126A200C0C37B /* UITableViewCell+Extension.swift */,
 				EF9921E72AEFD3B500012F2B /* UIImage+Extension.swift */,
@@ -453,6 +456,7 @@
 				EF2897D92AA9DA8F00B9A335 /* WebArticleViewController.swift in Sources */,
 				EFB37FFD2AC4746B0046BCF7 /* ArticleSettingsCell.swift in Sources */,
 				EF28C5152AA1CFFC00B68649 /* News.swift in Sources */,
+				EF3F83A92AF3C10B008A6D16 /* UITextView+Extension.swift in Sources */,
 				EF28C51B2AA233F900B68649 /* FeedAssembly.swift in Sources */,
 				EFB37FF92AC440550046BCF7 /* SettingsViewController.swift in Sources */,
 				EF4E320C2AB35A5A005C0E04 /* DataManager.swift in Sources */,
