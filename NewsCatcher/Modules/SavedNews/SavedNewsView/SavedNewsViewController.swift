@@ -26,6 +26,9 @@ final class SavedNewsViewController: UIViewController {
 
     private enum Constants {
         static let navigationItemTitle = "Saved Articles"
+        static let deleteTitle = "Delete"
+        static let noArticlesLabelText = "No articles found"
+        static let noArticlesLabelFontSize: CGFloat = 18
     }
 
     private enum Section {
@@ -43,6 +46,16 @@ final class SavedNewsViewController: UIViewController {
         listConfiguration.backgroundColor = .appBackground
         let layout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
         return layout
+    }()
+
+    private lazy var noArticlesLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = Constants.noArticlesLabelText
+        label.textAlignment = .center
+        label.textColor = .gray
+        label.font = UIFont.systemFont(ofSize: Constants.noArticlesLabelFontSize)
+        return label
     }()
 
     override func viewDidLoad() {
@@ -70,9 +83,12 @@ final class SavedNewsViewController: UIViewController {
         savedNewsCollectionView = UICollectionView(frame: view.bounds, collectionViewLayout: savedNewsLayout)
         savedNewsCollectionView.delegate = self
         savedNewsCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(savedNewsCollectionView)
+        view.addSubviews([savedNewsCollectionView, noArticlesLabel])
 
         NSLayoutConstraint.activate([
+            noArticlesLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noArticlesLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+
             savedNewsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             savedNewsCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             savedNewsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -94,7 +110,15 @@ final class SavedNewsViewController: UIViewController {
     private func updateSnapshot() {
         var snapshot = Snapshot()
         snapshot.appendSections([Section.main])
-        snapshot.appendItems(presenter.getSnapshotItems())
+
+        let snapshotItems = presenter.getSnapshotItems()
+        if snapshotItems.isEmpty {
+            noArticlesLabel.isHidden = false
+        } else {
+            noArticlesLabel.isHidden = true
+            snapshot.appendItems(snapshotItems)
+        }
+
         dataSource.apply(snapshot, animatingDifferences: false)
     }
 
@@ -102,7 +126,7 @@ final class SavedNewsViewController: UIViewController {
         guard let indexPath = indexPath, let article = dataSource.itemIdentifier(for: indexPath) else {
             return nil
         }
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, completion in
+        let deleteAction = UIContextualAction(style: .destructive, title: Constants.deleteTitle) { [weak self] _, _, completion in
             self?.presenter.delete(_: article)
             self?.updateSnapshot()
             completion(false)
