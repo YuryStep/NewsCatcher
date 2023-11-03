@@ -23,7 +23,6 @@ final class ArticleView: UIView {
     }
 
     private enum Constants {
-        static let buttonCornerRadius: CGFloat = 10
         static let readInSourceButtonTitle = "Read in Source"
         static let saveButtonTitleNormal = "Read Later"
         static let saveButtonTitleDestructive = "Delete from Saved"
@@ -48,23 +47,17 @@ final class ArticleView: UIView {
         return imageView
     }()
 
-    private lazy var readInSourceButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = Constants.buttonCornerRadius
-        button.backgroundColor = .appAccent
-        button.setTitleColor(.appBackground, for: .normal)
+    private lazy var readInSourceButton: ArticleButton = {
+        let button = ArticleButton(backgroundColor: .appAccent)
         button.setTitle(Constants.readInSourceButtonTitle, for: .normal)
-        button.layer.cornerRadius = Constants.buttonCornerRadius
+        button.setTitleColor(.appBackground, for: .normal)
         button.addTarget(self, action: #selector(readInSourceButtonTapped), for: .touchUpInside)
         return button
     }()
 
-    private lazy var saveButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = Constants.buttonCornerRadius
-        button.backgroundColor = .appSaveButtonBackground
+    private lazy var saveButton: ArticleButton = {
+        let button = ArticleButton(backgroundColor: .appSaveButtonBackground)
+        button.setTitleColor(.appAccent, for: .normal)
         button.addTarget(self, action: #selector(readLaterButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -88,11 +81,15 @@ final class ArticleView: UIView {
         setupSubviews()
     }
 
-    @objc func readInSourceButtonTapped() {
+    @objc private func readInSourceButtonTapped() {
         delegate?.readInSourceButtonTapped()
     }
 
-    func setSaveButtonAppearance(style isSaved: Bool) {
+    @objc private func readLaterButtonTapped() {
+        delegate?.readLaterButtonTapped()
+    }
+
+    private func setSaveButtonAppearance(style isSaved: Bool) {
         if isSaved {
             saveButton.setTitleColor(.appDestructiveAction, for: .normal)
             saveButton.setTitle(Constants.saveButtonTitleDestructive, for: .normal)
@@ -100,10 +97,6 @@ final class ArticleView: UIView {
             saveButton.setTitleColor(.appAccent, for: .normal)
             saveButton.setTitle(Constants.saveButtonTitleNormal, for: .normal)
         }
-    }
-
-    @objc func readLaterButtonTapped() {
-        delegate?.readLaterButtonTapped()
     }
 
     private func setImage(_ imageData: Data?) {

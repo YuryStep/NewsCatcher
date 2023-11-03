@@ -15,6 +15,7 @@
 		EF0C27E12AB0BD7600F546BF /* .swiftformat in Resources */ = {isa = PBXBuildFile; fileRef = EF0C27E02AB0BD7600F546BF /* .swiftformat */; };
 		EF0C92FD2AF103A900864F1C /* SavedNewsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0C92FC2AF103A900864F1C /* SavedNewsAssembly.swift */; };
 		EF0C93002AF1071300864F1C /* SavedNewsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0C92FF2AF1071300864F1C /* SavedNewsPresenter.swift */; };
+		EF0DB2332AF441670050679F /* ArticleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0DB2322AF441670050679F /* ArticleButton.swift */; };
 		EF2897CD2AA7210000B9A335 /* APIRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2897CC2AA7210000B9A335 /* APIRequestBuilder.swift */; };
 		EF2897D12AA770F100B9A335 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2897D02AA770F100B9A335 /* String+Extensions.swift */; };
 		EF2897D52AA7720C00B9A335 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2897D42AA7720C00B9A335 /* Array+Extensions.swift */; };
@@ -65,6 +66,7 @@
 		EF0C27E02AB0BD7600F546BF /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
 		EF0C92FC2AF103A900864F1C /* SavedNewsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedNewsAssembly.swift; sourceTree = "<group>"; };
 		EF0C92FF2AF1071300864F1C /* SavedNewsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedNewsPresenter.swift; sourceTree = "<group>"; };
+		EF0DB2322AF441670050679F /* ArticleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleButton.swift; sourceTree = "<group>"; };
 		EF2897CC2AA7210000B9A335 /* APIRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestBuilder.swift; sourceTree = "<group>"; };
 		EF2897D02AA770F100B9A335 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		EF2897D42AA7720C00B9A335 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 			children = (
 				EF28C51F2AA3432700B68649 /* ArticleViewController.swift */,
 				EF28C5212AA3436000B68649 /* ArticleView.swift */,
+				EF0DB2322AF441670050679F /* ArticleButton.swift */,
 			);
 			path = ArticleView;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				EF4289372AE7E7160038BFD5 /* SavedNewsViewController.swift in Sources */,
 				EF28C5102AA0CD4600B68649 /* FeedPresenter.swift in Sources */,
 				EF28C51E2AA3146800B68649 /* PersistenceService.swift in Sources */,
+				EF0DB2332AF441670050679F /* ArticleButton.swift in Sources */,
 				EF2897D92AA9DA8F00B9A335 /* WebArticleViewController.swift in Sources */,
 				EFB37FFD2AC4746B0046BCF7 /* ArticleSettingsCell.swift in Sources */,
 				EF28C5152AA1CFFC00B68649 /* News.swift in Sources */,
