@@ -82,9 +82,9 @@ extension FeedPresenter: FeedOutput {
     }
 
     func getImageData(at indexPath: IndexPath, completion: @escaping (Data?) -> Void) {
-        let imageStringURL = state.getArticle(at: indexPath).imageStringURL
-        dataManager.getImageData(from: imageStringURL) { [weak self] result in
-            guard let self, state.getArticle(at: indexPath).imageStringURL == imageStringURL else { return }
+        let article = state.getArticle(at: indexPath)
+            dataManager.getImageData(from: article.imageStringURL) { [weak self] result in
+            guard let self, state.getArticle(at: indexPath) == article else { return }
             switch result {
             case let .success(imageData):
                 completion(imageData)

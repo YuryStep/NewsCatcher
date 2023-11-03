@@ -214,9 +214,9 @@ extension SettingsViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        settingsView.tableView.deselectRow(at: indexPath, animated: true)
         guard SettingsSection.articleParameters.rawValue == indexPath.section else { return }
         showOrHidePickerAfterTap(tableView, at: indexPath)
-        settingsView.tableView.deselectRow(at: indexPath, animated: true)
     }
 
     private func showOrHidePickerAfterTap(_ tableView: UITableView, at indexPath: IndexPath) {
