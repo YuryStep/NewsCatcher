@@ -16,20 +16,15 @@ final class ArticlePresenter {
     private var dataManager: AppDataManager
     private var state: State
 
-    private var storageContainsCurrentArticle: Bool {
-        let storedArticles = dataManager.getSavedArticles() ?? []
-        return storedArticles.contains(state.article)
-    }
-
     init(view: ArticleInput, article: Article, dataManager: AppDataManager) {
         self.view = view
-        state = State(article: article)
         self.dataManager = dataManager
+        state = State(article: article)
     }
 }
 
 extension ArticlePresenter: ArticleOutput {
-    func viewDidLoad() {
+    func viewWillAppear() {
         updateArticleView()
     }
 
@@ -44,7 +39,7 @@ extension ArticlePresenter: ArticleOutput {
     }
 
     func readLaterButtonTapped() {
-        if state.article.isSavedInLocalStorage {
+        if isArticleSaved(state.article) {
             dataManager.removeArticle(state.article)
         } else {
             dataManager.saveArticle(state.article)
@@ -53,19 +48,22 @@ extension ArticlePresenter: ArticleOutput {
     }
 
     private func updateArticleView() {
-        state.article.isSavedInLocalStorage = storageContainsCurrentArticle
-        let displayData = ArticleView.DisplayData(state.article)
+        let displayData = getDisplayDataFor(state.article)
         view?.configureArticleView(with: displayData)
     }
-}
 
-private extension ArticleView.DisplayData {
-    init(_ article: Article) {
-        title = article.title
-        content = article.content
-        publishedAt = article.publishedAt.dayAndTimeText()
-        sourceName = article.source.name
-        imageData = article.imageData
-        isSaved = article.isSavedInLocalStorage
+    private func isArticleSaved(_ article: Article) -> Bool {
+        let savedArticles = dataManager.getSavedArticles() ?? []
+        return savedArticles.contains(article)
     }
+
+    private func getDisplayDataFor(_ article: Article) -> ArticleView.DisplayData {
+        ArticleView.DisplayData(title: article.title,
+                                content: article.content,
+                                publishedAt: article.publishedAt.dayAndTimeText(),
+                                sourceName: article.source.name,
+                                imageData: article.imageData,
+                                isSaved: isArticleSaved(article))
+    }
+
 }

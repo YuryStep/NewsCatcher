@@ -33,14 +33,13 @@ struct Article: Codable, Hashable, Identifiable {
     let publishedAt: String
     let source: Source
     var imageData: Data?
-    var isSavedInLocalStorage: Bool = false
 
     static func == (lhs: Article, rhs: Article) -> Bool {
         lhs.id == rhs.id
     }
 
     func hash(into hasher: inout Hasher) {
-        hasher.combine(urlString)
+        hasher.combine(id)
     }
 }
 

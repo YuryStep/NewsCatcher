@@ -19,7 +19,7 @@ final class ArticleView: UIView {
         let publishedAt: String
         let sourceName: String
         let imageData: Data?
-        let isSaved: Bool
+        var isSaved: Bool
     }
 
     private enum Constants {

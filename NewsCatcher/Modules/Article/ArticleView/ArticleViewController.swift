@@ -13,7 +13,7 @@ protocol ArticleInput: AnyObject {
 }
 
 protocol ArticleOutput: AnyObject {
-    func viewDidLoad()
+    func viewWillAppear()
     func didReceiveMemoryWarning()
     func readInSourceButtonTapped()
     func readLaterButtonTapped()
@@ -45,7 +45,10 @@ final class ArticleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = Constants.navigationItemTitle
-        presenter.viewDidLoad()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        presenter.viewWillAppear()
     }
 
     override func didReceiveMemoryWarning() {
