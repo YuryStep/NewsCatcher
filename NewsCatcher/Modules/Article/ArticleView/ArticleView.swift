@@ -70,15 +70,15 @@ final class ArticleView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .appBackground
+        setupSubviews()
     }
 
     func configure(with displayData: DisplayData) {
         titleLabel.text = displayData.title
         dateAndSourceLabel.text = displayData.publishedAt + Constants.dateAndSourceLabelText + displayData.sourceName
         contentLabel.text = displayData.content
-        setImage(displayData.imageData)
+        setImageFrom(imageData: displayData.imageData)
         setSaveButtonAppearance(style: displayData.isSaved)
-        setupSubviews()
     }
 
     @objc private func readInSourceButtonTapped() {
@@ -99,7 +99,7 @@ final class ArticleView: UIView {
         }
     }
 
-    private func setImage(_ imageData: Data?) {
+    private func setImageFrom(imageData: Data?) {
         if let imageData = imageData, let image = UIImage(data: imageData) {
             articleImageView.image = image.resizeToScreenWidth()
         } else {

@@ -5,6 +5,8 @@
 //  Created by Юрий Степанчук on 24.10.2023.
 //
 
+import UIKit
+
 protocol SavedNewsInput: AnyObject {
     func showArticle(_: Article)
 }
@@ -16,8 +18,6 @@ protocol SavedNewsOutput: AnyObject {
     func didTapOnCell(with: Article)
     func didReceiveMemoryWarning()
 }
-
-import UIKit
 
 final class SavedNewsViewController: UIViewController {
     private typealias DataSource = UICollectionViewDiffableDataSource<Section, Article>

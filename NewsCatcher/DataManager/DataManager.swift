@@ -45,7 +45,7 @@ final class DataManager: AppDataManager {
     }
 
     func getCurrentNews(completion: @escaping ((Result<[Article], NetworkError>) -> Void)) {
-        if let cachedArticles = persistenceService.getFeed(forKey: Constants.cachedFeedArticlesKey) {
+        if let cachedArticles: [Article] = persistenceService.readValue(forKey: Constants.cachedFeedArticlesKey) {
             completion(.success(cachedArticles))
         } else {
             let request = makeActualRequest(forKeyword: nil)
@@ -92,7 +92,7 @@ extension DataManager {
             switch result {
             case let .success(articles):
                 if !articles.isEmpty {
-                    persistenceService.saveFeed(articles, forKey: Constants.cachedFeedArticlesKey)
+                    persistenceService.save(articles, forKey: Constants.cachedFeedArticlesKey)
                 }
                 completion(.success(articles))
             case let .failure(error):
@@ -106,7 +106,7 @@ extension DataManager {
             networkService.downloadImageData(from: urlString) { response in
                 switch response {
                 case let .success(imageData):
-                    self.persistenceService.save(imageData, forKey: urlString)
+                    self.persistenceService.saveData(imageData, forKey: urlString)
                     completion(.success(imageData))
                 case let .failure(error):
                     completion(.failure(error))
@@ -123,6 +123,6 @@ extension DataManager {
     }
 
     private func setInitialSearchSettings() {
-        searchSettings = persistenceService.getSearchSettings(forKey: Constants.cachedSearchSettingsKey) ?? SearchSettings()
+        searchSettings = persistenceService.readValue(forKey: Constants.cachedSearchSettingsKey) ?? SearchSettings()
     }
 }

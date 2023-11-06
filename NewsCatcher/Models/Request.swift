@@ -39,7 +39,7 @@ struct SearchSettings: Codable {
         case unitedKingdom = "🇬🇧 United Kingdom:gb"
         case unitedStates = "🇺🇸 United States:us"
 
-        static func fromName(_ name: String) -> Country {
+        static func from(name: String) -> Country {
             return Country.allCases.first { $0.name == name } ?? any
         }
 
@@ -77,7 +77,7 @@ struct SearchSettings: Codable {
         case telugu = "Telugu:te"
         case ukrainian = "Ukrainian:uk"
 
-        static func fromName(_ name: String) -> Language {
+        static func from(name: String) -> Language {
             return Language.allCases.first { $0.name == name } ?? any
         }
 

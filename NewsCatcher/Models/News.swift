@@ -36,7 +36,7 @@ struct Article: Codable, Hashable, Identifiable {
     var isSavedInLocalStorage: Bool = false
 
     static func == (lhs: Article, rhs: Article) -> Bool {
-        lhs.urlString == rhs.urlString
+        lhs.id == rhs.id
     }
 
     func hash(into hasher: inout Hasher) {

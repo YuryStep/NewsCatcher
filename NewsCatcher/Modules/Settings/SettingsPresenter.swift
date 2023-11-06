@@ -102,8 +102,8 @@ final class SettingsPresenter: SettingsOutput {
     }
 
     private func getSearchSettingsFrom(_ displayData: SettingsViewController.DisplayData) -> SearchSettings {
-        let newLanguageSettings = SearchSettings.Language.fromName(displayData.currentLanguage)
-        let newCountrySettings = SearchSettings.Country.fromName(displayData.currentCountry)
+        let newLanguageSettings = SearchSettings.Language.from(name: displayData.currentLanguage)
+        let newCountrySettings = SearchSettings.Country.from(name: displayData.currentCountry)
 
         return SearchSettings(articleLanguage: newLanguageSettings,
                               publicationCountry: newCountrySettings,
