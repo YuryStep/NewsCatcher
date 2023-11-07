@@ -1,0 +1,7 @@
+# Xcode
+xcuserdata/
+*.xcuserstate
+*.xcworkspace
+*.xcproj
+DerivedData/
+.DS_Store

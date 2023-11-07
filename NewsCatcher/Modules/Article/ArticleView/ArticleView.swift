@@ -9,6 +9,7 @@ import UIKit
 
 protocol ArticleViewDelegate: AnyObject {
     func readInSourceButtonTapped()
+    func readLaterButtonTapped()
 }
 
 final class ArticleView: UIView {
@@ -17,21 +18,22 @@ final class ArticleView: UIView {
         let content: String
         let publishedAt: String
         let sourceName: String
-        let imageStringURL: String
+        let imageData: Data?
+        var isSaved: Bool
     }
 
     private enum Constants {
-        static let backgroundColor = UIColor(resource: .ncBackground)
-        static let systemSpacingMultiplier: CGFloat = 1
-        static let imageViewAspectRatio: CGFloat = 0.6
-        static let goToSourceButtonCornerRadius: CGFloat = 10
-        static let placeholderImageName = "noImageIcon"
-        static let readInSourceButtonText = "Read in Source"
-        static let sourceCaptionText = "Source: "
-        static let dateCaptionText = "Published at: "
+        static let readInSourceButtonTitle = "Read in Source"
+        static let saveButtonTitleNormal = "Read Later"
+        static let saveButtonTitleDestructive = "Delete from Saved"
+        static let dateAndSourceLabelText = " Source: "
     }
 
     weak var delegate: ArticleViewDelegate?
+
+    private lazy var dateAndSourceLabel = UILabel(textStyle: .footnote)
+    private lazy var titleLabel: UILabel = .init(textStyle: .title2)
+    private lazy var contentLabel = UILabel(textStyle: .body)
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -42,28 +44,21 @@ final class ArticleView: UIView {
     private lazy var articleImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
-    private lazy var sourceNameLabel = UILabel(textStyle: .footnote)
-    private lazy var dateLabel = UILabel(textStyle: .footnote)
-    private lazy var titleLabel = UILabel(textStyle: .headline)
-    private lazy var contentLabel = UILabel(textStyle: .body)
-
-    private lazy var loadingIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView()
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.hidesWhenStopped = true
-        return indicator
+    private lazy var readInSourceButton: ArticleButton = {
+        let button = ArticleButton(backgroundColor: .appAccent)
+        button.setTitle(Constants.readInSourceButtonTitle, for: .normal)
+        button.setTitleColor(.appBackground, for: .normal)
+        button.addTarget(self, action: #selector(readInSourceButtonTapped), for: .touchUpInside)
+        return button
     }()
 
-    private lazy var readInSourceButton: UIButton = {
-        let button = UIButton(configuration: .filled())
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle(Constants.readInSourceButtonText, for: .normal)
-        button.layer.cornerRadius = Constants.goToSourceButtonCornerRadius
-        button.addTarget(self, action: #selector(goToSourceButtonTapped), for: .touchUpInside)
+    private lazy var saveButton: ArticleButton = {
+        let button = ArticleButton(backgroundColor: .appSaveButtonBackground)
+        button.setTitleColor(.appAccent, for: .normal)
+        button.addTarget(self, action: #selector(readLaterButtonTapped), for: .touchUpInside)
         return button
     }()
 
@@ -74,77 +69,80 @@ final class ArticleView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = Constants.backgroundColor
+        backgroundColor = .appBackground
         setupSubviews()
     }
 
     func configure(with displayData: DisplayData) {
-        loadingIndicator.startAnimating()
         titleLabel.text = displayData.title
-        sourceNameLabel.text = Constants.sourceCaptionText + displayData.sourceName
-        dateLabel.text = Constants.dateCaptionText + displayData.publishedAt
+        dateAndSourceLabel.text = displayData.publishedAt + Constants.dateAndSourceLabelText + displayData.sourceName
         contentLabel.text = displayData.content
+        setImageFrom(imageData: displayData.imageData)
+        setSaveButtonAppearance(style: displayData.isSaved)
     }
 
-    func setImage(_ imageData: Data?) {
-        if let imageData = imageData, let fetchedImage = UIImage(data: imageData) {
-            articleImageView.image = fetchedImage
-        } else {
-            articleImageView.image = UIImage(named: Constants.placeholderImageName)
-        }
-        loadingIndicator.stopAnimating()
-    }
-
-    @objc func goToSourceButtonTapped() {
+    @objc private func readInSourceButtonTapped() {
         delegate?.readInSourceButtonTapped()
+    }
+
+    @objc private func readLaterButtonTapped() {
+        delegate?.readLaterButtonTapped()
+    }
+
+    private func setSaveButtonAppearance(style isSaved: Bool) {
+        if isSaved {
+            saveButton.setTitleColor(.appDestructiveAction, for: .normal)
+            saveButton.setTitle(Constants.saveButtonTitleDestructive, for: .normal)
+        } else {
+            saveButton.setTitleColor(.appAccent, for: .normal)
+            saveButton.setTitle(Constants.saveButtonTitleNormal, for: .normal)
+        }
+    }
+
+    private func setImageFrom(imageData: Data?) {
+        if let imageData = imageData, let image = UIImage(data: imageData) {
+            articleImageView.image = image.resizeToScreenWidth()
+        } else {
+            articleImageView.image = .noImageIcon.resizeToScreenWidth()
+        }
     }
 
     private func setupSubviews() {
         addSubview(scrollView)
-        scrollView.addSubviews([loadingIndicator, articleImageView, sourceNameLabel,
-                                dateLabel, titleLabel, contentLabel, readInSourceButton])
-        let marginGuide = layoutMarginsGuide
+        scrollView.addSubviews([dateAndSourceLabel, articleImageView, titleLabel, contentLabel, saveButton, readInSourceButton])
         let scrollViewFrameGuide = scrollView.frameLayoutGuide
         let scrollViewContentGuide = scrollView.contentLayoutGuide
-        contentLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
-        readInSourceButton.setContentHuggingPriority(.defaultHigh, for: .vertical)
+
         NSLayoutConstraint.activate([
-            scrollViewFrameGuide.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor),
-            scrollViewFrameGuide.topAnchor.constraint(equalTo: marginGuide.topAnchor),
-            scrollViewFrameGuide.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor),
-            scrollViewFrameGuide.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor),
+            scrollViewFrameGuide.leadingAnchor.constraint(equalTo: leadingAnchor),
+            scrollViewFrameGuide.topAnchor.constraint(equalTo: topAnchor),
+            scrollViewFrameGuide.trailingAnchor.constraint(equalTo: trailingAnchor),
+            scrollViewFrameGuide.bottomAnchor.constraint(equalTo: bottomAnchor),
             scrollViewFrameGuide.widthAnchor.constraint(equalTo: scrollViewContentGuide.widthAnchor),
 
-            loadingIndicator.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
-            loadingIndicator.topAnchor.constraint(equalToSystemSpacingBelow: scrollViewContentGuide.topAnchor, multiplier: Constants.imageViewAspectRatio),
-            loadingIndicator.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
-            loadingIndicator.heightAnchor.constraint(equalTo: scrollViewContentGuide.widthAnchor, multiplier: Constants.imageViewAspectRatio),
+            articleImageView.topAnchor.constraint(equalTo: scrollViewContentGuide.topAnchor),
+            articleImageView.centerXAnchor.constraint(equalTo: scrollViewContentGuide.centerXAnchor),
 
-            articleImageView.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
-            articleImageView.topAnchor.constraint(equalToSystemSpacingBelow: scrollViewContentGuide.topAnchor, multiplier: Constants.imageViewAspectRatio),
-            articleImageView.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
-            articleImageView.heightAnchor.constraint(equalTo: articleImageView.widthAnchor, multiplier: Constants.imageViewAspectRatio),
+            dateAndSourceLabel.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor, constant: 8),
+            dateAndSourceLabel.topAnchor.constraint(equalTo: articleImageView.bottomAnchor, constant: 8),
+            dateAndSourceLabel.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor, constant: -8),
 
-            sourceNameLabel.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
-            sourceNameLabel.topAnchor.constraint(equalToSystemSpacingBelow: articleImageView.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
-            sourceNameLabel.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor, constant: 8),
+            titleLabel.topAnchor.constraint(equalTo: dateAndSourceLabel.bottomAnchor, constant: 8),
+            titleLabel.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor, constant: -8),
 
-            dateLabel.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
-            dateLabel.topAnchor.constraint(equalToSystemSpacingBelow: sourceNameLabel.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
-            dateLabel.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
+            contentLabel.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor, constant: 8),
+            contentLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
+            contentLabel.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor, constant: -8),
 
-            titleLabel.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
-            titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: dateLabel.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
-            titleLabel.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
+            saveButton.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 8),
+            saveButton.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor, constant: 8),
+            saveButton.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor, constant: -8),
 
-            contentLabel.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
-            contentLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
-            contentLabel.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
-
-            readInSourceButton.topAnchor.constraint(equalToSystemSpacingBelow: contentLabel.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
-            readInSourceButton.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor),
-            readInSourceButton.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor),
-            readInSourceButton.bottomAnchor.constraint(equalTo: scrollViewContentGuide.bottomAnchor)
+            readInSourceButton.topAnchor.constraint(equalTo: saveButton.bottomAnchor, constant: 8),
+            readInSourceButton.leadingAnchor.constraint(equalTo: scrollViewContentGuide.leadingAnchor, constant: 8),
+            readInSourceButton.trailingAnchor.constraint(equalTo: scrollViewContentGuide.trailingAnchor, constant: -8),
+            readInSourceButton.bottomAnchor.constraint(equalTo: scrollViewContentGuide.bottomAnchor, constant: -8)
         ])
     }
 }

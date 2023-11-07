@@ -8,15 +8,15 @@
 import UIKit
 
 protocol ArticleInput: AnyObject {
-    func setupArticleView(with: ArticleView.DisplayData)
+    func configureArticleView(with: ArticleView.DisplayData)
     func openWebArticle(sourceURL: URL)
 }
 
 protocol ArticleOutput: AnyObject {
-    func viewDidLoad()
+    func viewWillAppear()
     func didReceiveMemoryWarning()
     func readInSourceButtonTapped()
-    func getImageData(completion: @escaping (Data?) -> Void)
+    func readLaterButtonTapped()
 }
 
 final class ArticleViewController: UIViewController {
@@ -40,12 +40,15 @@ final class ArticleViewController: UIViewController {
 
     override func loadView() {
         view = articleView
-        navigationItem.title = Constants.navigationItemTitle
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.viewDidLoad()
+        navigationItem.title = Constants.navigationItemTitle
+    }
+
+    override func viewWillAppear(_: Bool) {
+        presenter.viewWillAppear()
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,17 +58,18 @@ final class ArticleViewController: UIViewController {
 }
 
 extension ArticleViewController: ArticleViewDelegate {
+    func readLaterButtonTapped() {
+        presenter.readLaterButtonTapped()
+    }
+
     func readInSourceButtonTapped() {
         presenter.readInSourceButtonTapped()
     }
 }
 
 extension ArticleViewController: ArticleInput {
-    func setupArticleView(with displayData: ArticleView.DisplayData) {
+    func configureArticleView(with displayData: ArticleView.DisplayData) {
         articleView.configure(with: displayData)
-        presenter.getImageData { imageData in
-            self.articleView.setImage(imageData)
-        }
     }
 
     func openWebArticle(sourceURL url: URL) {

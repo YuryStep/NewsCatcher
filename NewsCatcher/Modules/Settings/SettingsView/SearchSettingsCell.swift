@@ -8,12 +8,11 @@
 import UIKit
 
 final class SearchSettingsCell: UITableViewCell {
-    struct DisplayData {
-        let title: String
-        var switchIsOn: Bool
+    enum Parameter: Int, CaseIterable {
+        case title
+        case description
+        case content
     }
-
-    static let reuseIdentifier = "SearchSettingsCell"
 
     var switchValueChangedHandler: ((Bool) -> Void)?
 
@@ -23,10 +22,6 @@ final class SearchSettingsCell: UITableViewCell {
         switchIndicator.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
         return switchIndicator
     }()
-
-    @objc private func switchValueChanged() {
-        switchValueChangedHandler?(switchIndicator.isOn)
-    }
 
     private lazy var stack: UIStackView = {
         let stack = UIStackView()
@@ -42,13 +37,17 @@ final class SearchSettingsCell: UITableViewCell {
     }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier _: String?) {
-        super.init(style: style, reuseIdentifier: FeedCell.reuseIdentifier)
+        super.init(style: style, reuseIdentifier: SearchSettingsCell.reuseIdentifier)
         setupSubviews()
     }
 
-    func configure(with displayData: DisplayData) {
-        titleLabel.text = displayData.title
-        switchIndicator.isOn = displayData.switchIsOn
+    func configureWith(title: String, switchIsOn: Bool) {
+        titleLabel.text = title
+        switchIndicator.isOn = switchIsOn
+    }
+
+    @objc private func switchValueChanged() {
+        switchValueChangedHandler?(switchIndicator.isOn)
     }
 
     private func setupSubviews() {

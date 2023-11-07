@@ -11,8 +11,8 @@ final class FeedPresenter {
     private enum Constants {
         static let errorAlertTitleNoInternetConnection = "No Internet Connection."
         static let errorAlertTitleDailyLimitReached = "Daily Request Limit Reached."
+        static let errorAlertTextDefault = "Please try again later"
         static let alertTitleNoArticlesFound = "No articles found."
-        static let alertTextNoArticlesFound = "No news articles found. Please try to change your request."
     }
 
     private struct State {
@@ -20,6 +20,10 @@ final class FeedPresenter {
 
         mutating func setupNews(with news: [Article]) {
             self.news = news
+        }
+
+        mutating func setImageDataForArticle(_ data: Data, at indexPath: IndexPath) {
+            news[indexPath.row].imageData = data
         }
 
         func getArticle(at indexPath: IndexPath) -> Article {
@@ -44,41 +48,28 @@ final class FeedPresenter {
 }
 
 extension FeedPresenter: FeedOutput {
-    func textFieldDidBeginEditing() {
-        view?.showCancelButton()
-        view?.hideNavigationBar()
-    }
-
-    func textFieldShouldReturn() {
-        guard let searchPhrase = view?.getSearchFieldText() else { return }
-        if !searchPhrase.isEmpty {
-            view?.showLoadingIndicator()
-            displayNews(about: searchPhrase)
-        }
-        switchLayoutBackToInitialState()
+    func didTapOnSearchButton(withKeyword searchPhrase: String) {
+        view?.showLoadingIndicator()
+        displayNews(about: searchPhrase)
     }
 
     func didReceiveMemoryWarning() {
         dataManager.clearCache()
     }
 
-    func didTapOnCancelButton() {
-        switchLayoutBackToInitialState()
-    }
-
     func didTapOnSettingsButton() {
         view?.showSettings()
-        debugPrint("Settings Button Tapped")
     }
 
     func didTapOnCell(at indexPath: IndexPath) {
-        switchLayoutBackToInitialState()
-        view?.showArticle(state.getArticle(at: indexPath))
+        let articleImageData = view?.getImageData(for: indexPath)
+        var article = state.getArticle(at: indexPath)
+        article.imageData = articleImageData
+        view?.showArticle(article)
     }
 
     func didPullToRefreshTableViewData() {
         displayNews(about: nil)
-        view?.cleanSearchTextField() // TODO: Remove after refreshing logic change
     }
 
     func getNumberOfRowsInSection() -> Int {
@@ -90,9 +81,9 @@ extension FeedPresenter: FeedOutput {
     }
 
     func getImageData(at indexPath: IndexPath, completion: @escaping (Data?) -> Void) {
-        let imageStringURL = state.getArticle(at: indexPath).imageStringURL
-        dataManager.getImageData(from: imageStringURL) { [weak self] result in
-            guard let self, state.getArticle(at: indexPath).imageStringURL == imageStringURL else { return }
+        let article = state.getArticle(at: indexPath)
+        dataManager.getImageData(from: article.imageStringURL) { [weak self] result in
+            guard let self, state.getArticle(at: indexPath) == article else { return }
             switch result {
             case let .success(imageData):
                 completion(imageData)
@@ -123,10 +114,12 @@ extension FeedPresenter: FeedOutput {
             switch result {
             case let .success(news):
                 if news.isEmpty {
-                    // TODO: Optional: Change it from alert to view with text in the center instead of FeedTable
-                    view?.showAlertWithTitle(Constants.alertTitleNoArticlesFound, text: Constants.alertTextNoArticlesFound)
+                    state.setupNews(with: [])
+                    view?.showNoArticlesFoundLabel()
+                    view?.reloadFeedTableView()
                 } else {
                     state.setupNews(with: news)
+                    view?.hideNoArticlesFoundLabel()
                     view?.reloadFeedTableView()
                 }
             case let .failure(error):
@@ -136,14 +129,8 @@ extension FeedPresenter: FeedOutput {
     }
 
     private func stopViewLoading() {
-        view?.stopFeedDataRefreshing()
+        view?.stopRefreshControlAnimation()
         view?.hideLoadingIndicator()
-    }
-
-    private func switchLayoutBackToInitialState() {
-        view?.deactivateSearchField()
-        view?.hideCancelButton()
-        view?.showNavigationBar()
     }
 
     private func handleError(_ error: NetworkError) {
@@ -152,17 +139,16 @@ extension FeedPresenter: FeedOutput {
             view?.showAlertWithTitle(Constants.errorAlertTitleNoInternetConnection, text: error.localizedDescription)
         case .forbidden403:
             view?.showAlertWithTitle(Constants.errorAlertTitleDailyLimitReached, text: error.localizedDescription)
-        default:
-            debugPrint(error.localizedDescription)
+        default: return
         }
     }
 }
 
-extension FeedCell.DisplayData {
+private extension FeedCell.DisplayData {
     init(_ article: Article) {
         title = article.title
         description = article.description
-        publishedAt = article.publishedAt.dateFormatted()
+        publishedAt = article.publishedAt.dayAndTimeText()
         sourceName = article.source.name
         imageStringURL = article.imageStringURL
     }

@@ -8,20 +8,8 @@
 import UIKit
 
 final class ArticleSettingsCell: UITableViewCell {
-    struct DisplayData {
-        let title: String
-        var currentValue: String
-    }
-
-    private enum Constants {
-        static let currentValueLabelColor = UIColor(resource: .ncAccent)
-    }
-
-    static let reuseIdentifier = "ArticleSettingsCell"
-
     private lazy var titleLabel = UILabel(textStyle: .body)
-    private lazy var currentValueLabel = UILabel(textStyle: .body,
-                                                 color: Constants.currentValueLabelColor)
+    private lazy var currentValueLabel = UILabel(textStyle: .body, color: .appAccent)
     private lazy var stack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -40,9 +28,9 @@ final class ArticleSettingsCell: UITableViewCell {
         setupSubviews()
     }
 
-    func configure(with displayData: DisplayData) {
-        titleLabel.text = displayData.title
-        currentValueLabel.text = displayData.currentValue
+    func configureWith(title: String, currentValue: String) {
+        titleLabel.text = title
+        currentValueLabel.text = currentValue
     }
 
     private func setupSubviews() {

@@ -10,37 +10,40 @@ import UIKit
 protocol SettingsViewDelegate: AnyObject {}
 
 final class SettingsView: UIView {
-    struct DisplayData {
-        var articleSettingsCellDisplayData: [ArticleSettingsCell.DisplayData]
-        var searchSettingsCellDisplayData: [SearchSettingsCell.DisplayData]
-        let numberOfSections: Int
-        let sectionHeaders: [String]
-        let sectionFooters: [String]
-        let numbersOfRowsInSections: [Int]
+    enum SettingsSection: Int, CaseIterable {
+        case articleParameters
+        case searchParameters
+    }
 
-        func getNumberOfRowsInSection(_ section: Int) -> Int? {
-            return numbersOfRowsInSections[section]
+    enum ArticleSettings {
+        enum CellPosition: Int, CaseIterable {
+            case first
+            case second
+            case third
         }
 
-        func getTitleForHeaderForSection(_ section: Int) -> String? {
-            return sectionHeaders[section]
-        }
-
-        func getTitleForFooterForSection(_ section: Int) -> String? {
-            return sectionFooters[section]
-        }
-
-        func getArticleSettingsCellDisplayData(forCellAt indexPath: IndexPath) -> ArticleSettingsCell.DisplayData {
-            return articleSettingsCellDisplayData[indexPath.row]
-        }
-
-        func getSearchSettingsCellDisplayData(forCellAt indexPath: IndexPath) -> SearchSettingsCell.DisplayData {
-            return searchSettingsCellDisplayData[indexPath.row]
+        enum CellType: CaseIterable {
+            case country
+            case language
         }
     }
 
-    private enum Constants {
-        static let backgroundColor = UIColor(resource: .ncBackground)
+    struct DisplayData {
+        let countryCellTitle: String
+        let languageCellTitle: String
+        let countryPickerItems: [String]
+        let languagePickerItems: [String]
+        let titleCaption: String
+        let descriptionCaption: String
+        let contentCaption: String
+
+        var currentCountry: String
+        var currentLanguage: String
+        var countryPickerIsOn = false
+        var languagePickerIsOn = false
+        var searchInTitleIsOn: Bool
+        var searchInDescriptionIsOn: Bool
+        var searchInContentIsOn: Bool
     }
 
     weak var delegate: SettingsViewDelegate?
@@ -48,14 +51,14 @@ final class SettingsView: UIView {
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.cellLayoutMarginsFollowReadableWidth = true
+        tableView.estimatedRowHeight = 800
         return tableView
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = Constants.backgroundColor
-        tableView.backgroundColor = Constants.backgroundColor
+        backgroundColor = .appBackground
+        tableView.backgroundColor = .appBackground
         setupSubviews()
     }
 

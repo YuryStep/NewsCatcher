@@ -17,29 +17,32 @@ final class FeedCell: UITableViewCell {
     }
 
     private enum Constants {
-        static let systemSpacingMultiplier: CGFloat = 1
-        static let imageViewAspectRatio: CGFloat = 0.6
-        static let placeholderImageName: String = "noImageIcon"
         static let dateAndSourceLabelText = " Source: "
+        static let imageRatio: CGFloat = 0.562
     }
 
-    static let reuseIdentifier = "FeedCellIdentifier"
+    private lazy var dateAndSourceLabel = UILabel(textStyle: .footnote)
+    private lazy var titleLabel: UILabel = .init(textStyle: .title2)
+    private lazy var descriptionLabel = UILabel(textStyle: .body)
+
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+
+    private lazy var imageContainer: UIView = {
+        let container = UIView()
+        container.translatesAutoresizingMaskIntoConstraints = false
+        return container
+    }()
 
     private lazy var articleImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         return imageView
-    }()
-
-    private lazy var dateAndSourceLabel = UILabel(textStyle: .footnote)
-    private lazy var titleLabel = UILabel(textStyle: .title1)
-    private lazy var descriptionLabel = UILabel(textStyle: .body)
-    private lazy var loadingIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView()
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.hidesWhenStopped = true
-        return indicator
     }()
 
     @available(*, unavailable)
@@ -50,14 +53,35 @@ final class FeedCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier _: String?) {
         super.init(style: style, reuseIdentifier: FeedCell.reuseIdentifier)
         setupSubviews()
+        backgroundColor = .appBackground
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        clearPreviousConfiguration()
     }
 
     func configure(with displayData: DisplayData) {
-        clearPreviousConfiguration()
         loadingIndicator.startAnimating()
         titleLabel.text = displayData.title
         descriptionLabel.text = displayData.description
         dateAndSourceLabel.text = displayData.publishedAt + Constants.dateAndSourceLabelText + displayData.sourceName
+    }
+
+    func setImage(_ imageData: Data?) {
+        loadingIndicator.stopAnimating()
+        guard let imageData = imageData, let fetchedImage = UIImage(data: imageData) else {
+            articleImageView.image = .noImageIcon
+            return
+        }
+        articleImageView.image = fetchedImage
+    }
+
+    func getImageData() -> Data? {
+        if let jpegImage = articleImageView.image?.jpegData(compressionQuality: 1) {
+            return jpegImage
+        }
+        return articleImageView.image?.pngData()
     }
 
     private func clearPreviousConfiguration() {
@@ -67,31 +91,26 @@ final class FeedCell: UITableViewCell {
         dateAndSourceLabel.text = nil
     }
 
-    func setImage(_ imageData: Data?) {
-        loadingIndicator.stopAnimating()
-        guard let imageData = imageData, let fetchedImage = UIImage(data: imageData) else {
-            articleImageView.image = UIImage(named: Constants.placeholderImageName)
-            return
-        }
-        articleImageView.image = fetchedImage
-    }
-
     private func setupSubviews() {
-        contentView.addSubviews([loadingIndicator, articleImageView, dateAndSourceLabel,
-                                 titleLabel, descriptionLabel])
-        NSLayoutConstraint.activate([
-            loadingIndicator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            loadingIndicator.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: Constants.imageViewAspectRatio),
-            loadingIndicator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            loadingIndicator.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.75),
+        imageContainer.addSubviews([loadingIndicator, articleImageView])
+        contentView.addSubviews([imageContainer, dateAndSourceLabel, titleLabel, descriptionLabel])
 
-            articleImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            articleImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            articleImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            articleImageView.heightAnchor.constraint(equalTo: articleImageView.widthAnchor, multiplier: 0.75),
+        NSLayoutConstraint.activate([
+            articleImageView.centerXAnchor.constraint(equalTo: imageContainer.centerXAnchor),
+            articleImageView.centerYAnchor.constraint(equalTo: imageContainer.centerYAnchor),
+            articleImageView.widthAnchor.constraint(lessThanOrEqualTo: imageContainer.widthAnchor, multiplier: 1),
+            articleImageView.heightAnchor.constraint(lessThanOrEqualTo: imageContainer.heightAnchor, multiplier: 1),
+
+            loadingIndicator.centerXAnchor.constraint(equalTo: imageContainer.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: imageContainer.centerYAnchor),
+
+            imageContainer.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageContainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            imageContainer.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1),
+            imageContainer.heightAnchor.constraint(equalTo: imageContainer.widthAnchor, multiplier: Constants.imageRatio),
 
             dateAndSourceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            dateAndSourceLabel.topAnchor.constraint(equalToSystemSpacingBelow: articleImageView.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
+            dateAndSourceLabel.topAnchor.constraint(equalTo: imageContainer.bottomAnchor, constant: 8),
             dateAndSourceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
 
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
@@ -99,9 +118,12 @@ final class FeedCell: UITableViewCell {
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
 
             descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            descriptionLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: Constants.systemSpacingMultiplier),
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
             descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24)
         ])
+
+        dateAndSourceLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        titleLabel.setContentHuggingPriority(.defaultHigh - 1, for: .vertical)
     }
 }

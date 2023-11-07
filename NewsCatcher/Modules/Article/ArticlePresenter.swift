@@ -9,11 +9,7 @@ import Foundation
 
 final class ArticlePresenter {
     private struct State {
-        private(set) var article: Article
-
-        init(_ article: Article) {
-            self.article = article
-        }
+        var article: Article
     }
 
     private weak var view: ArticleInput?
@@ -22,33 +18,18 @@ final class ArticlePresenter {
 
     init(view: ArticleInput, article: Article, dataManager: AppDataManager) {
         self.view = view
-        state = State(article)
         self.dataManager = dataManager
+        state = State(article: article)
     }
 }
 
 extension ArticlePresenter: ArticleOutput {
-    func viewDidLoad() {
-        let displayData = getDisplayDataForCurrentState()
-        view?.setupArticleView(with: displayData)
+    func viewWillAppear() {
+        updateArticleView()
     }
 
     func didReceiveMemoryWarning() {
         dataManager.clearCache()
-    }
-
-    func getImageData(completion: @escaping (Data?) -> Void) {
-        let imageStringURL = state.article.imageStringURL
-        dataManager.getImageData(from: imageStringURL) { [weak self] result in
-            guard let self, state.article.imageStringURL == imageStringURL else { return }
-            switch result {
-            case let .success(imageData):
-                completion(imageData)
-            case let .failure(error):
-                handleError(error)
-                completion(nil)
-            }
-        }
     }
 
     func readInSourceButtonTapped() {
@@ -57,25 +38,31 @@ extension ArticlePresenter: ArticleOutput {
         }
     }
 
-    private func getDisplayDataForCurrentState() -> ArticleView.DisplayData {
-        return ArticleView.DisplayData(state.article)
-    }
-
-    private func handleError(_ error: NetworkError) {
-        // TODO: Create error handling cases
-        switch error {
-        default:
-            debugPrint(error.localizedDescription)
+    func readLaterButtonTapped() {
+        if isArticleSaved(state.article) {
+            dataManager.removeArticle(state.article)
+        } else {
+            dataManager.saveArticle(state.article)
         }
+        updateArticleView()
     }
-}
 
-extension ArticleView.DisplayData {
-    init(_ article: Article) {
-        title = article.title
-        content = article.content
-        publishedAt = article.publishedAt.dateFormatted()
-        sourceName = article.source.name
-        imageStringURL = article.imageStringURL
+    private func updateArticleView() {
+        let displayData = getDisplayDataFor(state.article)
+        view?.configureArticleView(with: displayData)
+    }
+
+    private func isArticleSaved(_ article: Article) -> Bool {
+        let savedArticles = dataManager.getSavedArticles() ?? []
+        return savedArticles.contains(article)
+    }
+
+    private func getDisplayDataFor(_ article: Article) -> ArticleView.DisplayData {
+        ArticleView.DisplayData(title: article.title,
+                                content: article.content,
+                                publishedAt: article.publishedAt.dayAndTimeText(),
+                                sourceName: article.source.name,
+                                imageData: article.imageData,
+                                isSaved: isArticleSaved(article))
     }
 }

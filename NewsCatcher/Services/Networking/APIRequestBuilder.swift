@@ -41,10 +41,10 @@ final class APIRequestBuilder: AppRequestBuilder {
             URLQueryItem(name: Constants.apiKeyQueryParameter, value: Constants.apiKey)
         ]
 
-        let lang = request.settings.articleLanguage
+        let lang = request.settings.articleLanguage.code
         queryItems.append(URLQueryItem(name: Constants.languageQueryParameter, value: lang))
 
-        let country = request.settings.publicationCountry
+        let country = request.settings.publicationCountry.code
         queryItems.append(URLQueryItem(name: Constants.countryQueryParameter, value: country))
 
         let searchPlaces = getSearchPlacesQueryStringFrom(request.settings)
@@ -70,7 +70,6 @@ final class APIRequestBuilder: AppRequestBuilder {
         if requestSettings.searchInContentsIsOn {
             searchPlaces.append(Constants.contentSortQueryParameter)
         }
-
         return searchPlaces.joined(separator: Constants.sortSeparatorQueryParameter)
     }
 }
