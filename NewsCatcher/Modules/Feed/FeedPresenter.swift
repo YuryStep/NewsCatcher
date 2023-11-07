@@ -13,7 +13,6 @@ final class FeedPresenter {
         static let errorAlertTitleDailyLimitReached = "Daily Request Limit Reached."
         static let errorAlertTextDefault = "Please try again later"
         static let alertTitleNoArticlesFound = "No articles found."
-        static let alertTextNoArticlesFound = "No news articles found. Please try to change your request."
     }
 
     private struct State {
@@ -83,7 +82,7 @@ extension FeedPresenter: FeedOutput {
 
     func getImageData(at indexPath: IndexPath, completion: @escaping (Data?) -> Void) {
         let article = state.getArticle(at: indexPath)
-            dataManager.getImageData(from: article.imageStringURL) { [weak self] result in
+        dataManager.getImageData(from: article.imageStringURL) { [weak self] result in
             guard let self, state.getArticle(at: indexPath) == article else { return }
             switch result {
             case let .success(imageData):
@@ -115,9 +114,12 @@ extension FeedPresenter: FeedOutput {
             switch result {
             case let .success(news):
                 if news.isEmpty {
-                    view?.showAlertWithTitle(Constants.alertTitleNoArticlesFound, text: Constants.alertTextNoArticlesFound)
+                    state.setupNews(with: [])
+                    view?.showNoArticlesFoundLabel()
+                    view?.reloadFeedTableView()
                 } else {
                     state.setupNews(with: news)
+                    view?.hideNoArticlesFoundLabel()
                     view?.reloadFeedTableView()
                 }
             case let .failure(error):

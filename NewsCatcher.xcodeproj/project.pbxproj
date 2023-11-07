@@ -32,6 +32,7 @@
 		EF28C5262AA343DF00B68649 /* ArticleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF28C5252AA343DF00B68649 /* ArticleAssembly.swift */; };
 		EF2E82862AAB77FD0065F4C5 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2E82852AAB77FD0065F4C5 /* UILabel+Extensions.swift */; };
 		EF2E828D2AABA3280065F4C5 /* NewsCatcherAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2E828C2AABA3280065F4C5 /* NewsCatcherAssembly.swift */; };
+		EF332FCD2AFA0FC800279F53 /* NoArticlesFoundLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF332FCC2AFA0FC800279F53 /* NoArticlesFoundLabel.swift */; };
 		EF3F83A92AF3C10B008A6D16 /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3F83A82AF3C10B008A6D16 /* UITextView+Extension.swift */; };
 		EF4289372AE7E7160038BFD5 /* SavedNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4289362AE7E7160038BFD5 /* SavedNewsViewController.swift */; };
 		EF42893C2AE807130038BFD5 /* SavedNewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF42893B2AE807130038BFD5 /* SavedNewsCell.swift */; };
@@ -83,6 +84,7 @@
 		EF28C5252AA343DF00B68649 /* ArticleAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleAssembly.swift; sourceTree = "<group>"; };
 		EF2E82852AAB77FD0065F4C5 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		EF2E828C2AABA3280065F4C5 /* NewsCatcherAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCatcherAssembly.swift; sourceTree = "<group>"; };
+		EF332FCC2AFA0FC800279F53 /* NoArticlesFoundLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoArticlesFoundLabel.swift; sourceTree = "<group>"; };
 		EF3F83A82AF3C10B008A6D16 /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
 		EF4289362AE7E7160038BFD5 /* SavedNewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedNewsViewController.swift; sourceTree = "<group>"; };
 		EF42893B2AE807130038BFD5 /* SavedNewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedNewsCell.swift; sourceTree = "<group>"; };
@@ -225,6 +227,14 @@
 			path = DataManager;
 			sourceTree = "<group>";
 		};
+		EF332FCE2AFA0FD200279F53 /* CommonUI */ = {
+			isa = PBXGroup;
+			children = (
+				EF332FCC2AFA0FC800279F53 /* NoArticlesFoundLabel.swift */,
+			);
+			path = CommonUI;
+			sourceTree = "<group>";
+		};
 		EF4289382AE7E71B0038BFD5 /* SavedNews */ = {
 			isa = PBXGroup;
 			children = (
@@ -333,6 +343,7 @@
 				EF28C5282AA3442900B68649 /* Article */,
 				EF4E320D2AB440DB005C0E04 /* WebArticle */,
 				EF4289382AE7E71B0038BFD5 /* SavedNews */,
+				EF332FCE2AFA0FD200279F53 /* CommonUI */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -472,6 +483,7 @@
 				EF28C5222AA3436000B68649 /* ArticleView.swift in Sources */,
 				EF2897D52AA7720C00B9A335 /* Array+Extensions.swift in Sources */,
 				EF42893C2AE807130038BFD5 /* SavedNewsCell.swift in Sources */,
+				EF332FCD2AFA0FC800279F53 /* NoArticlesFoundLabel.swift in Sources */,
 				EFB37FFF2AC4A2100046BCF7 /* UIViewController+Extension.swift in Sources */,
 				EF0138352ACD7E61002B5D78 /* UIView+Extensions.swift in Sources */,
 				EF85DB992A9F5A2C00CD9295 /* SceneDelegate.swift in Sources */,

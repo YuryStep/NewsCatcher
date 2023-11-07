@@ -27,8 +27,6 @@ final class SavedNewsViewController: UIViewController {
     private enum Constants {
         static let navigationItemTitle = "Saved Articles"
         static let deleteTitle = "Delete"
-        static let noArticlesLabelText = "No articles found"
-        static let noArticlesLabelFontSize: CGFloat = 18
     }
 
     private enum Section {
@@ -40,22 +38,13 @@ final class SavedNewsViewController: UIViewController {
     private var savedNewsCollectionView: UICollectionView!
     private var dataSource: DataSource!
 
+    private lazy var noArticlesLabel = NoArticlesFoundLabel(style: .plain)
     private lazy var savedNewsLayout: UICollectionViewCompositionalLayout = {
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
         listConfiguration.trailingSwipeActionsConfigurationProvider = makeSwipeActions
         listConfiguration.backgroundColor = .appBackground
         let layout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
         return layout
-    }()
-
-    private lazy var noArticlesLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = Constants.noArticlesLabelText
-        label.textAlignment = .center
-        label.textColor = .gray
-        label.font = UIFont.systemFont(ofSize: Constants.noArticlesLabelFontSize)
-        return label
     }()
 
     override func viewDidLoad() {

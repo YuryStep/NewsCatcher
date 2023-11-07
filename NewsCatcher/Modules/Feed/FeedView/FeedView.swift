@@ -34,6 +34,8 @@ final class FeedView: UIView {
         return activityIndicator
     }()
 
+    lazy var noArticlesLabel = NoArticlesFoundLabel(style: .invalidRequest)
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .appBackground
@@ -46,7 +48,7 @@ final class FeedView: UIView {
     }
 
     private func setupSubviews() {
-        addSubviews([tableView, activityIndicator])
+        addSubviews([tableView, activityIndicator, noArticlesLabel])
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: topAnchor),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -54,7 +56,10 @@ final class FeedView: UIView {
             tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
 
             activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
+            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
+
+            noArticlesLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            noArticlesLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 

@@ -15,6 +15,8 @@ protocol FeedInput: AnyObject {
     func getImageData(for: IndexPath) -> Data?
     func showArticle(_ article: Article)
     func showSettings()
+    func showNoArticlesFoundLabel()
+    func hideNoArticlesFoundLabel()
     func showAlertWithTitle(_ title: String, text: String)
 }
 
@@ -123,6 +125,14 @@ extension FeedViewController: FeedInput {
 
     func showSettings() {
         present(SettingsAssembly.makeModule(), animated: true, completion: nil)
+    }
+
+    func showNoArticlesFoundLabel() {
+        feedView.noArticlesLabel.isHidden = false
+    }
+
+    func hideNoArticlesFoundLabel() {
+        feedView.noArticlesLabel.isHidden = true
     }
 
     func showAlertWithTitle(_ title: String, text: String) {

@@ -65,5 +65,4 @@ extension ArticlePresenter: ArticleOutput {
                                 imageData: article.imageData,
                                 isSaved: isArticleSaved(article))
     }
-
 }

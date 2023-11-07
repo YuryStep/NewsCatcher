@@ -47,7 +47,7 @@ final class ArticleViewController: UIViewController {
         navigationItem.title = Constants.navigationItemTitle
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_: Bool) {
         presenter.viewWillAppear()
     }
 
