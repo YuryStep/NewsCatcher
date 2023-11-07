@@ -124,7 +124,10 @@ extension SettingsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let section = SettingsSection(rawValue: indexPath.section) else { return UITableViewCell() }
+        guard let section = SettingsSection(rawValue: indexPath.section) else {
+            assertionFailure("Failed to initialize SettingsSection")
+            return UITableViewCell()
+        }
         switch section {
         case .articleParameters:
             guard let parameter = ArticleSettingsCellPosition(rawValue: indexPath.row) else { return UITableViewCell() }
